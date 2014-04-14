@@ -27,4 +27,11 @@
 			</eems_affiliate>
 		</marketing_solutions>
 	</default>
+	<phpunit>
+		<suite>
+			<modules>
+				<EbayEnterprise_Affiliate/>
+			</modules>
+		</suite>
+	</phpunit>
 </config>
