@@ -5,4 +5,26 @@
 			<version>1.0.0.0</version>
 		</EbayEnterprise_Affiliate>
 	</modules>
+	<global>
+		<models>
+			<eems_affiliate>
+				<class>EbayEnterprise_Affiliate_Model</class>
+			</eems_affiliate>
+		</models>
+		<helpers>
+			<eems_affiliate>
+				<class>EbayEnterprise_Affiliate_Helper</class>
+			</eems_affiliate>
+		</helpers>
+	</global>
+	<default>
+		<eems_affiliate>
+			<general>
+				<active>0</active>
+				<itemize_orders>1</itemize_orders>
+				<transaction_type>sale</transaction_type>
+				<export_path>var/export/eems_affiliate/</export_path>
+			</general>
+		</eems_affiliate>
+	</default>
 </config>
