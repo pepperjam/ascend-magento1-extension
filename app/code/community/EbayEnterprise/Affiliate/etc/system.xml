@@ -1,24 +1,24 @@
 <?xml version="1.0" encoding="utf-8"?>
 <config>
 	<tabs>
-		<eems_affiliate translate="label" module="eems_affiliate">
+		<ebayenterprise translate="label" module="eems_affiliate">
 			<label>eBay Enterprise</label>
 			<sort_order>550</sort_order>
-		</eems_affiliate>
+		</ebayenterprise>
 	</tabs>
 	<sections>
-		<eems_affiliate translate="label" module="eems_affiliate">
+		<marketing_solutions translate="label" module="eems_affiliate">
 			<class>separator-top</class>
 			<label>Marketing Solutions</label>
-			<tab>eems_affiliate</tab>
+			<tab>ebayenterprise</tab>
 			<frontend_type>text</frontend_type>
 			<sort_order>550</sort_order>
 			<show_in_default>1</show_in_default>
 			<show_in_website>1</show_in_website>
 			<show_in_store>1</show_in_store>
 			<groups>
-				<general translate="label comment">
-					<label>General</label>
+				<eems_affiliate translate="label comment">
+					<label>Affiliate</label>
 					<comment>eBay Enterprise will provide these values</comment>
 					<frontend_type>text</frontend_type>
 					<sort_order>1</sort_order>
@@ -74,8 +74,8 @@
 							<show_in_store>0</show_in_store>
 						</export_path>
 					</fields>
-				</general>
+				</eems_affiliate>
 			</groups>
-		</eems_affiliate>
+		</marketing_solutions>
 	</sections>
 </config>

@@ -18,13 +18,13 @@
 		</helpers>
 	</global>
 	<default>
-		<eems_affiliate>
-			<general>
+		<marketing_solutions>
+			<eems_affiliate>
 				<active>0</active>
 				<itemize_orders>1</itemize_orders>
 				<transaction_type>sale</transaction_type>
 				<export_path>var/export/eems_affiliate/</export_path>
-			</general>
-		</eems_affiliate>
+			</eems_affiliate>
+		</marketing_solutions>
 	</default>
 </config>
