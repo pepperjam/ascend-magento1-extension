@@ -10,6 +10,7 @@ class EbayEnterprise_Affiliate_Helper_Config
 	const ITEMIZED_ORDERS_PATH = 'marketing_solutions/eems_affiliate/itemized_orders';
 	const PROGRAM_ID_PATH = 'marketing_solutions/eems_affiliate/program_id';
 	const TRANSACTION_TYPE_PATH = 'marketing_solutions/eems_affiliate/transaction_type';
+	const EXPORT_FILE_PATH_CONFIG_PATH = 'marketing_solutions/eems_affiliate/export_path';
 	/**
 	 * retrieve the program id from store config
 	 * @param mixed $store
@@ -63,5 +64,14 @@ class EbayEnterprise_Affiliate_Helper_Config
 	public function getBeaconBaseUrl($store=null)
 	{
 		return Mage::getStoreConfig(static::BEACON_URL_PATH, $store);
+	}
+	/**
+	 * Get the configured export file path.
+	 * @param  mixed $store
+	 * @return string
+	 */
+	public function getExportFilePath($store=null)
+	{
+		return Mage::getStoreConfig(static::EXPORT_FILE_PATH_CONFIG_PATH, $store);
 	}
 }

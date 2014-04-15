@@ -32,6 +32,61 @@
 				<itemized_orders>1</itemized_orders>
 				<program_id></program_id>
 				<transaction_type>sale</transaction_type>
+				<feeds>
+					<order_itemized>
+						<fields>
+							<program_id>
+								<class>eems_affiliate/map</class>
+								<method>getProgramId</method>
+								<type>helper</type>
+								<column_name>PID</column_name>
+							</program_id>
+							<order_id>
+								<class>eems_affiliate/map_order</class>
+								<method>getItemOrderId</method>
+								<type>helper</type>
+								<column_name>OID</column_name>
+							</order_id>
+							<item_id>
+								<class>eems_affiliate/map</class>
+								<method>getDataValue</method>
+								<type>helper</type>
+								<column_name>ITEMID</column_name>
+								<params>
+									<key>id</key>
+								</params>
+							</item_id>
+							<row_total>
+								<class>eems_affiliate/map</class>
+								<method>getDataValue</method>
+								<type>helper</type>
+								<column_name>TOTALAMOUNT</column_name>
+								<params>
+									<key>row_total</key>
+								</params>
+							</row_total>
+							<quantity>
+								<class>eems_affiliate/order</class>
+								<method>getItemQuantity</method>
+								<type>helper</type>
+								<column_name>QUANTITY</column_name>
+							</quantity>
+							<reason>
+								<class>eems_affiliate</class>
+								<method>passStatic</method>
+								<type>helper</type>
+								<column_name>REASON</column_name>
+								<params>
+									<value>8</value>
+								</params>
+							</reason>
+						</fields>
+					</order_itemized>
+					<order_basic>
+					</order_basic>
+					<product>
+					</product>
+				</feeds>
 			</eems_affiliate>
 		</marketing_solutions>
 	</default>
