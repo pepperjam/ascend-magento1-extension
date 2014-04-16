@@ -21,9 +21,12 @@
 		<marketing_solutions>
 			<eems_affiliate>
 				<active>0</active>
-				<itemize_orders>1</itemize_orders>
-				<transaction_type>sale</transaction_type>
+				<beacon_url>https://t.pepperjamnetwork.com/track</beacon_url>
 				<export_path>var/export/eems_affiliate/</export_path>
+				<int>ITEMIZED</int>
+				<itemized_orders>1</itemized_orders>
+				<program_id></program_id>
+				<transaction_type>sale</transaction_type>
 			</eems_affiliate>
 		</marketing_solutions>
 	</default>
