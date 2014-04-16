@@ -1,22 +1,50 @@
 <?php
 class EbayEnterprise_Affiliate_Block_Beacon extends Mage_Core_Block_Template
 {
+	/**
+	 * The 'PID' beacon URL querystring key
+	 */
 	const KEY_PID = 'PID';
+	/**
+	 * The 'OID' beacon URL querystring key
+	 */
 	const KEY_OID = 'OID';
+	/**
+	 * The 'AMOUNT' beacon URL querystring key
+	 */
 	const KEY_AMOUNT = 'AMOUNT';
+	/**
+	 * The 'TYPE' beacon URL querystring key
+	 */
 	const KEY_TYPE = 'TYPE';
+	/**
+	 * The 'QTY' beacon URL querystring key
+	 */
 	const KEY_QTY = 'QTY';
+	/**
+	 * The 'TOTALAMOUNT' beacon URL querystring key
+	 */
 	const KEY_TOTALAMOUNT = 'TOTALAMOUNT';
+	/**
+	 * The 'INT' beacon URL querystring key
+	 */
 	const KEY_INT = 'INT';
+	/**
+	 * The 'ITEM' beacon URL querystring key
+	 */
 	const KEY_ITEM = 'ITEM';
+	/**
+	 * The 'PROMOCODE' beacon URL querystring key
+	 */
 	const KEY_PROMOCODE = 'PROMOCODE';
 	/**
 	 * @var Mage_Sales_Model_Order
+	 * @see self::_getOrder
 	 */
 	protected $_order;
 	/**
 	 * Get the last order.
-	 * @return Mage_Sales_Model_Order
+	 * @return Mage_Sales_Model_Order | null
 	 */
 	protected function _getOrder()
 	{
@@ -29,17 +57,18 @@ class EbayEnterprise_Affiliate_Block_Beacon extends Mage_Core_Block_Template
 		return $this->_order;
 	}
 	/**
-	 * Get the beacon url.
-	 * @return String
+	 * Get the beacon URL.
+	 * @return string | null
 	 */
 	public function getBeaconUrl()
 	{
 		Mage::log('getting beacon url');
 		$order = $this->_getOrder();
-		return Mage::helper('eems_affiliate')->buildBeaconUrl(
-			Mage::helper('eems_affiliate/config')->isItemizedOrders() ?
-				$this->_buildItemizeParams($order): $this->_buildBasicParams($order)
-		);
+		return ($order instanceof Mage_Sales_Model_Order)?
+			Mage::helper('eems_affiliate')->buildBeaconUrl(
+				Mage::helper('eems_affiliate/config')->isItemizedOrders() ?
+					$this->_buildItemizedParams($order): $this->_buildBasicParams($order)
+			) : null;
 	}
 	/**
 	 * build common params array
@@ -48,21 +77,20 @@ class EbayEnterprise_Affiliate_Block_Beacon extends Mage_Core_Block_Template
 	 */
 	protected function _buildCommonParams(Mage_Sales_Model_Order $order)
 	{
-		$couponCode = trim($order->getCouponCode());
-		return array_merge(
-			array(
-				static::KEY_PID => Mage::helper('eems_affiliate/config')->getProgramId(),
-				static::KEY_OID => $order->getIncrementId(),
-			),
-			($couponCode !== '')? array(static::KEY_PROMOCODE => $couponCode) : array()
+		$params = array(
+			static::KEY_PID => Mage::helper('eems_affiliate/config')->getProgramId(),
+			static::KEY_OID => $order->getIncrementId(),
 		);
+		$couponCode = trim($order->getCouponCode());
+		return ($couponCode !== '')?
+			array_merge($params, array(static::KEY_PROMOCODE => $couponCode)) : $params;
 	}
 	/**
-	 * build basic params array for non iteminized beacon url
+	 * build basic params array for non itemized beacon URL
 	 * @param Mage_Sales_Model_Order $order
 	 * @return array
 	 */
-	protected function _buildBasicParams($order)
+	protected function _buildBasicParams(Mage_Sales_Model_Order $order)
 	{
 		return array_merge($this->_buildCommonParams($order), array(
 			static::KEY_AMOUNT => round($order->getSubtotal(), 2),
@@ -70,47 +98,47 @@ class EbayEnterprise_Affiliate_Block_Beacon extends Mage_Core_Block_Template
 		));
 	}
 	/**
-	 * build itemized order params array for itemized beacon url
+	 * build itemized order params array for itemized beacon URL
 	 * @param Mage_Sales_Model_Order $order
 	 * @return array
 	 */
-	protected function _buildItemizeParams(Mage_Sales_Model_Order $order)
+	protected function _buildItemizedParams(Mage_Sales_Model_Order $order)
 	{
 		$params = array(static::KEY_INT => Mage::helper('eems_affiliate/config')->getInt());
-		$increment = 1;
+		$increment = 1; // incrementer for the unique item keys
 		foreach ($order->getAllVisibleItems() as $item) {
 			$position = $this->_getDupePosition($params, $item);
+			$quantity = (int) $item->getQtyOrdered();
+			$total = round($item->getRowTotal(), 2);
 			if ($position) {
-				$params[static::KEY_QTY . $position] *= (int) $item->getQtyOrdered();
-				$params[static::KEY_TOTALAMOUNT . $position] *= (int) $item->getQtyOrdered();
+				// we detected that the current item already exist in the params array
+				// and have the key increment position let's simply adjust
+				// the qty and total amount
+				$params[static::KEY_QTY . $position] += $quantity;
+				$params[static::KEY_TOTALAMOUNT . $position] += $total;
 			} else {
 				$params = array_merge($params, array(
 					static::KEY_ITEM . $increment => $item->getSku(),
-					static::KEY_QTY . $increment => (int) $item->getQtyOrdered(),
-					static::KEY_TOTALAMOUNT . $increment => round($item->getRowTotal(), 2)
+					static::KEY_QTY . $increment => $quantity,
+					static::KEY_TOTALAMOUNT . $increment => $total
 				));
-				$increment++;
+				$increment++; // only get incremented when a unique key have been appended
 			}
 		}
 		return array_merge($this->_buildCommonParams($order), $params);
 	}
 	/**
-	 * check if the current sku already exist in the params data if so return
+	 * check if the current sku already exists in the params data if so return
 	 * the position it is found in
-	 * @param array $params
+	 * @param array $params the given array of keys needed to build the beacon URL querystring
 	 * @param Mage_Sales_Model_Order_Item $item
 	 * @return int the item position where dupe found otherwise zero
 	 */
 	protected function _getDupePosition(array $params, Mage_Sales_Model_Order_Item $item)
 	{
-		$i = 1;
-		while(isset($params[static::KEY_ITEM . $i])) {
-			if ($params[static::KEY_ITEM . $i] === $item->getSku()) {
-				return $i;
-			}
-			$i++;
-		}
-		return 0;
+		$key = array_search($item->getSku(), $params, true);
+		return ($key !== false)?
+			(int) str_replace(static::KEY_ITEM, '', $key) : 0;
 	}
 	/**
 	 * Whether or not to display the beacon.
@@ -118,14 +146,9 @@ class EbayEnterprise_Affiliate_Block_Beacon extends Mage_Core_Block_Template
 	 */
 	public function showBeacon()
 	{
-		Mage::log('check show beacon');
-		if (!Mage::helper('eems_affiliate/config')->isEnabled()) {
-			Mage::log('disabled');
-			return false;
-		}
-
-		$order = $this->_getOrder();
-		Mage::log($order instanceof Mage_Sales_Model_Order);
-		return (!($order instanceof Mage_Sales_Model_Order))? false : true;
+		return (
+			Mage::helper('eems_affiliate/config')->isEnabled() &&
+			$this->_getOrder() instanceof Mage_Sales_Model_Order
+		);
 	}
 }

@@ -3,14 +3,9 @@ class EbayEnterprise_Affiliate_Test_Helper_DataTest
 	extends EcomDev_PHPUnit_Test_Case
 {
 	/**
-	 * Test EbayEnterprise_Affiliate_Helper_Data::buildBeaconUrl method for the
-	 * following expectations
-	 * Expectation 1: this test will invoked the method
-	 *                EbayEnterprise_Affiliate_Helper_Data::buildBeaconUrl given
-	 *                an array of key params and values in which it will invoked
-	 *                the method EbayEnterprise_Affiliate_Helper_Config::getBeaconBaseUrl
-	 *                and concatenating the getBeaconBaseUrl return value with the given
-	 *                array keys and values
+	 * Test that EbayEnterprise_Affiliate_Helper_Data::buildBeaconUrl yields the
+	 * expected, escaped url with query string when passed an array of params to append.
+	 * @test
 	 */
 	public function testBuildBeaconUrl()
 	{
