@@ -16,6 +16,11 @@
 				<class>EbayEnterprise_Affiliate_Helper</class>
 			</eems_affiliate>
 		</helpers>
+		<blocks>
+			<eems_affiliate>
+				<class>EbayEnterprise_Affiliate_Block</class>
+			</eems_affiliate>
+		</blocks>
 	</global>
 	<default>
 		<marketing_solutions>
@@ -30,6 +35,15 @@
 			</eems_affiliate>
 		</marketing_solutions>
 	</default>
+	<frontend>
+		<layout>
+			<updates>
+				<eems_affiliate>
+					<file>eems_affiliate.xml</file>
+				</eems_affiliate>
+			</updates>
+		</layout>
+	</frontend>
 	<phpunit>
 		<suite>
 			<modules>

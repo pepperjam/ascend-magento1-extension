@@ -1,0 +1,14 @@
+<?php if ($this->showBeacon()):?>
+	<script>
+		(function (d,i) {
+			i=d.createElement('iframe');
+			i.width=i.height=1;
+			i.frameBorder=0;
+			i.src="<?php echo $this->getBeaconUrl()?>";
+			d.body.appendChild(i);
+		}(document));
+	</script>
+	<noscript>
+		<iframe width="1" height="1" frameBorder="0" src="<?php echo $this->getBeaconUrl()?>"></iframe>
+	</noscript>
+<?php endif?>
