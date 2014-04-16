@@ -33,7 +33,7 @@ class EbayEnterprise_Affiliate_Helper_Config
 	 * @param mixed $store
 	 * @return bool
 	 */
-	public function isItemizeOrders($store=null)
+	public function isItemizedOrders($store=null)
 	{
 		return Mage::getStoreConfigFlag(static::ITEMIZED_ORDERS_PATH, $store);
 	}
