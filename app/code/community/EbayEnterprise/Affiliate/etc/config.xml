@@ -29,6 +29,12 @@
 					<model>eems_affiliate/observer::createProductFeed</model>
 				</run>
 			</eems_affiliate_generate_product_feed>
+			<eems_affiliate_generate_corrected_order_feed>
+				<schedule><cron_expr>* */3 * * *</cron_expr></schedule>
+				<run>
+					<model>eems_affiliate/observer::createCorrectedOrdersFeed</model>
+				</run>
+			</eems_affiliate_generate_corrected_order_feed>
 		</jobs>
 	</crontab>
 	<default>
@@ -40,7 +46,7 @@
 				<int>ITEMIZED</int>
 				<itemized_orders>1</itemized_orders>
 				<program_id></program_id>
-				<transaction_type>sale</transaction_type>
+				<transaction_type>1</transaction_type>
 				<feeds>
 					<callback_mappings>
 						<program_id>
@@ -54,12 +60,18 @@
 							<method>getOrderId</method>
 							<type>helper</type>
 							<column_name>OID</column_name>
+							<params>
+								<format>%.50s</format>
+							</params>
 						</order_id>
 						<item_order_id>
 							<class>eems_affiliate/map_order</class>
 							<method>getItemOrderId</method>
 							<type>helper</type>
 							<column_name>OID</column_name>
+							<params>
+								<format>%.50s</format>
+							</params>
 						</item_order_id>
 						<item_id>
 							<class>eems_affiliate/map</class>
@@ -67,24 +79,34 @@
 							<type>helper</type>
 							<column_name>ITEMID</column_name>
 							<params>
-								<key>id</key>
+								<format>%.50s</format>
+								<key>sku</key>
 							</params>
 						</item_id>
 						<row_total>
-							<class>eems_affiliate/map</class>
-							<method>getDataValue</method>
+							<class>eems_affiliate/map_order</class>
+							<method>getRowTotal</method>
 							<type>helper</type>
 							<column_name>TOTALAMOUNT</column_name>
 							<params>
-								<key>row_total</key>
+								<format>%.2f</format>
 							</params>
 						</row_total>
 						<item_quantity>
-							<class>eems_affiliate/order</class>
+							<class>eems_affiliate/map_order</class>
 							<method>getItemQuantity</method>
 							<type>helper</type>
 							<column_name>QUANTITY</column_name>
 						</item_quantity>
+						<order_amount>
+							<class>eems_affiliate/map_order</class>
+							<method>getOrderAmount</method>
+							<type>helper</type>
+							<column_name>AMOUNT</column_name>
+							<params>
+								<format>%.2f</format>
+							</params>
+						</order_amount>
 						<reason>
 							<class>eems_affiliate/map</class>
 							<method>passStatic</method>
@@ -94,6 +116,12 @@
 								<value>8</value>
 							</params>
 						</reason>
+						<transaction_type>
+							<class>eems_affiliate/map_order</class>
+							<method>getTransactionType</method>
+							<type>helper</type>
+							<column_name>TYPE</column_name>
+						</transaction_type>
 						<buy_url>
 							<class>eems_affiliate/map</class>
 							<method>getDataValue</method>
@@ -232,9 +260,12 @@
 						</sku>
 					</callback_mappings>
 					<order_itemized>
-						<fields>program_id,item_order_id,item_id,row_total,row_total,reason</fields>
+						<fields>program_id,item_order_id,item_id,row_total,item_quantity,reason</fields>
+						<file_name_format>%s_transactions_corrected_%s.csv</file_name_format>
 					</order_itemized>
 					<order_basic>
+						<fields>program_id,order_amount,order_id,reason,transaction_type</fields>
+						<file_name_format>%s_transactions_corrected_%s.csv</file_name_format>
 					</order_basic>
 					<product>
 						<file_name_format>%s_product_feed.csv</file_name_format>

@@ -14,6 +14,15 @@ class EbayEnterprise_Affiliate_Helper_Config
 	const CALLBACK_MAPPINGS_PATH = 'marketing_solutions/eems_affiliate/feeds/callback_mappings';
 	const PRODUCT_FEED_MAPPING_PATH = 'marketing_solutions/eems_affiliate/feeds/product/fields';
 	const PRODUCT_FEED_FILENAME_FORMAT_PATH = 'marketing_solutions/eems_affiliate/feeds/product/file_name_format';
+	const ITEMIZED_ORDER_FEED_MAPPING_PATH = 'marketing_solutions/eems_affiliate/feeds/order_itemized/fields';
+	const BASIC_ORDER_FEED_MAPPING_PATH = 'marketing_solutions/eems_affiliate/feeds/order_basic/fields';
+	const ITEMIZED_ORDER_FEED_FILE_FORMAT_PATH = 'marketing_solutions/eems_affiliate/feeds/order_itemized/file_name_format';
+	const BASIC_ORDER_FEED_FILE_FORMAT_PATH = 'marketing_solutions/eems_affiliate/feeds/order_basic/file_name_format';
+	const ORDER_LAST_RUN_PATH = 'marketing_solutions/eems_affiliate/feed/last_run_time';
+
+	const TRANSACTION_TYPE_SALE = '1';
+	const TRANSACTION_TYPE_LEAD = '2';
+
 	/**
 	 * retrieve the program id from store config
 	 * @param mixed $store
@@ -103,5 +112,64 @@ class EbayEnterprise_Affiliate_Helper_Config
 	public function getProductFeedFilenameFormat($store=null)
 	{
 		return Mage::getStoreConfig(static::PRODUCT_FEED_FILENAME_FORMAT_PATH, $store);
+	}
+	/*
+	 * Get the configured feed mapping for the itemized orders feed.
+	 * @param  mixed $store
+	 * @return array
+	 */
+	public function getItemizedOrderFeedFields($store=null)
+	{
+		return Mage::getStoreConfig(static::ITEMIZED_ORDER_FEED_MAPPING_PATH, $store);
+	}
+	/**
+	 * Get the configured feed mapping for the basic orders feed.
+	 * @param  mixed $store
+	 * @return array
+	 */
+	public function getBasicOrderFeedFields($store=null)
+	{
+		return Mage::getStoreConfig(static::BASIC_ORDER_FEED_MAPPING_PATH, $store);
+	}
+	/**
+	 * Get the configured itemized order feed file format
+	 * @param  mixed $store
+	 * @return string
+	 */
+	public function getItemizedOrderFeedFileFormat($store=null)
+	{
+		return Mage::getStoreConfig(static::ITEMIZED_ORDER_FEED_FILE_FORMAT_PATH, $store);
+	}
+	/**
+	 * Get the configured basic order feed file format
+	 * @param  mixed $store
+	 * @return string
+	 */
+	public function getBasicOrderFeedFileFormat($store=null)
+	{
+		return Mage::getStoreConfig(static::BASIC_ORDER_FEED_FILE_FORMAT_PATH, $store);
+	}
+	/**
+	 * Update the last run time of the order create feed to the specified time,
+	 * or the current time it no time is given. Always set globally so no need to
+	 * ever be given a store context.
+	 * @param  mixed $store
+	 * @param  string $time
+	 * @return self
+	 */
+	public function updateOrderLastRunTime($time=null)
+	{
+		Mage::getConfig()->saveConfig(self::ORDER_LAST_RUN_PATH, $time ?: time());
+		return $this;
+	}
+	/**
+	 * Get the last time the order corrections feed was run. Returns the string
+	 * value saved in config. Always set globally so no need for a store context.
+	 * @param  mixed $store
+	 * @return string
+	 */
+	public function getOrderLastRunTime()
+	{
+		return Mage::getStoreConfig(self::ORDER_LAST_RUN_PATH);
 	}
 }

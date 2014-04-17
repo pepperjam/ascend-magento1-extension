@@ -15,7 +15,7 @@ abstract class EbayEnterprise_Affiliate_Model_Feed_Abstract
 	abstract protected function _getItems();
 	/**
 	 * Get fields to include in the feed. Fields are expected to map to existing
-	 * callbacks defined for in the config.xml.
+	 * callbacks defined in the config.xml.
 	 * @see self::_invokeCallback
 	 * @return array
 	 */
@@ -237,6 +237,9 @@ abstract class EbayEnterprise_Affiliate_Model_Feed_Abstract
 	 */
 	protected function _generateFile($feedData)
 	{
+		if (empty($feedData)) {
+			return $this;
+		}
 		$delimiter = $this->_getDelimiter();
 		$enclosure = $this->_getEnclosure();
 
@@ -255,6 +258,7 @@ abstract class EbayEnterprise_Affiliate_Model_Feed_Abstract
 			$targetPath,
 			stream_get_contents($tmpFile)
 		);
+		return $this;
 	}
 	/**
 	 * Generate the full path to the location where the file should be created.
