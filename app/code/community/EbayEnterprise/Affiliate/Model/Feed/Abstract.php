@@ -222,10 +222,10 @@ abstract class EbayEnterprise_Affiliate_Model_Feed_Abstract
 		}
 		// If not disabled, must have a class and method - separate checks for
 		// more simply providing more useful error messages.
-		$missingFields = array_diff(array('class', 'method'), array_keys($callbackConfig));
+		$missingFields = array_diff(array('class', 'method', 'column_name'), array_keys($callbackConfig));
 		if ($missingFields) {
 			throw new EbayEnterprise_Affiliate_Exception_Configuration(
-				sprintf('Callback missing %s configuration.', implode(' and ', $missingFields))
+				sprintf('Callback missing %s configuration.', implode(', ', $missingFields))
 			);
 		}
 		return $this;
@@ -274,10 +274,13 @@ abstract class EbayEnterprise_Affiliate_Model_Feed_Abstract
 	 */
 	protected function _getHeaders()
 	{
+		$mappings = Mage::helper('eems_affiliate/config')->getCallbackMappings();
 		$headers = array();
-		foreach ($this->_getFeedFields() as $fieldConfig) {
-			if (!isset($fieldConfig['type']) || $fieldConfig['type'] !== 'disabled') {
-				$headers[] = $fieldConfig['column_name'];
+		foreach ($this->_getFeedFields() as $field) {
+			$callbackMapping = isset($mappings[$field]) ? $mappings[$field] : array();
+			if (!isset($callbackMapping['type']) || $callbackMapping['type'] !== 'disabled') {
+				$this->_validateCallbackConfig($callbackMapping);
+				$headers[] = $callbackMapping['column_name'];
 			}
 		}
 		return $headers;

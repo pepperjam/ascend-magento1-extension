@@ -70,9 +70,14 @@ class EbayEnterprise_Affiliate_Test_Model_Feed_AbstractTest
 	{
 		$orderAmt = 23.23;
 		$store = Mage::app()->getStore();
+		$fields = array('fieldA', 'fieldB');
 		// callback mapping to use
 		$mappings = array(
-			'fieldA' => array('class' => 'eems_affiliate/map_order', 'type' => 'helper', 'method' => 'getOrderAmount', 'params' => array('key' => 'value')),
+			'fieldA' => array(
+				'class' => 'eems_affiliate/map_order', 'type' => 'helper',
+				'method' => 'getOrderAmount', 'params' => array('key' => 'value'),
+				'column_name' => 'OID'
+			),
 			'fieldB' => array('type' => 'disabled'),
 		);
 		$itemData = array($orderAmt);
@@ -92,22 +97,23 @@ class EbayEnterprise_Affiliate_Test_Model_Feed_AbstractTest
 			->will($this->returnValue($orderAmt));
 		$this->replaceByMock('helper', 'eems_affiliate/map_order', $feedHelper);
 
+		$config = $this->getHelperMock('eems_affiliate/config', array('getCallbackMappings'));
+		$config->expects($this->any())
+			->method('getCallbackMappings')
+			->will($this->returnValue($mappings));
+		$this->replaceByMock('helper', 'eems_affiliate/config', $config);
+
 		$feed = $this->getModelMock(
 			'eems_affiliate/feed_abstract',
-			array('_getFeedMapping'),
+			array('_getFeedFields'),
 			true,
 			array(array('store' => $store))
 		);
-		// The _getFeedMapping method will be defined for each type of feed and should
-		// return key value pairs of:
-		// "field" => {
-		//     "class" => "factory/alias",
-		//     "method" => "classMethod",
-		//     "type" => "model|singleton|helper|disabled"
-		// }
+		// The _getFeedFields method will be defined for each type of feed and should
+		// return array of mapped fields to include.
 		$feed->expects($this->any())
-			->method('_getFeedMapping')
-			->will($this->returnValue($mappings));
+			->method('_getFeedFields')
+			->will($this->returnValue($fields));
 
 		$this->assertSame(
 			$itemData,
@@ -168,6 +174,10 @@ class EbayEnterprise_Affiliate_Test_Model_Feed_AbstractTest
 			),
 			array(
 				array('type' => 'helper', 'class' => 'eems_affiliate/map', 'method' => 'getOrderId'),
+				false
+			),
+			array(
+				array('type' => 'helper', 'class' => 'eems_affiliate/map', 'method' => 'getOrderId', 'column_name' => 'OID'),
 				true
 			),
 		);
@@ -206,18 +216,27 @@ class EbayEnterprise_Affiliate_Test_Model_Feed_AbstractTest
 	 */
 	public function testGetHeaders()
 	{
+		$fields = array('program_id', 'order_id');
 		$mapping = array(
 			'program_id' => array('class' => 'some/class', 'method' => 'getProgramId', 'column_name' => 'PID'),
 			'order_id' => array('class' => 'some/class', 'method' => 'getOrderId', 'column_name' => 'OID'),
 		);
+
+		$config = $this->getHelperMock('eems_affiliate/config', array('getCallbackMappings'));
+		$config->expects($this->any())
+			->method('getCallbackMappings')
+			->will($this->returnValue($mapping));
+		$this->replaceByMock('helper', 'eems_affiliate/config', $config);
+
 		$feed = $this->getModelMock(
 			'eems_affiliate/feed_abstract',
-			array('_getFeedMapping'),
+			array('_getFeedFields'),
 			true
 		);
 		$feed->expects($this->once())
-			->method('_getFeedMapping')
-			->will($this->returnValue($mapping));
+			->method('_getFeedFields')
+			->will($this->returnValue($fields));
+
 		$this->assertSame(
 			// keys don't matter, so make sure to compare just values to values
 			array('PID', 'OID'),
