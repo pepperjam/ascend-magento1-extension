@@ -12,6 +12,8 @@ class EbayEnterprise_Affiliate_Helper_Config
 	const TRANSACTION_TYPE_PATH = 'marketing_solutions/eems_affiliate/transaction_type';
 	const EXPORT_FILE_PATH_CONFIG_PATH = 'marketing_solutions/eems_affiliate/export_path';
 	const CALLBACK_MAPPINGS_PATH = 'marketing_solutions/eems_affiliate/feeds/callback_mappings';
+	const PRODUCT_FEED_MAPPING_PATH = 'marketing_solutions/eems_affiliate/feeds/product/fields';
+	const PRODUCT_FEED_FILE_FORMAT_PATH = 'marketing_solutions/eems_affiliate/feeds/product/file_name_format';
 	/**
 	 * retrieve the program id from store config
 	 * @param mixed $store
@@ -83,5 +85,23 @@ class EbayEnterprise_Affiliate_Helper_Config
 	public function getCallbackMappings($store=null)
 	{
 		return Mage::getStoreConfig(static::CALLBACK_MAPPINGS_PATH, $store);
+	}
+	/**
+	 * Get the configured feed mapping for the product feed.
+	 * @param  mixed $store
+	 * @return array
+	 */
+	public function getProductFeedFields($store=null)
+	{
+		return Mage::getStoreConfig(static::PRODUCT_FEED_MAPPING_PATH, $store);
+	}
+	/**
+	 * Get the configured product feed file format
+	 * @param  mixed $store
+	 * @return string
+	 */
+	public function getProductFeedFileFormat($store=null)
+	{
+		return Mage::getStoreConfig(static::PRODUCT_FEED_FILE_FORMAT_PATH, $store);
 	}
 }

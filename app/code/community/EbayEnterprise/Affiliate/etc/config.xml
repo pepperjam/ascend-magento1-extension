@@ -22,6 +22,15 @@
 			</eems_affiliate>
 		</blocks>
 	</global>
+	<crontab>
+		<jobs>
+			<eems_affiliate_generate_product_feed>
+				<run>
+					<model>eems_affiliate/observer::createProductFeed</model>
+				</run>
+			</eems_affiliate_generate_product_feed>
+		</jobs>
+	</crontab>
 	<default>
 		<marketing_solutions>
 			<eems_affiliate>
@@ -86,19 +95,137 @@
 							</params>
 						</reason>
 						<buy_url>
-							<class>eems_affiliate/map_product</class>
-							<method>getBuyUrl</method>
+							<class>eems_affiliate/map</class>
+							<method>getDataValue</method>
 							<type>helper</type>
+							<column_name>buy_url</column_name>
+							<params>
+								<key>product_url</key>
+								<format>%.2000s</format>
+							</params>
 						</buy_url>
+						<category_program>
+							<class>eems_affiliate/map_product</class>
+							<method>getCategory</method>
+							<type>helper</type>
+							<column_name>category_program</column_name>
+						</category_program>
 						<description_long>
 							<class>eems_affiliate/map</class>
 							<method>getDataValue</method>
 							<type>helper</type>
+							<column_name>description_long</column_name>
 							<params>
 								<key>description</key>
 								<format>%.2000s</format>
 							</params>
 						</description_long>
+						<description_short>
+							<class>eems_affiliate/map</class>
+							<method>getDataValue</method>
+							<type>helper</type>
+							<column_name>description_short</column_name>
+							<params>
+								<key>short_description</key>
+								<format>%.512s</format>
+							</params>
+						</description_short>
+						<image_thumb_url>
+							<class>eems_affiliate/map_product</class>
+							<method>getImageUrl</method>
+							<type>helper</type>
+							<column_name>image_thumb_url</column_name>
+							<params>
+								<key>thumbnail</key>
+								<format>%.2000s</format>
+							</params>
+						</image_thumb_url>
+						<image_url>
+							<class>eems_affiliate/map_product</class>
+							<method>getImageUrl</method>
+							<type>helper</type>
+							<column_name>image_url</column_name>
+							<params>
+								<key>image</key>
+								<format>%.2000s</format>
+							</params>
+						</image_url>
+						<keywords>
+							<class>eems_affiliate/map</class>
+							<method>getDataValue</method>
+							<type>helper</type>
+							<column_name>keywords</column_name>
+							<params>
+								<key>meta_keyword</key>
+								<format>%.256s</format>
+							</params>
+						</keywords>
+						<manufacturer>
+							<class>eems_affiliate/map</class>
+							<method>getDataValue</method>
+							<type>helper</type>
+							<column_name>manufacturer</column_name>
+							<params>
+								<key>manufacturer</key>
+								<format>%.128s</format>
+							</params>
+						</manufacturer>
+						<name>
+							<class>eems_affiliate/map</class>
+							<method>getDataValue</method>
+							<type>helper</type>
+							<column_name>name</column_name>
+							<params>
+								<key>name</key>
+								<format>%.128s</format>
+							</params>
+						</name>
+						<price>
+							<class>eems_affiliate/map</class>
+							<method>getDataValue</method>
+							<type>helper</type>
+							<column_name>price</column_name>
+							<params>
+								<key>price</key>
+								<format>%01.2f</format>
+							</params>
+						</price>
+						<price_retail>
+							<class>eems_affiliate/map</class>
+							<method>getDataValue</method>
+							<type>helper</type>
+							<column_name>price_retail</column_name>
+							<params>
+								<key>msrp</key>
+								<format>%01.2f</format>
+							</params>
+						</price_retail>
+						<price_sale>
+							<class>eems_affiliate/map</class>
+							<method>getDataValue</method>
+							<type>helper</type>
+							<column_name>price_sale</column_name>
+							<params>
+								<key>special_price</key>
+								<format>%01.2f</format>
+							</params>
+						</price_sale>
+						<quantity_in_stock>
+							<class>eems_affiliate/map_product</class>
+							<method>getInStockQty</method>
+							<type>helper</type>
+							<column_name>quantity_in_stock</column_name>
+						</quantity_in_stock>
+						<sku>
+							<class>eems_affiliate/map</class>
+							<method>getDataValue</method>
+							<type>helper</type>
+							<column_name>sku</column_name>
+							<params>
+								<key>sku</key>
+								<format>%.128s</format>
+							</params>
+						</sku>
 					</callback_mappings>
 					<order_itemized>
 						<fields>program_id,item_order_id,item_id,row_total,row_total,reason</fields>
@@ -106,6 +233,8 @@
 					<order_basic>
 					</order_basic>
 					<product>
+						<file_name_format>%s_product_feed.csv</file_name_format>
+						<fields>buy_url,category_program,description_long,description_short,image_thumb_url,image_url,keywords,manufacturer,name,price,price_retail,price_sale,quantity_in_stock,sku</fields>
 					</product>
 				</feeds>
 			</eems_affiliate>
