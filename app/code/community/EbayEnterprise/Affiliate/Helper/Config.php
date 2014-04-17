@@ -11,6 +11,7 @@ class EbayEnterprise_Affiliate_Helper_Config
 	const PROGRAM_ID_PATH = 'marketing_solutions/eems_affiliate/program_id';
 	const TRANSACTION_TYPE_PATH = 'marketing_solutions/eems_affiliate/transaction_type';
 	const EXPORT_FILE_PATH_CONFIG_PATH = 'marketing_solutions/eems_affiliate/export_path';
+	const CALLBACK_MAPPINGS_PATH = 'marketing_solutions/eems_affiliate/feeds/callback_mappings';
 	/**
 	 * retrieve the program id from store config
 	 * @param mixed $store
@@ -73,5 +74,14 @@ class EbayEnterprise_Affiliate_Helper_Config
 	public function getExportFilePath($store=null)
 	{
 		return Mage::getStoreConfig(static::EXPORT_FILE_PATH_CONFIG_PATH, $store);
+	}
+	/**
+	 * Get the callback mappings from the config
+	 * @param  mixed $store
+	 * @return array
+	 */
+	public function getCallbackMappings($store=null)
+	{
+		return Mage::getStoreConfig(static::CALLBACK_MAPPINGS_PATH, $store);
 	}
 }

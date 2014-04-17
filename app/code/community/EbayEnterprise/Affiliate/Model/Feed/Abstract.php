@@ -14,13 +14,12 @@ abstract class EbayEnterprise_Affiliate_Model_Feed_Abstract
 	 */
 	abstract protected function _getItems();
 	/**
-	 * Get an array of callback mappings for the feed. Should result in an array
-	 * with keys for the field in the CSV and a value of an array used to
-	 * represent a mapping callback.
+	 * Get fields to include in the feed. Fields are expected to map to existing
+	 * callbacks defined for in the config.xml.
 	 * @see self::_invokeCallback
 	 * @return array
 	 */
-	abstract protected function _getFeedMapping();
+	abstract protected function _getFeedFields();
 	/**
 	 * Gets the filename format for the feed from config for this feed.
 	 * @return  string
@@ -105,7 +104,12 @@ abstract class EbayEnterprise_Affiliate_Model_Feed_Abstract
 	protected function _applyMapping($item)
 	{
 		$fields = array();
-		foreach ($this->_getFeedMapping() as $callback) {
+		$mappings = Mage::helper('eems_affiliate/config')->getCallbackMappings();
+		foreach ($this->_getFeedFields() as $feedField) {
+			// If the mapping doesn't exist, supplying an empty array will eventually
+			// result in an exception for being an invalid config mapping.
+			// @see self::_validateCallbackConfig
+			$callback = isset($mappings[$feedField]) ? $mappings[$feedField] : array();
 			// exclude any mappings that have a type of "disabled"
 			if (!isset($callback['type']) || $callback['type'] !== 'disabled') {
 				$fields[] = $this->_invokeCallback($callback, $item);
@@ -210,7 +214,7 @@ abstract class EbayEnterprise_Affiliate_Model_Feed_Abstract
 	protected function _validateCallbackConfig($callbackConfig)
 	{
 		if (empty($callbackConfig)) {
-			throw new EbayEnterprise_Affiliate_Exception_Configuration('Callback configuration is empty.');
+			throw new EbayEnterprise_Affiliate_Exception_Configuration('Callback configuration is empty or missing.');
 		}
 		// When the callback is "disabled" no other configuration is necessary.
 		if (isset($callbackConfig['type']) && $callbackConfig['type'] === 'disabled') {
@@ -271,7 +275,7 @@ abstract class EbayEnterprise_Affiliate_Model_Feed_Abstract
 	protected function _getHeaders()
 	{
 		$headers = array();
-		foreach ($this->_getFeedMapping() as $fieldConfig) {
+		foreach ($this->_getFeedFields() as $fieldConfig) {
 			if (!isset($fieldConfig['type']) || $fieldConfig['type'] !== 'disabled') {
 				$headers[] = $fieldConfig['column_name'];
 			}

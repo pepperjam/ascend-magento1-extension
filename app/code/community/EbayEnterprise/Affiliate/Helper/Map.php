@@ -36,7 +36,11 @@ class EbayEnterprise_Affiliate_Helper_Map
 				'The data "key" must be provided in the configured params for this callback.'
 			);
 		}
-		return $params['item']->getDataUsingMethod($params['key']);
+		$helper = Mage::helper('core');
+		return sprintf(
+			isset($params['format']) ? $params['format'] : '%s',
+			$helper->stripTag($params['item']->getDataUsingMethod($params['key']))
+		);
 	}
 	/**
 	 * Simply return the "value" included in the params.
