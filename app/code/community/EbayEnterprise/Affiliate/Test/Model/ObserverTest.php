@@ -18,11 +18,20 @@ class EbayEnterprise_Affiliate_Test_Model_ObserverTest
 			'P1' => Mage::getModel('core/store', array('name' => 'store view 1')),
 			'P2' => Mage::getModel('core/store', array('name' => 'store view 2'))
 		);
+		$programIds = array_keys($websitesDefaultStoreViews);
 
-		$helper = $this->getHelperMock('eems_affiliate/data', array('getWebsitesDefaultStoreviews'));
+		$helper = $this->getHelperMock('eems_affiliate/data', array(
+			'getAllProgramIds', 'getStoreForProgramId'
+		));
 		$helper->expects($this->once())
-			->method('getWebsitesDefaultStoreviews')
-			->will($this->returnValue($websitesDefaultStoreViews));
+			->method('getAllProgramIds')
+			->will($this->returnValue($programIds));
+		$helper->expects($this->exactly(2))
+			->method('getStoreForProgramId')
+			->will($this->returnValueMap(array(
+				array($programIds[0], $websitesDefaultStoreViews[$programIds[0]]),
+				array($programIds[1], $websitesDefaultStoreViews[$programIds[1]])
+			)));
 		$this->replaceByMock('helper', 'eems_affiliate', $helper);
 
 		$productFeed = $this->getModelMockBuilder('eems_affiliate/feed_product')

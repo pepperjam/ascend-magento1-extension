@@ -10,16 +10,21 @@ class EbayEnterprise_Affiliate_Model_Observer
 	 */
 	public function createProductFeed()
 	{
-		$stores = Mage::helper('eems_affiliate')->getWebsitesDefaultStoreviews();
-		foreach ($stores as $key => $store) {
-			Mage::log(
-				sprintf(static::PRODUCT_LOG_MESSAGE, $key, $store->getName()),
-				Zend_Log::INFO
-			);
+		$helper = Mage::helper('eems_affiliate');
+		foreach ($helper->getAllProgramIds() as $programId) {
+			Mage::log(sprintf('[%s] program id : %s', __METHOD__, $programId));
+			$store = $helper->getStoreForProgramId($programId);
 
-			Mage::getModel('eems_affiliate/feed_product', array(
-				'store' => $store
-			))->generateFeed();
+			if (!is_null($store)) {
+				Mage::log(
+					sprintf(static::PRODUCT_LOG_MESSAGE, $programId, $store->getName()),
+					Zend_Log::INFO
+				);
+
+				Mage::getModel('eems_affiliate/feed_product', array(
+					'store' => $store
+				))->generateFeed();
+			}
 		}
 	}
 }
