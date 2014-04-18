@@ -11,39 +11,28 @@ class EbayEnterprise_Affiliate_Test_Helper_Map_ProductTest
 	public function testGetCategory()
 	{
 
-		$categoryIds = array(1,2,3);
+		$categoryIds = array('1','2','3');
+		$path = implode('/', $categoryIds);
 		$categories = array('cat one', 'cat two', 'cat three');
-
 		$collection = Mage::getResourceModel('catalog/category_collection');
-		$collection->addItem(Mage::getModel('catalog/category', array('name' => $categories[0])))
-			->addItem(Mage::getModel('catalog/category', array('name' => $categories[1])));
 
-		$params = array('item' => Mage::getModel('catalog/product', array(
-			'category_ids' => array($categoryIds[2])
-		)));
+		$categoryObjects = array();
+		foreach ($categories as $index => $name) {
+			$category = Mage::getModel('catalog/category', array(
+				'name' => $name, 'entity_id' => $index + 9999, 'path' => $path
+			));
+			$categoryObjects[] = $category;
+			$collection->addItem($category);
+		}
 
-		$category = $this->getModelMockBuilder('catalog/category')
-			->disableOriginalConstructor()
-			->setMethods(array('load', 'getPath', 'getName'))
-			->getMock();
-		$category->expects($this->exactly(4))
-			->method('load')
-			->will($this->returnSelf());
-		$category->expects($this->once())
-			->method('getPath')
-			->will($this->returnValue(implode('/', $categoryIds)));
-		$category->expects($this->at(3))
-			->method('getName')
-			->will($this->returnValue($categories[0]));
-		$category->expects($this->at(5))
-			->method('getName')
-			->will($this->returnValue($categories[1]));
-		$category->expects($this->at(7))
-			->method('getName')
-			->will($this->returnValue($categories[2]));
-		$this->replaceByMock('model', 'catalog/category', $category);
+		$productCategoryColl = Mage::getResourceModel('catalog/category_collection');;
+		$productCategoryColl->addItem($categoryObjects[2]);
+		$product = $this->getModelMock('catalog/product', array('getCategoryCollection'));
+		$product->expects($this->once())
+			->method('getCategoryCollection')
+			->will($this->returnValue($productCategoryColl));
 
-
+		$params = array('item' => $product);
 
 		$result = implode(' > ', $categories);
 

@@ -25,7 +25,7 @@ class EbayEnterprise_Affiliate_Helper_Map_Product
 	 * @param array $entityIds list of category ids
 	 * @return Mage_Catalog_Model_Resource_Category_Collection
 	 */
-	protected function _categoriesByIds(array $entityIds)
+	protected function _getCategoriesByIds(array $entityIds)
 	{
 		return Mage::getResourceModel('catalog/category_collection')
 			->addAttributeToSelect(array('*'))
@@ -40,7 +40,7 @@ class EbayEnterprise_Affiliate_Helper_Map_Product
 	 */
 	protected function _buildCategoryTree(Mage_Catalog_Model_Category $category)
 	{
-		$collecton = $this->_categoriesByIds(explode('/', $category->getPath()));
+		$collecton = $this->_getCategoriesByIds(explode('/', $category->getPath()));
 		$categories = array();
 		foreach ($collecton as $cat) {
 			$categories[] = $cat->getName();
