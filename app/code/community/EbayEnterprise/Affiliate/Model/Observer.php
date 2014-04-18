@@ -12,9 +12,7 @@ class EbayEnterprise_Affiliate_Model_Observer
 	{
 		$helper = Mage::helper('eems_affiliate');
 		foreach ($helper->getAllProgramIds() as $programId) {
-			Mage::log(sprintf('[%s] program id : %s', __METHOD__, $programId));
 			$store = $helper->getStoreForProgramId($programId);
-
 			if (!is_null($store)) {
 				Mage::log(
 					sprintf(static::PRODUCT_LOG_MESSAGE, $programId, $store->getName()),

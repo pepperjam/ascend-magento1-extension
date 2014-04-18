@@ -23,7 +23,7 @@ class EbayEnterprise_Affiliate_Helper_Data extends Mage_Core_Helper_Abstract
 		$config = Mage::helper('eems_affiliate/config');
 		return array_unique(array_map(
 			function ($website) use ($config) {
-				return $config->getProgramId($website->getDefaultStoreView());
+				return $config->getProgramId($website->getDefaultStore());
 			},
 			Mage::app()->getWebsites()
 		));
@@ -51,8 +51,8 @@ class EbayEnterprise_Affiliate_Helper_Data extends Mage_Core_Helper_Abstract
 		// When set at the website level, use the first website encountered
 		// with a matching program id
 		foreach (Mage::app()->getWebsites() as $website) {
-			$storeView = $website->getDefaultStoreView();
-			if ($config->getProtramId($storeView) === $programId) {
+			$storeView = $website->getDefaultStore();
+			if ($config->getProgramId($storeView) === $programId) {
 				return $storeView;
 			}
 		}
