@@ -109,6 +109,10 @@
 							<method>getCategory</method>
 							<type>helper</type>
 							<column_name>category_program</column_name>
+							<params>
+								<key>category</key>
+								<format>%.256s</format>
+							</params>
 						</category_program>
 						<description_long>
 							<class>eems_affiliate/map</class>
