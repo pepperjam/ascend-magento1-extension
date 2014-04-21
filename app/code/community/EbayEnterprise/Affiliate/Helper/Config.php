@@ -113,7 +113,7 @@ class EbayEnterprise_Affiliate_Helper_Config
 	{
 		return Mage::getStoreConfig(static::PRODUCT_FEED_FILENAME_FORMAT_PATH, $store);
 	}
-	/*
+	/**
 	 * Get the configured feed mapping for the itemized orders feed.
 	 * @param  mixed $store
 	 * @return array
