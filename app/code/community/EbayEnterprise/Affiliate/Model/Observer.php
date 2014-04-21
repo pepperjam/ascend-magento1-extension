@@ -31,13 +31,12 @@ class EbayEnterprise_Affiliate_Model_Observer
 	 */
 	public function createCorrectedOrdersFeed()
 	{
-		Mage::log(sprintf('[%s] Generating orders feed', __CLASS__));
-		Mage::getModel('eems_affiliate/feed_order_itemized')->generateFeed();
 		$startTime = time();
 
 		$feedAlias = Mage::helper('eems_affiliate/config')->isItemizedOrders() ?
 			'feed_order_itemized' : 'feed_order_basic';
-		Mage::log(sprintf('[%s] Building %s feed', __CLASS__, $feedAlias));
+
+		Mage::log(sprintf('[%s] Generating %s feed', __CLASS__, $feedAlias));
 
 		$helper = Mage::helper('eems_affiliate');
 		foreach ($helper->getAllProgramIds() as $programId) {
