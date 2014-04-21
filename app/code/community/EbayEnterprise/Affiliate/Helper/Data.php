@@ -74,4 +74,15 @@ class EbayEnterprise_Affiliate_Helper_Data extends Mage_Core_Helper_Abstract
 			}
 		);
 	}
+	/**
+	 * take a boolean value and return the string 'yes' or 'no' when the boolean
+	 * value is true or false
+	 * @param bool $value
+	 * @return string
+	 * @codeCoverageIgnore
+	 */
+	public function parseBoolToYesNo($value)
+	{
+		return $value? 'yes' : 'no';
+	}
 }

@@ -76,4 +76,19 @@ class EbayEnterprise_Affiliate_Helper_Map
 		}
 		return $params['value'];
 	}
+	/**
+	 * check if an attribute has value then return 'yes' otherwise  return
+	 * 'no'
+	 * @param  array $params
+	 * @return string
+	 */
+	public function getValueYesNo(array $params)
+	{
+		return sprintf(
+			isset($params['format']) ? $params['format'] : '%s',
+			Mage::helper('eems_affiliate')->parseBoolToYesNo(
+				$params['item']->getDataUsingMethod($params['key'])
+			)
+		);
+	}
 }

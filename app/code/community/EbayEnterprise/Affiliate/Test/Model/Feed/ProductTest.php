@@ -43,16 +43,28 @@ class EbayEnterprise_Affiliate_Test_Model_Feed_ProductTest
 	 */
 	public function testGetFeedFields()
 	{
-		$fields = array('field_1', 'field_2', 'field_3');
-		$configHelper = $this->getHelperMock('eems_affiliate/config', array('getProductFeedFields'));
+		$maps = array(
+			'field_1' => array('column_name' => 'field_1'),
+			'field_2' => array('column_name' => 'field_2'),
+			'field_3' => array('column_name' => 'field_3')
+		);
+		$fields = array('field_1' => 'key 1', 'field_2' => 'key 2', 'field_3' => 'key 3');
+		$configHelper = $this->getHelperMock('eems_affiliate/config', array(
+			'getProductFeedFields', 'getCallbackMappings'
+		));
+		$result = array_keys($fields);
+
 		$configHelper->expects($this->once())
 			->method('getProductFeedFields')
-			->will($this->returnValue(implode(',', $fields)));
+			->will($this->returnValue($fields));
+		$configHelper->expects($this->once())
+			->method('getCallbackMappings')
+			->will($this->returnValue($maps));
 		$this->replaceByMock('helper', 'eems_affiliate/config', $configHelper);
 
 		$feedProduct = Mage::getModel('eems_affiliate/feed_product');
 
-		$this->assertSame($fields, EcomDev_Utils_Reflection::invokeRestrictedMethod(
+		$this->assertSame($result, EcomDev_Utils_Reflection::invokeRestrictedMethod(
 			$feedProduct, '_getFeedFields', array()
 		));
 	}

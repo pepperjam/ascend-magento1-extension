@@ -12,7 +12,7 @@ class EbayEnterprise_Affiliate_Helper_Config
 	const TRANSACTION_TYPE_PATH = 'marketing_solutions/eems_affiliate/transaction_type';
 	const EXPORT_FILE_PATH_CONFIG_PATH = 'marketing_solutions/eems_affiliate/export_path';
 	const CALLBACK_MAPPINGS_PATH = 'marketing_solutions/eems_affiliate/feeds/callback_mappings';
-	const PRODUCT_FEED_MAPPING_PATH = 'marketing_solutions/eems_affiliate/feeds/product/fields';
+	const PRODUCT_FEED_MAPPING_PATH = 'marketing_solutions/eems_affiliate_product_attribute_map';
 	const PRODUCT_FEED_FILENAME_FORMAT_PATH = 'marketing_solutions/eems_affiliate/feeds/product/file_name_format';
 	const ITEMIZED_ORDER_FEED_MAPPING_PATH = 'marketing_solutions/eems_affiliate/feeds/order_itemized/fields';
 	const BASIC_ORDER_FEED_MAPPING_PATH = 'marketing_solutions/eems_affiliate/feeds/order_basic/fields';

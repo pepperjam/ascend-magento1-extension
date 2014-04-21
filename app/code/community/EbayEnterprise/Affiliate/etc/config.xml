@@ -122,6 +122,60 @@
 							<type>helper</type>
 							<column_name>TYPE</column_name>
 						</transaction_type>
+						<age_range>
+							<class>eems_affiliate/map</class>
+							<method>getDataValue</method>
+							<type>helper</type>
+							<column_name>age_range</column_name>
+							<params>
+								<format>%.32s</format>
+							</params>
+						</age_range>
+						<artist>
+							<class>eems_affiliate/map</class>
+							<method>getDataValue</method>
+							<type>helper</type>
+							<column_name>artist</column_name>
+							<params>
+								<format>%.128s</format>
+							</params>
+						</artist>
+						<aspect_ratio>
+							<class>eems_affiliate/map</class>
+							<method>getDataValue</method>
+							<type>helper</type>
+							<column_name>aspect_ratio</column_name>
+							<params>
+								<format>%.16s</format>
+							</params>
+						</aspect_ratio>
+						<author>
+							<class>eems_affiliate/map</class>
+							<method>getDataValue</method>
+							<type>helper</type>
+							<column_name>author</column_name>
+							<params>
+								<format>%.128s</format>
+							</params>
+						</author>
+						<battery_life>
+							<class>eems_affiliate/map</class>
+							<method>getDataValue</method>
+							<type>helper</type>
+							<column_name>battery_life</column_name>
+							<params>
+								<format>%.32s</format>
+							</params>
+						</battery_life>
+						<binding>
+							<class>eems_affiliate/map</class>
+							<method>getDataValue</method>
+							<type>helper</type>
+							<column_name>binding</column_name>
+							<params>
+								<format>%.32s</format>
+							</params>
+						</binding>
 						<buy_url>
 							<class>eems_affiliate/map</class>
 							<method>getDataValue</method>
@@ -132,23 +186,57 @@
 								<format>%.2000s</format>
 							</params>
 						</buy_url>
+						<category_network>
+							<class>eems_affiliate/map_product</class>
+							<method>getCategory</method>
+							<type>helper</type>
+							<column_name>category_network</column_name>
+							<params>
+								<format>%.256s</format>
+							</params>
+						</category_network>
 						<category_program>
 							<class>eems_affiliate/map_product</class>
 							<method>getCategory</method>
 							<type>helper</type>
 							<column_name>category_program</column_name>
 							<params>
-								<key>category</key>
 								<format>%.256s</format>
 							</params>
 						</category_program>
+						<color>
+							<class>eems_affiliate/map</class>
+							<method>getDataValue</method>
+							<type>helper</type>
+							<column_name>color</column_name>
+							<params>
+								<format>%.32s</format>
+							</params>
+						</color>
+						<color_output>
+							<class>eems_affiliate/map_product</class>
+							<method>getColorValueYesNo</method>
+							<type>helper</type>
+							<column_name>color_output</column_name>
+							<params>
+								<format>%s</format>
+							</params>
+						</color_output>
+						<condition>
+							<class>eems_affiliate/map</class>
+							<method>getDataValue</method>
+							<type>helper</type>
+							<column_name>condition</column_name>
+							<params>
+								<format>%.64s</format>
+							</params>
+						</condition>
 						<description_long>
 							<class>eems_affiliate/map</class>
 							<method>getDataValue</method>
 							<type>helper</type>
 							<column_name>description_long</column_name>
 							<params>
-								<key>description</key>
 								<format>%.2000s</format>
 							</params>
 						</description_long>
@@ -158,17 +246,123 @@
 							<type>helper</type>
 							<column_name>description_short</column_name>
 							<params>
-								<key>short_description</key>
 								<format>%.512s</format>
 							</params>
 						</description_short>
+						<director>
+							<class>eems_affiliate/map</class>
+							<method>getDataValue</method>
+							<type>helper</type>
+							<column_name>director</column_name>
+							<params>
+								<format>%.128s</format>
+							</params>
+						</director>
+						<discontinued>
+							<class>eems_affiliate/map</class>
+							<method>getValueYesNo</method>
+							<type>helper</type>
+							<column_name>discontinued</column_name>
+							<params>
+								<format>%s</format>
+							</params>
+						</discontinued>
+						<display_type>
+							<class>eems_affiliate/map</class>
+							<method>getDataValue</method>
+							<type>helper</type>
+							<column_name>display_type</column_name>
+							<params>
+								<format>%.32s</format>
+							</params>
+						</display_type>
+						<edition>
+							<class>eems_affiliate/map</class>
+							<method>getDataValue</method>
+							<type>helper</type>
+							<column_name>edition</column_name>
+							<params>
+								<format>%.32s</format>
+							</params>
+						</edition>
+						<expiration_date>
+							<class>eems_affiliate/map</class>
+							<method>getDateValue</method>
+							<type>helper</type>
+							<column_name>expiration_date</column_name>
+							<params>
+								<format>Y-m-d</format>
+							</params>
+						</expiration_date>
+						<features>
+							<class>eems_affiliate/map</class>
+							<method>getDataValue</method>
+							<type>helper</type>
+							<column_name>features</column_name>
+							<params>
+								<format>%.128s</format>
+							</params>
+						</features>
+						<focus_type>
+							<class>eems_affiliate/map</class>
+							<method>getDataValue</method>
+							<type>helper</type>
+							<column_name>focus_type</column_name>
+							<params>
+								<format>%.128s</format>
+							</params>
+						</focus_type>
+						<format>
+							<class>eems_affiliate/map</class>
+							<method>getDataValue</method>
+							<type>helper</type>
+							<column_name>format</column_name>
+							<params>
+								<format>%.64s</format>
+							</params>
+						</format>
+						<functions>
+							<class>eems_affiliate/map</class>
+							<method>getDataValue</method>
+							<type>helper</type>
+							<column_name>functions</column_name>
+							<params>
+								<format>%.64s</format>
+							</params>
+						</functions>
+						<genre>
+							<class>eems_affiliate/map</class>
+							<method>getDataValue</method>
+							<type>helper</type>
+							<column_name>genre</column_name>
+							<params>
+								<format>%.64s</format>
+							</params>
+						</genre>
+						<heel_height>
+							<class>eems_affiliate/map</class>
+							<method>getDataValue</method>
+							<type>helper</type>
+							<column_name>heel_height</column_name>
+							<params>
+								<format>%.32s</format>
+							</params>
+						</heel_height>
+						<height>
+							<class>eems_affiliate/map</class>
+							<method>getDataValue</method>
+							<type>helper</type>
+							<column_name>height</column_name>
+							<params>
+								<format>%.32s</format>
+							</params>
+						</height>
 						<image_thumb_url>
 							<class>eems_affiliate/map_product</class>
 							<method>getImageUrl</method>
 							<type>helper</type>
 							<column_name>image_thumb_url</column_name>
 							<params>
-								<key>thumbnail</key>
 								<format>%.2000s</format>
 							</params>
 						</image_thumb_url>
@@ -178,47 +372,231 @@
 							<type>helper</type>
 							<column_name>image_url</column_name>
 							<params>
-								<key>image</key>
 								<format>%.2000s</format>
 							</params>
 						</image_url>
+						<installation>
+							<class>eems_affiliate/map</class>
+							<method>getDataValue</method>
+							<type>helper</type>
+							<column_name>installation</column_name>
+							<params>
+								<format>%.64s</format>
+							</params>
+						</installation>
+						<in_stock>
+							<class>eems_affiliate/map_product</class>
+							<method>getInStockYesNo</method>
+							<type>helper</type>
+							<column_name>in_stock</column_name>
+							<params>
+								<format>%s</format>
+							</params>
+						</in_stock>
+						<isbn>
+							<class>eems_affiliate/map</class>
+							<method>getDataValue</method>
+							<type>helper</type>
+							<column_name>isbn</column_name>
+							<params>
+								<format>%.64s</format>
+							</params>
+						</isbn>
 						<keywords>
 							<class>eems_affiliate/map</class>
 							<method>getDataValue</method>
 							<type>helper</type>
 							<column_name>keywords</column_name>
 							<params>
-								<key>meta_keyword</key>
 								<format>%.256s</format>
 							</params>
 						</keywords>
+						<length>
+							<class>eems_affiliate/map</class>
+							<method>getDataValue</method>
+							<type>helper</type>
+							<column_name>length</column_name>
+							<params>
+								<format>%.32s</format>
+							</params>
+						</length>
+						<load_type>
+							<class>eems_affiliate/map</class>
+							<method>getDataValue</method>
+							<type>helper</type>
+							<column_name>load_type</column_name>
+							<params>
+								<format>%.32s</format>
+							</params>
+						</load_type>
+						<location>
+							<class>eems_affiliate/map</class>
+							<method>getDataValue</method>
+							<type>helper</type>
+							<column_name>location</column_name>
+							<params>
+								<format>%.64s</format>
+							</params>
+						</location>
+						<made_in>
+							<class>eems_affiliate/map</class>
+							<method>getDataValue</method>
+							<type>helper</type>
+							<column_name>made_in</column_name>
+							<params>
+								<format>%.64s</format>
+							</params>
+						</made_in>
 						<manufacturer>
 							<class>eems_affiliate/map</class>
 							<method>getDataValue</method>
 							<type>helper</type>
 							<column_name>manufacturer</column_name>
 							<params>
-								<key>manufacturer</key>
 								<format>%.128s</format>
 							</params>
 						</manufacturer>
+						<material>
+							<class>eems_affiliate/map</class>
+							<method>getDataValue</method>
+							<type>helper</type>
+							<column_name>material</column_name>
+							<params>
+								<format>%.128s</format>
+							</params>
+						</material>
+						<megapixels>
+							<class>eems_affiliate/map</class>
+							<method>getDataValue</method>
+							<type>helper</type>
+							<column_name>megapixels</column_name>
+							<params>
+								<format>%01.2f</format>
+							</params>
+						</megapixels>
+						<memory_capacity>
+							<class>eems_affiliate/map</class>
+							<method>getDataValue</method>
+							<type>helper</type>
+							<column_name>memory_capacity</column_name>
+							<params>
+								<format>%.64s</format>
+							</params>
+						</memory_capacity>
+						<memory_card_slot>
+							<class>eems_affiliate/map</class>
+							<method>getDataValue</method>
+							<type>helper</type>
+							<column_name>memory_card_slot</column_name>
+							<params>
+								<format>%.32s</format>
+							</params>
+						</memory_card_slot>
+						<memory_type>
+							<class>eems_affiliate/map</class>
+							<method>getDataValue</method>
+							<type>helper</type>
+							<column_name>memory_type</column_name>
+							<params>
+								<format>%.64s</format>
+							</params>
+						</memory_type>
+						<model_number>
+							<class>eems_affiliate/map</class>
+							<method>getDataValue</method>
+							<type>helper</type>
+							<column_name>model_number</column_name>
+							<params>
+								<format>%.128s</format>
+							</params>
+						</model_number>
+						<mpn>
+							<class>eems_affiliate/map</class>
+							<method>getDataValue</method>
+							<type>helper</type>
+							<column_name>mpn</column_name>
+							<params>
+								<format>%.128s</format>
+							</params>
+						</mpn>
 						<name>
 							<class>eems_affiliate/map</class>
 							<method>getDataValue</method>
 							<type>helper</type>
 							<column_name>name</column_name>
 							<params>
-								<key>name</key>
 								<format>%.128s</format>
 							</params>
 						</name>
+						<occasion>
+							<class>eems_affiliate/map</class>
+							<method>getDataValue</method>
+							<type>helper</type>
+							<column_name>occasion</column_name>
+							<params>
+								<format>%.128s</format>
+							</params>
+						</occasion>
+						<operating_system>
+							<class>eems_affiliate/map</class>
+							<method>getDataValue</method>
+							<type>helper</type>
+							<column_name>operating_system</column_name>
+							<params>
+								<format>%.128s</format>
+							</params>
+						</operating_system>
+						<optical_drive>
+							<class>eems_affiliate/map</class>
+							<method>getDataValue</method>
+							<type>helper</type>
+							<column_name>optical_drive</column_name>
+							<params>
+								<format>%.64s</format>
+							</params>
+						</optical_drive>
+						<pages>
+							<class>eems_affiliate/map</class>
+							<method>getDataValue</method>
+							<type>helper</type>
+							<column_name>pages</column_name>
+							<params>
+								<format>%.11d</format>
+							</params>
+						</pages>
+						<payment_accepted>
+							<class>eems_affiliate/map</class>
+							<method>getDataValue</method>
+							<type>helper</type>
+							<column_name>payment_accepted</column_name>
+							<params>
+								<format>%.128s</format>
+							</params>
+						</payment_accepted>
+						<payment_notes>
+							<class>eems_affiliate/map</class>
+							<method>getDataValue</method>
+							<type>helper</type>
+							<column_name>payment_notes</column_name>
+							<params>
+								<format>%.256s</format>
+							</params>
+						</payment_notes>
+						<platform>
+							<class>eems_affiliate/map</class>
+							<method>getDataValue</method>
+							<type>helper</type>
+							<column_name>platform</column_name>
+							<params>
+								<format>%.64s</format>
+							</params>
+						</platform>
 						<price>
 							<class>eems_affiliate/map</class>
 							<method>getDataValue</method>
 							<type>helper</type>
 							<column_name>price</column_name>
 							<params>
-								<key>price</key>
 								<format>%01.2f</format>
 							</params>
 						</price>
@@ -228,7 +606,6 @@
 							<type>helper</type>
 							<column_name>price_retail</column_name>
 							<params>
-								<key>msrp</key>
 								<format>%01.2f</format>
 							</params>
 						</price_retail>
@@ -238,26 +615,216 @@
 							<type>helper</type>
 							<column_name>price_sale</column_name>
 							<params>
-								<key>special_price</key>
 								<format>%01.2f</format>
 							</params>
 						</price_sale>
+						<price_shipping>
+							<class>eems_affiliate/map</class>
+							<method>getDataValue</method>
+							<type>helper</type>
+							<column_name>price_shipping</column_name>
+							<params>
+								<format>%01.2f</format>
+							</params>
+						</price_shipping>
+						<processor>
+							<class>eems_affiliate/map</class>
+							<method>getDataValue</method>
+							<type>helper</type>
+							<column_name>processor</column_name>
+							<params>
+								<format>%.64s</format>
+							</params>
+						</processor>
+						<publisher>
+							<class>eems_affiliate/map</class>
+							<method>getDataValue</method>
+							<type>helper</type>
+							<column_name>publisher</column_name>
+							<params>
+								<format>%.128s</format>
+							</params>
+						</publisher>
 						<quantity_in_stock>
 							<class>eems_affiliate/map_product</class>
 							<method>getInStockQty</method>
 							<type>helper</type>
 							<column_name>quantity_in_stock</column_name>
+							<params>
+								<format>%.11d</format>
+							</params>
 						</quantity_in_stock>
+						<rating>
+							<class>eems_affiliate/map</class>
+							<method>getDataValue</method>
+							<type>helper</type>
+							<column_name>rating</column_name>
+							<params>
+								<format>%.32s</format>
+							</params>
+						</rating>
+						<recommended_usage>
+							<class>eems_affiliate/map</class>
+							<method>getDataValue</method>
+							<type>helper</type>
+							<column_name>recommended_usage</column_name>
+							<params>
+								<format>%.128s</format>
+							</params>
+						</recommended_usage>
+						<resolution>
+							<class>eems_affiliate/map</class>
+							<method>getDataValue</method>
+							<type>helper</type>
+							<column_name>resolution</column_name>
+							<params>
+								<format>%.64s</format>
+							</params>
+						</resolution>
+						<screen_size>
+							<class>eems_affiliate/map</class>
+							<method>getDataValue</method>
+							<type>helper</type>
+							<column_name>screen_size</column_name>
+							<params>
+								<format>%.32s</format>
+							</params>
+						</screen_size>
+						<shipping_method>
+							<class>eems_affiliate/map</class>
+							<method>getDataValue</method>
+							<type>helper</type>
+							<column_name>shipping_method</column_name>
+							<params>
+								<format>%.64s</format>
+							</params>
+						</shipping_method>
+						<shoe_size>
+							<class>eems_affiliate/map</class>
+							<method>getDataValue</method>
+							<type>helper</type>
+							<column_name>shoe_size</column_name>
+							<params>
+								<format>%.32s</format>
+							</params>
+						</shoe_size>
+						<shoe_width>
+							<class>eems_affiliate/map</class>
+							<method>getDataValue</method>
+							<type>helper</type>
+							<column_name>shoe_width</column_name>
+							<params>
+								<format>%.32s</format>
+							</params>
+						</shoe_width>
+						<size>
+							<class>eems_affiliate/map</class>
+							<method>getDataValue</method>
+							<type>helper</type>
+							<column_name>size</column_name>
+							<params>
+								<format>%.32s</format>
+							</params>
+						</size>
 						<sku>
 							<class>eems_affiliate/map</class>
 							<method>getDataValue</method>
 							<type>helper</type>
 							<column_name>sku</column_name>
 							<params>
-								<key>sku</key>
 								<format>%.128s</format>
 							</params>
 						</sku>
+						<staring>
+							<class>eems_affiliate/map</class>
+							<method>getDataValue</method>
+							<type>helper</type>
+							<column_name>staring</column_name>
+							<params>
+								<format>%.128s</format>
+							</params>
+						</staring>
+						<style>
+							<class>eems_affiliate/map</class>
+							<method>getDataValue</method>
+							<type>helper</type>
+							<column_name>style</column_name>
+							<params>
+								<format>%.64s</format>
+							</params>
+						</style>
+						<tech_spec_url>
+							<class>eems_affiliate/map</class>
+							<method>getDataValue</method>
+							<type>helper</type>
+							<column_name>tech_spec_url</column_name>
+							<params>
+								<format>%.2000s</format>
+							</params>
+						</tech_spec_url>
+						<tracks>
+							<class>eems_affiliate/map</class>
+							<method>getDataValue</method>
+							<type>helper</type>
+							<column_name>tracks</column_name>
+							<params>
+								<format>%.11d</format>
+							</params>
+						</tracks>
+						<upc>
+							<class>eems_affiliate/map</class>
+							<method>getDataValue</method>
+							<type>helper</type>
+							<column_name>upc</column_name>
+							<params>
+								<format>%.128s</format>
+							</params>
+						</upc>
+						<weight>
+							<class>eems_affiliate/map</class>
+							<method>getDataValue</method>
+							<type>helper</type>
+							<column_name>weight</column_name>
+							<params>
+								<format>%.32s</format>
+							</params>
+						</weight>
+						<width>
+							<class>eems_affiliate/map</class>
+							<method>getDataValue</method>
+							<type>helper</type>
+							<column_name>width</column_name>
+							<params>
+								<format>%.32s</format>
+							</params>
+						</width>
+						<wireless_interface>
+							<class>eems_affiliate/map</class>
+							<method>getDataValue</method>
+							<type>helper</type>
+							<column_name>wireless_interface</column_name>
+							<params>
+								<format>%.32s</format>
+							</params>
+						</wireless_interface>
+						<year>
+							<class>eems_affiliate/map</class>
+							<method>getYearValue</method>
+							<type>helper</type>
+							<column_name>year</column_name>
+							<params>
+								<format>%.dd</format>
+							</params>
+						</year>
+						<zoom>
+							<class>eems_affiliate/map</class>
+							<method>getDataValue</method>
+							<type>helper</type>
+							<column_name>zoom</column_name>
+							<params>
+								<format>%.32s</format>
+							</params>
+						</zoom>
 					</callback_mappings>
 					<order_itemized>
 						<fields>program_id,item_order_id,item_id,row_total,item_quantity,reason</fields>
@@ -269,10 +836,89 @@
 					</order_basic>
 					<product>
 						<file_name_format>%s_product_feed.csv</file_name_format>
-						<fields>buy_url,category_program,description_long,description_short,image_thumb_url,image_url,keywords,manufacturer,name,price,price_retail,price_sale,quantity_in_stock,sku</fields>
 					</product>
 				</feeds>
 			</eems_affiliate>
+			<eems_affiliate_product_attribute_map>
+				<age_range/>
+				<artist/>
+				<aspect_ratio/>
+				<author/>
+				<battery_life/>
+				<binding/>
+				<buy_url>product_url</buy_url>
+				<category_network/>
+				<category_program>category</category_program>
+				<color/>
+				<color_output/>
+				<condition/>
+				<description_long>description</description_long>
+				<description_short>short_description</description_short>
+				<director/>
+				<discontinued/>
+				<display_type/>
+				<edition/>
+				<expiration_date/>
+				<features/>
+				<focus_type/>
+				<format/>
+				<functions/>
+				<genre/>
+				<heel_height/>
+				<height/>
+				<image_thumb_url>thumbnail</image_thumb_url>
+				<image_url>image</image_url>
+				<installation/>
+				<in_stock/>
+				<isbn/>
+				<keywords>meta_keyword</keywords>
+				<length/>
+				<load_type/>
+				<location/>
+				<made_in/>
+				<manufacturer>manufacturer</manufacturer>
+				<material/>
+				<megapixels/>
+				<memory_capacity/>
+				<memory_card_slot/>
+				<memory_type/>
+				<model_number/>
+				<mpn/>
+				<name>name</name>
+				<occasion/>
+				<operating_system/>
+				<optical_drive/>
+				<pages/>
+				<payment_accepted/>
+				<payment_notes/>
+				<platform/>
+				<price>price</price>
+				<price_retail>msrp</price_retail>
+				<price_sale>special_price</price_sale>
+				<price_shipping/>
+				<processor/>
+				<publisher/>
+				<quantity_in_stock>qty</quantity_in_stock>
+				<rating/>
+				<recommended_usage/>
+				<resolution/>
+				<screen_size/>
+				<shipping_method/>
+				<shoe_size/>
+				<shoe_width/>
+				<size/>
+				<sku>sku</sku>
+				<staring/>
+				<style/>
+				<tech_spec_url/>
+				<tracks/>
+				<upc/>
+				<weight/>
+				<width/>
+				<wireless_interface/>
+				<year/>
+				<zoom/>
+			</eems_affiliate_product_attribute_map>
 		</marketing_solutions>
 	</default>
 	<frontend>

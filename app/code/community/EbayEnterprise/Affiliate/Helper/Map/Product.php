@@ -102,4 +102,30 @@ class EbayEnterprise_Affiliate_Helper_Map_Product
 			->loadByProduct($params['item'])
 			->getQty();
 	}
+	/**
+	 * check if a product is in stock and return 'yes' or 'no' in respect to
+	 * the outcome
+	 * @param  array $params
+	 * @return string
+	 */
+	public function getInStockYesNo(array $params)
+	{
+		return Mage::helper('eems_affiliate')->parseBoolToYesNo(
+			Mage::getModel('cataloginventory/stock_item')
+				->loadByProduct($params['item'])
+				->getIsInStock()
+		);
+	}
+	/**
+	 * check if a product color attribute has value then return 'yes' otherwise
+	 * return 'no'
+	 * @param  array $params
+	 * @return string
+	 */
+	public function getColorValueYesNo(array $params)
+	{
+		return Mage::helper('eems_affiliate')->parseBoolToYesNo(
+			(trim($params['item']->getDataUsingMethod($params['key'])) !== '')
+		);
+	}
 }
