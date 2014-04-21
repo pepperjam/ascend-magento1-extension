@@ -23,7 +23,7 @@ class EbayEnterprise_Affiliate_Helper_Map_Product
 		$categories = $params['item']->getCategoryCollection();
 		$category = $categories->getFirstItem();
 		$format = isset($params['format']) ? $params['format'] : '%s';
-		return !is_null($category)?
+		return !is_null($category) ?
 			sprintf($format, $this->_buildCategoryTree($category)) : null;
 	}
 	/**
@@ -35,7 +35,7 @@ class EbayEnterprise_Affiliate_Helper_Map_Product
 	protected function _getCategoriesByIds(array $entityIds)
 	{
 		return Mage::getResourceModel('catalog/category_collection')
-			->addAttributeToSelect(array('*'))
+			->addAttributeToSelect(array('name', 'entity_id'))
 			->addAttributeToFilter(array(array('attribute' => 'entity_id', 'in' => $entityIds)))
 			->load();
 	}
