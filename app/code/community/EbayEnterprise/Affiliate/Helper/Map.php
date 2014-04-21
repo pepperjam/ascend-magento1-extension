@@ -3,7 +3,7 @@
 class EbayEnterprise_Affiliate_Helper_Map
 {
 	/**
-	 * Get the program id using the store passed in params. Pass thru to the
+	 * Get the program id using the store passed in params. Pass through to the
 	 * config helper using the store included in the $params array as the store
 	 * context to get the config value from.
 	 * @param  array $params
