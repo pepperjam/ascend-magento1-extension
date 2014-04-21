@@ -1,5 +1,9 @@
 <?php
-
+/**
+ * The public methods of this class are all expected to be used as callbacks
+ * for building the Affiliate product feed.
+ * @see EbayEnterprise_Affiliate_Helper_Map
+ */
 class EbayEnterprise_Affiliate_Helper_Map_Product
 {
 	const MEDIA_PATH = 'catalog/product';
@@ -7,7 +11,10 @@ class EbayEnterprise_Affiliate_Helper_Map_Product
 	/**
 	 * Get a product first chained categories meaning that a product can be
 	 * long to many chained of categories. Chained of categories here mean that
-	 * a category root to it's inner most leaf child.
+	 * a category root to it's inner most leaf child. Expects "item" to be a
+	 * Mage_Catalog_Model_Product. If "format" is included in `$params`, it will
+	 * must be a valid format string and will be used to format the data returned
+	 * from this method.
 	 * @param  array $params
 	 * @return string
 	 */

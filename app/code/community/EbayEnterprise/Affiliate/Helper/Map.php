@@ -1,5 +1,23 @@
 <?php
-
+/**
+ * This class is composed of methods used as callbacks to the feed generation
+ * process. All methods accepting a generic `$params` argument are allowed to
+ * make the following assumptions about the contents of the array:
+ * 1. It will always include an "item" key with a value of the object
+ *    being prcessed.
+ * 2. It will always include a "store" key with a value of the store context
+ *    in which the feed is being processed.
+ * 3. Will contain additioanl key/value pairs set in the callback mappings
+ *    in config.xml
+ *
+ * Additional key/value pairs may be included but may not be guaranteed.
+ * If the methods make any additional assumptions about the contents of the
+ * `$params` array, they must be stated with the method. This should include
+ * any additional key/value pairs expected to be set in the config.xml.
+ *
+ * All such mapping methods are expected to return a single value that can be
+ * inserted directly into the resulting feed file.
+ */
 class EbayEnterprise_Affiliate_Helper_Map
 {
 	/**
@@ -14,12 +32,13 @@ class EbayEnterprise_Affiliate_Helper_Map
 		return Mage::helper('eems_affiliate/config')->getProgramId($params['store']);
 	}
 	/**
-	 * Get data from the "item" object in the params at the "key" in the params
-	 * array. Method is highly dependent upon the $params array meeting some base
-	 * requirements: $params["item"] is a Varien_Object subclass and
-	 * $params["key"] is set.
+	 * Get data for the key from the item. Expects "item" to be a Varien_Object,
+	 * "key" must be set. Additionally, if "format" is also included, it must
+	 * be a valid string format and will be used to format the data before it is
+	 * returned from this method.
 	 * @param  array $params
 	 * @return mixed
+	 * @throws Mage_Core_Exception If the value of the `item` key is not a Varien_Object or the `key` key/value pair is not set.
 	 */
 	public function getDataValue($params)
 	{
@@ -46,6 +65,7 @@ class EbayEnterprise_Affiliate_Helper_Map
 	 * Simply return the "value" included in the params.
 	 * @param  array $params
 	 * @return string
+	 * @throws Mage_Core_Exception If the `value` key/value pair is not set.
 	 */
 	public function passStatic($params)
 	{

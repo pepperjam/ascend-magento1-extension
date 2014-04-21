@@ -1,9 +1,15 @@
 <?php
-
+/**
+ * The public methods of this class are all expected to be used as callbacks
+ * for building the Affiliate corrected orders feeds.
+ * @see EbayEnterprise_Affiliate_Helper_Map
+ */
 class EbayEnterprise_Affiliate_Helper_Map_Order
 {
 	/**
-	 * Get the order increment id from the order the item was created for.
+	 * Get the order increment id from the order the item was created for. Expects
+	 * the "item" to be a Mage_Sales_Model_Order_Item and the "format" to be a
+	 * valid string format.
 	 * @param  array $params
 	 * @return string
 	 */
@@ -16,7 +22,7 @@ class EbayEnterprise_Affiliate_Helper_Map_Order
 	}
 	/**
 	 * Get the updated item quantity - original quantity less any refunded
-	 * or canceled
+	 * or canceled. Expects the "item" to be a Mage_Sales_Model_Order_Item.
 	 * @param  array $params
 	 * @return int
 	 */
@@ -27,7 +33,10 @@ class EbayEnterprise_Affiliate_Helper_Map_Order
 		return (int) ($item->getQtyOrdered() - $item->getQtyRefunded() - $item->getQtyCanceled());
 	}
 	/**
-	 * Get the corrected total for the row - price * corrected qty
+	 * Get the corrected total for the row - price * corrected qty. Expects the
+	 * "item" to be a Mage_Sales_Model_Order_Item, "format" to be a valid
+	 * format string and "store" to be a Mage_Core_Model_Store or otherwise viable
+	 * store identifier.
 	 * @param  array $params
 	 * @return string
 	 */
@@ -44,7 +53,9 @@ class EbayEnterprise_Affiliate_Helper_Map_Order
 		);
 	}
 	/**
-	 * Get the corrected amount of the order
+	 * Get the corrected amount of the order. Expects "item" to be a
+	 * Mage_Sales_Model_Order, "store" to be a Mage_Core_Model_Store or otherwise
+	 * valid store identifier, and "format" to be a valid format string.
 	 * @param  array $params
 	 * @return string
 	 */
@@ -62,7 +73,9 @@ class EbayEnterprise_Affiliate_Helper_Map_Order
 		);
 	}
 	/**
-	 * Get the transaction type configured for the store the order was caputred in
+	 * Get the transaction type configured for the store the order was received
+	 * in. Expects "store" to be a Mage_Core_Model_Store or otherwise valid
+	 * store identifier.
 	 * @param  array $params
 	 * @return int
 	 */
@@ -72,7 +85,8 @@ class EbayEnterprise_Affiliate_Helper_Map_Order
 	}
 	/**
 	 * Get the order item increment id. For orders that are the result of an edit,
-	 * get the increment id of the original order.
+	 * get the increment id of the original order. Expects "item" to be a
+	 * Mage_Sales_Model_Oorder and "format" to be a valid format string.
 	 * @param  array $params
 	 * @return string
 	 */
@@ -84,7 +98,11 @@ class EbayEnterprise_Affiliate_Helper_Map_Order
 		);
 	}
 	/**
-	 * Get the sku of the item with any unallowed characters in the sku removed.
+	 * Get the SKU of the item with any prohibited characters in the SKU removed.
+	 * Expects "format" to be a valid format string. As this method also passes
+	 * through to EbayEnterprise_Affiliate_Helper_Map::getDataValue, `$params`
+	 * must also adhere to the requirements of that method - "item" is a subclass
+	 * of Varien_Object, have a "key" value set.
 	 * @param  array $params
 	 * @return string
 	 */
