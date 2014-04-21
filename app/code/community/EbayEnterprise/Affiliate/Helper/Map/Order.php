@@ -83,4 +83,16 @@ class EbayEnterprise_Affiliate_Helper_Map_Order
 			$params['format'], $order->getOriginalIncrementId() ?: $order->getIncrementId()
 		);
 	}
+	/**
+	 * Get the sku of the item with any unallowed characters in the sku removed.
+	 * @param  array $params
+	 * @return string
+	 */
+	public function getItemId($params)
+	{
+		return sprintf(
+			$params['format'],
+			preg_replace('/[^a-zA-Z0-9\-_]/', '', Mage::helper('eems_affiliate/map')->getDataValue($params))
+		);
+	}
 }

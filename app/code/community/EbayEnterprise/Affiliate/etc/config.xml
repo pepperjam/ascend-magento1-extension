@@ -74,8 +74,8 @@
 							</params>
 						</item_order_id>
 						<item_id>
-							<class>eems_affiliate/map</class>
-							<method>getDataValue</method>
+							<class>eems_affiliate/map_order</class>
+							<method>getItemId</method>
 							<type>helper</type>
 							<column_name>ITEMID</column_name>
 							<params>
