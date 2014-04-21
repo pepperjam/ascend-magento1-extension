@@ -36,7 +36,7 @@ class EbayEnterprise_Affiliate_Helper_Data extends Mage_Core_Helper_Abstract
 	 * selected. When set at a website level, the default store view for that
 	 * website will be used.
 	 * @param  string $programId
-	 * @return Mage_Core_Model_Store
+	 * @return Mage_Core_Model_Store|null
 	 */
 	public function getStoreForProgramId($programId)
 	{
