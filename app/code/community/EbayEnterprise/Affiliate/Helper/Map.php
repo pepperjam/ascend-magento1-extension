@@ -58,7 +58,7 @@ class EbayEnterprise_Affiliate_Helper_Map
 		$helper = Mage::helper('core');
 		return sprintf(
 			isset($params['format']) ? $params['format'] : '%s',
-			$helper->stripTags($params['item']->getDataUsingMethod($params['key']))
+			preg_replace('/\s\s+/', ' ', $helper->stripTags($params['item']->getDataUsingMethod($params['key'])))
 		);
 	}
 	/**
