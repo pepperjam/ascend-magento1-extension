@@ -62,12 +62,11 @@ class EbayEnterprise_Affiliate_Block_Beacon extends Mage_Core_Block_Template
 	 */
 	public function getBeaconUrl()
 	{
-		Mage::log('getting beacon url');
 		$order = $this->_getOrder();
-		return ($order instanceof Mage_Sales_Model_Order)?
+		return ($order instanceof Mage_Sales_Model_Order) ?
 			Mage::helper('eems_affiliate')->buildBeaconUrl(
 				Mage::helper('eems_affiliate/config')->isItemizedOrders() ?
-					$this->_buildItemizedParams($order): $this->_buildBasicParams($order)
+					$this->_buildItemizedParams($order) : $this->_buildBasicParams($order)
 			) : null;
 	}
 	/**
