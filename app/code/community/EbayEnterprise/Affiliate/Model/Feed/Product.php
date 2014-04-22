@@ -10,6 +10,7 @@ class EbayEnterprise_Affiliate_Model_Feed_Product
 	protected function _getItems()
 	{
 		return Mage::getResourceModel('catalog/product_collection')
+			->setStore($this->getStore())
 			->addAttributeToSelect(array('*'))
 			->addStoreFilter($this->getStore())
 			->addFieldToFilter('status', Mage_Catalog_Model_Product_Status::STATUS_ENABLED);

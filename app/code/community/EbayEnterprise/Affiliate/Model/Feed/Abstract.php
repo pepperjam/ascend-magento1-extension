@@ -167,6 +167,7 @@ abstract class EbayEnterprise_Affiliate_Model_Feed_Abstract
 	{
 		$obj = $this->_getCallbackInstance($callbackConfig);
 		$params = isset($callbackConfig['params']) ? $callbackConfig['params'] : array();
+		$item->setStoreId($this->getStore()->getId());
 		$params['item'] = $item;
 		$params['store'] = $this->getStore();
 		$method = $callbackConfig['method'];

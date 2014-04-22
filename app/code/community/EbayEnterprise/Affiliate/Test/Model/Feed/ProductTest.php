@@ -13,8 +13,12 @@ class EbayEnterprise_Affiliate_Test_Model_Feed_ProductTest
 		$store = Mage::getModel('core/store');
 		$collection = $this->getResourceModelMockBuilder('catalog/product_collection')
 			->disableOriginalConstructor()
-			->setMethods(array('addAttributeToSelect', 'addStoreFilter', 'addFieldToFilter'))
+			->setMethods(array('setStore', 'addAttributeToSelect', 'addStoreFilter', 'addFieldToFilter'))
 			->getMock();
+		$collection->expects($this->once())
+			->method('setStore')
+			->with($this->identicalTo($store))
+			->will($this->returnSelf());
 		$collection->expects($this->once())
 			->method('addAttributeToSelect')
 			->with($this->identicalTo(array('*')))
