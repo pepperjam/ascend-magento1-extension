@@ -41,7 +41,6 @@ abstract class EbayEnterprise_Affiliate_Model_Feed_Order_Abstract
 	 */
 	protected function _getFileName()
 	{
-		$config = Mage::helper('eems_affiliate/config');
 		return sprintf(
 			$this->_getFileNameFormat(),
 			Mage::helper('eems_affiliate/config')->getProgramId($this->getStore()),
