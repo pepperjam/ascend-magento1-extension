@@ -13,16 +13,14 @@ class EbayEnterprise_Affiliate_Model_Observer
 		$helper = Mage::helper('eems_affiliate');
 		foreach ($helper->getAllProgramIds() as $programId) {
 			$store = $helper->getStoreForProgramId($programId);
-			if (!is_null($store)) {
-				Mage::log(
-					sprintf(static::PRODUCT_LOG_MESSAGE, $programId, $store->getName()),
-					Zend_Log::INFO
-				);
+			Mage::log(
+				sprintf(static::PRODUCT_LOG_MESSAGE, $programId, $store->getName()),
+				Zend_Log::INFO
+			);
 
-				Mage::getModel('eems_affiliate/feed_product', array(
-					'store' => $store
-				))->generateFeed();
-			}
+			Mage::getModel('eems_affiliate/feed_product', array(
+				'store' => $store
+			))->generateFeed();
 		}
 	}
 	/**
