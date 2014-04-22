@@ -104,4 +104,58 @@ class EbayEnterprise_Affiliate_Test_Helper_Map_ProductTest
 
 		$this->assertSame($qty, Mage::helper('eems_affiliate/map_product')->getInStockQty($params));
 	}
+	/**
+	 * Test that EbayEnterprise_Affiliate_Helper_Map_Product::_getCategoriesByIds
+	 * will be invoked by this test passing an array of category entity ids
+	 * and will return a Mage_Catalog_Model_Resource_Category_Collection
+	 * @test
+	 */
+	public function testGetCategoriesByIds()
+	{
+		$entityIds = array(1,2,3);
+		$collection = $this->getResourceModelMockBuilder('catalog/category_collection')
+			->disableOriginalConstructor()
+			->setMethods(array('addAttributeToSelect', 'addAttributeToFilter', 'load'))
+			->getMock();
+		$collection->expects($this->once())
+			->method('addAttributeToSelect')
+			->with($this->identicalTo(array('*')))
+			->will($this->returnSelf());
+		$collection->expects($this->once())
+			->method('addAttributeToFilter')
+			->with($this->identicalTo(array(array('attribute' => 'entity_id', 'in' => $entityIds))))
+			->will($this->returnSelf());
+		$collection->expects($this->once())
+			->method('load')
+			->will($this->returnSelf());
+		$this->replaceByMock('resource_model', 'catalog/category_collection', $collection);
+
+		$mapProduct = $this->getHelperMock('eems_affiliate/map_product', array());
+
+		$this->assertSame($collection, EcomDev_Utils_Reflection::invokeRestrictedMethod(
+			$mapProduct, '_getCategoriesByIds', array($entityIds)
+		));
+	}
+	/**
+	 * Test that EbayEnterprise_Affiliate_Helper_Map_Product::getInStockYesNo will
+	 * be called by this test passing an array with key item map to a
+	 * Mage_Catalog_Model_Product object and expects it to return the string value 'yes'.
+	 * @test
+	 */
+	public function testGetInStockYesNo()
+	{
+		$result = 'yes';
+		$isInStock = '1';
+		$params = array('item' => Mage::getModel('catalog/product'));
+
+		$stockItem = $this->getModelMock('cataloginventory/stock_item', array('loadByProduct'));
+		$stockItem->expects($this->once())
+			->method('loadByProduct')
+			->with($this->identicalTo($params['item']))
+			->will($this->returnSelf());
+		$stockItem->setIsInstock($isInStock);
+		$this->replaceByMock('model', 'cataloginventory/stock_item', $stockItem);
+
+		$this->assertSame($result, Mage::helper('eems_affiliate/map_product')->getInStockYesNo($params));
+	}
 }

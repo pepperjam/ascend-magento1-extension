@@ -158,4 +158,57 @@ class EbayEnterprise_Affiliate_Test_Block_BeaconTest
 
 		$this->assertSame($beaconUrl, $block->getBeaconUrl());
 	}
+	/**
+	 * Test that EbayEnterprise_Affiliate_Block_Beacon::_getOrder will be invoked
+	 * by this test and expect it to return Mage_Sales_Model_Order object
+	 * @test
+	 */
+	public function testGetOrder()
+	{
+		$orderId = '00000084848';
+		$session = $this->getModelMockBuilder('checkout/session')
+			->disableOriginalConstructor()
+			->setMethods(null)
+			->getMock();
+		$session->setLastOrderId($orderId);
+		$this->replaceByMock('singleton', 'checkout/session', $session);
+
+		$order = $this->getModelMock('sales/order', array('load'));
+		$order->expects($this->once())
+			->method('load')
+			->with($this->identicalTo($orderId))
+			->will($this->returnSelf());
+		$this->replaceByMock('model', 'sales/order', $order);
+
+		$beacon = $this->getBlockMock('eems_affiliate/beacon', array());
+		EcomDev_Utils_Reflection::setRestrictedPropertyValue($beacon, '_order', null);
+
+		$this->assertSame($order, EcomDev_Utils_Reflection::invokeRestrictedMethod(
+			$beacon, '_getOrder', array()
+		));
+	}
+	/**
+	 * Test that EbayEnterprise_Affiliate_Block_Beacon::showBeacon will return true
+	 * when invoke by this test.
+	 * @test
+	 */
+	public function testShowBeacon()
+	{
+		$result = true;
+		$isEnabled = true;
+		$order = Mage::getModel('sales/order');
+
+		$configHelper = $this->getHelperMock('eems_affiliate/config', array('isEnabled'));
+		$configHelper->expects($this->once())
+			->method('isEnabled')
+			->will($this->returnValue($isEnabled));
+		$this->replaceByMock('helper', 'eems_affiliate/config', $configHelper);
+
+		$beacon = $this->getBlockMock('eems_affiliate/beacon', array('_getOrder'));
+		$beacon->expects($this->once())
+			->method('_getOrder')
+			->will($this->returnValue($order));
+
+		$this->assertSame($result, $beacon->showBeacon());
+	}
 }
