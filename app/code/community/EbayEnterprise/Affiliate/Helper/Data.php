@@ -21,12 +21,12 @@ class EbayEnterprise_Affiliate_Helper_Data extends Mage_Core_Helper_Abstract
 	public function getAllProgramIds()
 	{
 		$config = Mage::helper('eems_affiliate/config');
-		return array_unique(array_map(
+		return array_unique(array_filter(array_map(
 			function ($website) use ($config) {
 				return $config->getProgramId($website->getDefaultStore());
 			},
 			Mage::app()->getWebsites()
-		));
+		)));
 	}
 	/**
 	 * Get a single store view for a program id. As program ids are configured
