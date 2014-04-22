@@ -3,7 +3,7 @@
 class EbayEnterprise_Affiliate_Model_System_Config_Source_Stockyesno
 {
 	const IN_STOCK_VALUE = 'in_stock';
-	const IN_STOCK_LABEL = 'Manage Stock';
+	const IN_STOCK_LABEL = 'Inventory Stock Availability';
 	/**
 	 * Get in stock list
 	 * @return array

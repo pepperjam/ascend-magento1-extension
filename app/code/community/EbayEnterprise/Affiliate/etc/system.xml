@@ -145,8 +145,9 @@
 						</binding>
 						<buy_url translate="label">
 							<label>buy_url</label>
-							<comment>Destination URL</comment>
+							<comment>Destination URL (Required)</comment>
 							<frontend_type>select</frontend_type>
+							<validate>required-entry</validate>
 							<source_model>eems_affiliate/system_config_source_attributes</source_model>
 							<sort_order>7</sort_order>
 							<show_in_default>1</show_in_default>
@@ -157,7 +158,7 @@
 							<label>category_network</label>
 							<comment>eBay Enterprise Affiliate Network specific category (sub categories optionally delimited by '>')</comment>
 							<frontend_type>select</frontend_type>
-							<source_model>eems_affiliate/system_config_source_categories</source_model>
+							<source_model>eems_affiliate/system_config_source_attributes</source_model>
 							<sort_order>8</sort_order>
 							<show_in_default>1</show_in_default>
 							<show_in_website>0</show_in_website>
@@ -165,7 +166,7 @@
 						</category_network>
 						<category_program translate="label">
 							<label>category_program</label>
-							<comment>Merchant specific category (sub categories optionally delimited by '>')</comment>
+							<comment>Merchant specific category (sub categories optionally delimited by '>') (Recommended)</comment>
 							<frontend_type>select</frontend_type>
 							<source_model>eems_affiliate/system_config_source_categories</source_model>
 							<sort_order>9</sort_order>
@@ -195,7 +196,7 @@
 						</color_output>
 						<condition translate="label">
 							<label>condition</label>
-							<comment>Condition</comment>
+							<comment>Condition (Recommended)</comment>
 							<frontend_type>select</frontend_type>
 							<source_model>eems_affiliate/system_config_source_attributes</source_model>
 							<sort_order>12</sort_order>
@@ -205,8 +206,9 @@
 						</condition>
 						<description_long translate="label">
 							<label>description_long</label>
-							<comment>Long description</comment>
+							<comment>Long description (Required)</comment>
 							<frontend_type>select</frontend_type>
+							<validate>required-entry</validate>
 							<source_model>eems_affiliate/system_config_source_attributes</source_model>
 							<sort_order>13</sort_order>
 							<show_in_default>1</show_in_default>
@@ -237,7 +239,7 @@
 							<label>discontinued</label>
 							<comment>Whether product is discontinued or not</comment>
 							<frontend_type>select</frontend_type>
-							<source_model>eems_affiliate/system_config_source_visibilityyesno</source_model>
+							<source_model>eems_affiliate/system_config_source_attributes</source_model>
 							<sort_order>16</sort_order>
 							<show_in_default>1</show_in_default>
 							<show_in_website>0</show_in_website>
@@ -345,7 +347,7 @@
 						</height>
 						<image_thumb_url translate="label">
 							<label>image_thumb_url</label>
-							<comment>Thumbnail image URL</comment>
+							<comment>Thumbnail image URL (Recommended)</comment>
 							<frontend_type>select</frontend_type>
 							<source_model>eems_affiliate/system_config_source_attributes</source_model>
 							<sort_order>27</sort_order>
@@ -355,8 +357,9 @@
 						</image_thumb_url>
 						<image_url translate="label">
 							<label>image_url</label>
-							<comment>Standard image URL</comment>
+							<comment>Standard image URL (Required)</comment>
 							<frontend_type>select</frontend_type>
+							<validate>required-entry</validate>
 							<source_model>eems_affiliate/system_config_source_attributes</source_model>
 							<sort_order>28</sort_order>
 							<show_in_default>1</show_in_default>
@@ -395,7 +398,7 @@
 						</isbn>
 						<keywords translate="label">
 							<label>keywords</label>
-							<comment>Space separated list of keywords</comment>
+							<comment>Space separated list of keywords (Recommended)</comment>
 							<frontend_type>select</frontend_type>
 							<source_model>eems_affiliate/system_config_source_attributes</source_model>
 							<sort_order>32</sort_order>
@@ -445,7 +448,7 @@
 						</made_in>
 						<manufacturer translate="label">
 							<label>manufacturer</label>
-							<comment>Manufacturer or brand</comment>
+							<comment>Manufacturer or brand (Recommended)</comment>
 							<frontend_type>select</frontend_type>
 							<source_model>eems_affiliate/system_config_source_attributes</source_model>
 							<sort_order>37</sort_order>
@@ -525,8 +528,9 @@
 						</mpn>
 						<name translate="label">
 							<label>name</label>
-							<comment>Name or title</comment>
+							<comment>Name or title (Required)</comment>
 							<frontend_type>select</frontend_type>
+							<validate>required-entry</validate>
 							<source_model>eems_affiliate/system_config_source_attributes</source_model>
 							<sort_order>45</sort_order>
 							<show_in_default>1</show_in_default>
@@ -554,7 +558,7 @@
 							<show_in_store>0</show_in_store>
 						</operating_system>
 						<optical_drive translate="label">
-							<label>featoptical_driveures</label>
+							<label>optical_drive</label>
 							<comment>Optical drive type</comment>
 							<frontend_type>select</frontend_type>
 							<source_model>eems_affiliate/system_config_source_attributes</source_model>
@@ -605,8 +609,9 @@
 						</platform>
 						<price translate="label">
 							<label>price</label>
-							<comment>Selling price</comment>
+							<comment>Selling price (Required)</comment>
 							<frontend_type>select</frontend_type>
+							<validate>required-entry</validate>
 							<source_model>eems_affiliate/system_config_source_attributes</source_model>
 							<sort_order>53</sort_order>
 							<show_in_default>1</show_in_default>
@@ -755,7 +760,7 @@
 						</size>
 						<sku translate="label">
 							<label>sku</label>
-							<comment>Stock keeping unit</comment>
+							<comment>Stock keeping unit (Recommended)</comment>
 							<frontend_type>select</frontend_type>
 							<source_model>eems_affiliate/system_config_source_attributes</source_model>
 							<sort_order>68</sort_order>
@@ -805,7 +810,7 @@
 						</tracks>
 						<upc translate="label">
 							<label>upc</label>
-							<comment>Universal product code</comment>
+							<comment>Universal product code (Recommended)</comment>
 							<frontend_type>select</frontend_type>
 							<source_model>eems_affiliate/system_config_source_attributes</source_model>
 							<sort_order>73</sort_order>
