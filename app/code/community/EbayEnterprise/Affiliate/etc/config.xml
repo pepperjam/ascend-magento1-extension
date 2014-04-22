@@ -2,7 +2,7 @@
 <config>
 	<modules>
 		<EbayEnterprise_Affiliate>
-			<version>1.0.0.0</version>
+			<version>1.0.0.1</version>
 		</EbayEnterprise_Affiliate>
 	</modules>
 	<global>
@@ -21,6 +21,14 @@
 				<class>EbayEnterprise_Affiliate_Block</class>
 			</eems_affiliate>
 		</blocks>
+		<resources>
+			<eems_affiliate_setup>
+				<setup>
+					<module>EbayEnterprise_Affiliate</module>
+					<class>Mage_Sales_Model_Resource_Setup</class>
+				</setup>
+			</eems_affiliate_setup>
+		</resources>
 	</global>
 	<crontab>
 		<jobs>
