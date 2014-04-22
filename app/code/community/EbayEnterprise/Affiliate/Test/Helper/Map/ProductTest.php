@@ -119,7 +119,7 @@ class EbayEnterprise_Affiliate_Test_Helper_Map_ProductTest
 			->getMock();
 		$collection->expects($this->once())
 			->method('addAttributeToSelect')
-			->with($this->identicalTo(array('*')))
+			->with($this->identicalTo(array('name', 'entity_id')))
 			->will($this->returnSelf());
 		$collection->expects($this->once())
 			->method('addAttributeToFilter')
