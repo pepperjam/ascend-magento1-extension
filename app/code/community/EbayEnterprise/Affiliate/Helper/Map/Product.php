@@ -58,11 +58,11 @@ class EbayEnterprise_Affiliate_Helper_Map_Product
 	 * get a product image view URL
 	 * Note: calling Mage_Catalog_Model_Product::getImageUrl, or getThumbnailUrl
 	 *       will return the wrong URL when running the feed via CRONJOB will return
-	 *       to some similar to this:
+	 *       to something similar to this:
 	 *       (http://<host>/skin/frontend/default/default/images/catalog/product/placeholder/image.jpg)
-	 *       so this method will try to extrapolate as best it can the absolute path
+	 *       so this method will try to extrapolate as best it can the absolute path of
 	 *       the image by calling getImage or getThumbnail which will give the
-	 *       a relative path to the image in which we passed to a specialize method try to
+	 *       a relative path to the image in which we passed to a specialize method to try
 	 *       to build the absolute URL path to the image
 	 * @param  array $params
 	 * @return string
@@ -114,18 +114,6 @@ class EbayEnterprise_Affiliate_Helper_Map_Product
 			Mage::getModel('cataloginventory/stock_item')
 				->loadByProduct($params['item'])
 				->getIsInStock()
-		);
-	}
-	/**
-	 * check if a product color attribute has value then return 'yes' otherwise
-	 * return 'no'
-	 * @param  array $params
-	 * @return string
-	 */
-	public function getColorValueYesNo(array $params)
-	{
-		return Mage::helper('eems_affiliate')->parseBoolToYesNo(
-			(trim($params['item']->getDataUsingMethod($params['key'])) !== '')
 		);
 	}
 }

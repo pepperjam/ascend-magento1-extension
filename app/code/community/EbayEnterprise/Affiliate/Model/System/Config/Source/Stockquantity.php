@@ -2,16 +2,20 @@
 
 class EbayEnterprise_Affiliate_Model_System_Config_Source_Stockquantity
 {
+	const STOCK_QTY_VALUE = 'qty';
+	const STOCK_QTY_LABEL = 'Qty';
 	/**
 	 * Get quantity in stock list
 	 * @return array
 	 */
 	public function toOptionArray()
 	{
-		$helper = Mage::helper('eems_affiliate');
 		return array(
 			array('value' => '', 'label' => ''),
-			array('value' => 'qty', 'label' => $helper->__('Qty'))
+			array(
+				'value' => static::STOCK_QTY_VALUE,
+				'label' => Mage::helper('catalog')->__(static::STOCK_QTY_LABEL)
+			)
 		);
 	}
 }

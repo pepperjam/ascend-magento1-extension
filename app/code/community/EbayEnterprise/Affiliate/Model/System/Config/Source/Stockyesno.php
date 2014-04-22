@@ -2,16 +2,20 @@
 
 class EbayEnterprise_Affiliate_Model_System_Config_Source_Stockyesno
 {
+	const IN_STOCK_VALUE = 'in_stock';
+	const IN_STOCK_LABEL = 'Manage Stock';
 	/**
 	 * Get in stock list
 	 * @return array
 	 */
 	public function toOptionArray()
 	{
-		$helper = Mage::helper('eems_affiliate');
 		return array(
 			array('value' => '', 'label' => ''),
-			array('value' => 'in_stock', 'label' => $helper->__('Yes/no'))
+			array(
+				'value' => static::IN_STOCK_VALUE,
+				'label' => Mage::helper('catalog')->__(static::IN_STOCK_LABEL)
+			)
 		);
 	}
 }

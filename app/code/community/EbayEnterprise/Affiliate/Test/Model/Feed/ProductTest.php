@@ -98,4 +98,49 @@ class EbayEnterprise_Affiliate_Test_Model_Feed_ProductTest
 			$feedProduct, '_getFileName', array()
 		));
 	}
+	/**
+	 * Test that EbayEnterprise_Affiliate_Model_Feed_Product::_applyMapping will
+	 * be invoked with a Mage_Catalog_Model_Product object passed as its parameter
+	 * and it will generate an array of callback result from configuration
+	 * @test
+	 */
+	public function testApplyMapping()
+	{
+		$result = 'some value';
+		$fields = array('field_1' => 'code_1');
+		$mappings = array(
+			'field_1' => array(
+				'params' => array(),
+				'column_name' => 'field_1',
+				'type' => 'helper'
+			),
+		);
+		$callback = $mappings['field_1'];
+		$callback['params']['key'] = $fields['field_1'];
+
+		$item = Mage::getModel('catalog/product');
+
+		$callbackResult = array($result);
+
+		$configHelper = $this->getHelperMock('eems_affiliate/config', array(
+			'getCallbackMappings', 'getProductFeedFields'
+		));
+		$configHelper->expects($this->any())
+			->method('getCallbackMappings')
+			->will($this->returnValue($mappings));
+		$configHelper->expects($this->any())
+			->method('getProductFeedFields')
+			->will($this->returnValue($fields));
+		$this->replaceByMock('helper', 'eems_affiliate/config', $configHelper);
+
+		$feedProduct = $this->getModelMock('eems_affiliate/feed_product', array('_invokeCallBack'));
+		$feedProduct->expects($this->once())
+			->method('_invokeCallBack')
+			->with($this->identicalTo($callback), $this->identicalTo($item))
+			->will($this->returnValue($result));
+
+		$this->assertSame($callbackResult, EcomDev_Utils_Reflection::invokeRestrictedMethod(
+			$feedProduct, '_applyMapping', array($item)
+		));
+	}
 }

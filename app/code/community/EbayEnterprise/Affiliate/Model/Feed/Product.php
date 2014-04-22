@@ -22,11 +22,12 @@ class EbayEnterprise_Affiliate_Model_Feed_Product
 	 */
 	protected function _getFeedFields()
 	{
-		$callbackMap = Mage::helper('eems_affiliate/config')->getCallbackMappings();
+		$store = $this->getStore();
+		$callbackMap = Mage::helper('eems_affiliate/config')->getCallbackMappings($store);
 		return array_filter(array_map(function($key) use ($callbackMap) {
 				return isset($callbackMap[$key])? $callbackMap[$key]['column_name'] : null;
 			} ,
-			array_keys(array_filter(Mage::helper('eems_affiliate/config')->getProductFeedFields()))
+			array_keys(Mage::helper('eems_affiliate/config')->getProductFeedFields($store))
 		));
 	}
 	/**
@@ -37,8 +38,10 @@ class EbayEnterprise_Affiliate_Model_Feed_Product
 	protected function _applyMapping($item)
 	{
 		$fields = array();
-		$mappings = Mage::helper('eems_affiliate/config')->getCallbackMappings();
-		$columns = array_filter(Mage::helper('eems_affiliate/config')->getProductFeedFields());
+		$helper = Mage::helper('eems_affiliate/config');
+		$store = $this->getStore();
+		$mappings = $helper->getCallbackMappings($store);
+		$columns = $helper->getProductFeedFields($store);
 		foreach ($this->_getFeedFields() as $feedField) {
 			// If the mapping doesn't exist, supplying an empty array will eventually
 			// result in an exception for being an invalid config mapping.
@@ -60,9 +63,10 @@ class EbayEnterprise_Affiliate_Model_Feed_Product
 	protected function _getFileName()
 	{
 		$config = Mage::helper('eems_affiliate/config');
+		$store = $this->getStore();
 		return sprintf(
-			$config->getProductFeedFilenameFormat(),
-			$config->getProgramId($this->getStore())
+			$config->getProductFeedFilenameFormat($store),
+			$config->getProgramId($this->getStore($store))
 		);
 	}
 	/**

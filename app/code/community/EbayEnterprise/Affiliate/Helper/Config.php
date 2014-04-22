@@ -102,7 +102,7 @@ class EbayEnterprise_Affiliate_Helper_Config
 	 */
 	public function getProductFeedFields($store=null)
 	{
-		return Mage::getStoreConfig(static::PRODUCT_FEED_MAPPING_PATH, $store);
+		return array_filter(Mage::getStoreConfig(static::PRODUCT_FEED_MAPPING_PATH, $store));
 	}
 	/**
 	 * Get the configured product feed file name format

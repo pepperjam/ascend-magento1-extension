@@ -2,16 +2,20 @@
 
 class EbayEnterprise_Affiliate_Model_System_Config_Source_Categories
 {
+	const CATEGORY_VALUE = 'category';
+	const CATEGORY_LABEL = 'Product Categories';
 	/**
 	 * Get category attributes
 	 * @return array
 	 */
 	public function toOptionArray()
 	{
-		$helper = Mage::helper('eems_affiliate');
 		return array(
 			array('value' => '', 'label' => ''),
-			array('value' => 'category', 'label' => $helper->__('Category'))
+			array(
+				'value' => static::CATEGORY_VALUE,
+				'label' => Mage::helper('catalog')->__(static::CATEGORY_LABEL)
+			)
 		);
 	}
 }

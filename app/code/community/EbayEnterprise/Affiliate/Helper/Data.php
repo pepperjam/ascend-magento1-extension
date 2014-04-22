@@ -83,6 +83,6 @@ class EbayEnterprise_Affiliate_Helper_Data extends Mage_Core_Helper_Abstract
 	 */
 	public function parseBoolToYesNo($value)
 	{
-		return $value? 'yes' : 'no';
+		return $value?'yes':'no';
 	}
 }

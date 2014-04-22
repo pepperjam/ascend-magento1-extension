@@ -214,8 +214,8 @@
 							</params>
 						</color>
 						<color_output>
-							<class>eems_affiliate/map_product</class>
-							<method>getColorValueYesNo</method>
+							<class>eems_affiliate/map</class>
+							<method>getValueYesNo</method>
 							<type>helper</type>
 							<column_name>color_output</column_name>
 							<params>
@@ -840,6 +840,14 @@
 				</feeds>
 			</eems_affiliate>
 			<eems_affiliate_product_attribute_map>
+				<!--
+				The purpose of this mapping is enabled the coexistence of both
+				pre-configured product attributes mapping and configured attributes
+				mapping for the affiliate product feed. This means that when this
+				module is installed and no other attribute is configured for the
+				product feed the required pre-mapped attributes will be sufficient
+				enough to generate a valid product feed.
+				-->
 				<age_range/>
 				<artist/>
 				<aspect_ratio/>
