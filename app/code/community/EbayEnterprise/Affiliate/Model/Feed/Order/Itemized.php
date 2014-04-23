@@ -28,7 +28,7 @@ class EbayEnterprise_Affiliate_Model_Feed_Order_Itemized
 			// this is far more pure SQL than should be here but I don't see a way to
 			// get the proper groupings of where clauses without doing this
 			->where(
-				'main_table.store_id IN (?)', $storeIds
+				'main_table.store_id IN (?) AND main_table.parent_item_id IS NULL', $storeIds
 			)
 			->where(
 				"(o.original_increment_id IS NOT NULL AND o.created_at >= :lastRunTime AND o.created_at < :startTime) OR " .
