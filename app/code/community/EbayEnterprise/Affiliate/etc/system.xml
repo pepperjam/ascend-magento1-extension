@@ -19,7 +19,7 @@
 			<groups>
 				<eems_affiliate translate="label comment">
 					<label>Affiliate</label>
-					<comment>eBay Enterprise will provide these values</comment>
+					<comment><![CDATA[Your program ID and other information can be found within your EEAN advertiser account. Don’t have an account yet? <a href='https://www.pepperjamnetwork.com/register/basic' target='_pjregister'>Register</a> for one today!]]></comment>
 					<frontend_type>text</frontend_type>
 					<sort_order>100</sort_order>
 					<show_in_default>1</show_in_default>
