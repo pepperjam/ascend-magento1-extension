@@ -92,7 +92,7 @@ class EbayEnterprise_Affiliate_Block_Beacon extends Mage_Core_Block_Template
 	protected function _buildBasicParams(Mage_Sales_Model_Order $order)
 	{
 		return array_merge($this->_buildCommonParams($order), array(
-			static::KEY_AMOUNT => round($order->getSubtotal(), 2),
+			static::KEY_AMOUNT => number_format($order->getSubtotal() + $order->getDiscountAmount() + $order->getShippingDiscountAmount(), 2, '.', ''),
 			static::KEY_TYPE => Mage::helper('eems_affiliate/config')->getTransactionType()
 		));
 	}
@@ -105,21 +105,31 @@ class EbayEnterprise_Affiliate_Block_Beacon extends Mage_Core_Block_Template
 	{
 		$params = array(static::KEY_INT => Mage::helper('eems_affiliate/config')->getInt());
 		$increment = 1; // incrementer for the unique item keys
-		foreach ($order->getAllVisibleItems() as $item) {
+		foreach ($order->getAllItems() as $item) {
+			// need to ignore the bundle parent as it will contain collected total
+			// for children but not discounts
 			$position = $this->_getDupePosition($params, $item);
-			$quantity = (int) $item->getQtyOrdered();
-			$total = round($item->getRowTotal(), 2);
+			// ignore the parent configurable quantity - quantity of config products
+			// will come from the simple used product with the same SKU
+			$quantity = $item->getProductType() === Mage_Catalog_Model_Product_Type::TYPE_CONFIGURABLE ?
+				0 : (int) $item->getQtyOrdered();
+			// consider parent bundle products to be 0.00 total - total of the bundle
+			// is the sum of all child products which are also included in the beacon
+			// so including both totals would effectively double the price of the bundle
+			$total = $item->getProductType() === Mage_Catalog_Model_Product_Type::TYPE_BUNDLE ?
+				0.00 : $item->getRowTotal() - $item->getDiscountAmount();
 			if ($position) {
 				// we detected that the current item already exist in the params array
 				// and have the key increment position let's simply adjust
 				// the qty and total amount
 				$params[static::KEY_QTY . $position] += $quantity;
-				$params[static::KEY_TOTALAMOUNT . $position] += $total;
+				$amtKey = static::KEY_TOTALAMOUNT . $position;
+				$params[$amtKey] = number_format($params[$amtKey] + $total, 2, '.', '');
 			} else {
 				$params = array_merge($params, array(
 					static::KEY_ITEM . $increment => $item->getSku(),
 					static::KEY_QTY . $increment => $quantity,
-					static::KEY_TOTALAMOUNT . $increment => $total
+					static::KEY_TOTALAMOUNT . $increment => number_format($total, 2, '.', ''),
 				));
 				$increment++; // only get incremented when a unique key have been appended
 			}

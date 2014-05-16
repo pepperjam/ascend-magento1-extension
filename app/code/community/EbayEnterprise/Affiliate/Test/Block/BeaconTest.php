@@ -33,7 +33,8 @@ class EbayEnterprise_Affiliate_Test_Block_BeaconTest
 	public function testGetBeaconUrlBasic()
 	{
 		$orderId = '000012';
-		$subtotal = 10.99;
+		$subtotal = '10.99';
+		$discount = '-5.00';
 		$couponCode = 'COUPON';
 		$programId = 'PROGRAM ID';
 		$transactionType = 'TRANS TYPE';
@@ -42,14 +43,15 @@ class EbayEnterprise_Affiliate_Test_Block_BeaconTest
 			'PID' => $programId,
 			'OID' => $orderId,
 			'PROMOCODE' => $couponCode,
-			'AMOUNT' => $subtotal,
+			'AMOUNT' => '5.99',
 			'TYPE' => $transactionType
 		);
 		$beaconUrl = 'https://example.com/track';
 		$order = Mage::getModel('sales/order', array(
 			'increment_id' => $orderId,
 			'subtotal' => $subtotal,
-			'coupon_code' => $couponCode
+			'coupon_code' => $couponCode,
+			'discount_amount' => $discount,
 		));
 		// mock out the config helper to setup expected system configurations
 		$this->replaceByMock(
@@ -87,9 +89,11 @@ class EbayEnterprise_Affiliate_Test_Block_BeaconTest
 		$altSku = 'sku-54321';
 		$itemQty = 2;
 		$altQty = 3;
-		$itemAmt = 12.34;
-		$altAmt = 10.67;
-
+		$itemAmt = '12.34';
+		$altAmt = '10.67';
+		$discountAmt = '5.00';
+		$bundleSku = 'bundle-sku-made-up-of-child-skus';
+		$bundleQty = 1;
 		// This is the expected final output from the method - gets returned from
 		// the eems_affiliate/data helper when called with the right params.
 		$beaconUrl = 'https://example.com/track?PARAM=Value';
@@ -103,39 +107,48 @@ class EbayEnterprise_Affiliate_Test_Block_BeaconTest
 			'INT' => 'ITEMIZED',
 			'ITEM1' => $itemSku,
 			'QTY1' => $itemQty * 2,
-			'TOTALAMOUNT1' => $itemAmt * 2,
+			'TOTALAMOUNT1' => number_format(($itemAmt - $discountAmt) * 2, 2),
 			'ITEM2' => $altSku,
 			'QTY2' => $altQty,
-			'TOTALAMOUNT2' => $altAmt
+			'TOTALAMOUNT2' => $altAmt,
+			'ITEM3' => $bundleSku,
+			'QTY3' => $bundleQty,
+			'TOTALAMOUNT3' => '0.00',
 		);
 
-		// setup some items and an order containing the items
 		$item = Mage::getModel('sales/order_item', array(
 			'sku' => $itemSku, 'qty_ordered' => $itemQty, 'row_total' => $itemAmt,
-			'parent_item_id' => null,
+			'parent_item_id' => null, 'discount_amount' => $discountAmt,
+			'product_type' => 'simple',
 		));
-		// this item should be merged with the preceding item with the same sku
 		$itemDupe = Mage::getModel('sales/order_item', array(
 			'sku' => $itemSku, 'qty_ordered' => $itemQty, 'row_total' => $itemAmt,
-			'parent_item_id' => null,
+			'parent_item_id' => null, 'discount_amount' => $discountAmt,
+			'product_type' => 'simple',
 		));
-		// parent item should be excluded
 		$parentItem = Mage::getModel('sales/order_item', array(
-			'sku' => 'some-other-sku', 'qty_ordered' => 1, 'row_total' => 12.00,
-			'parent_item_id' => '23',
-		));
-		// this item should also be included
-		$altItem = Mage::getModel('sales/order_item', array(
 			'sku' => $altSku, 'qty_ordered' => $altQty, 'row_total' => $altAmt,
-			'parent_item_id' => null,
+			'parent_item_id' => null, 'discount_amount' => 0.00,
+			'product_type' => 'configurable',
+		));
+		$altItem = Mage::getModel('sales/order_item', array(
+			'sku' => $altSku, 'qty_ordered' => $altQty, 'row_total' => 0.00,
+			'parent_item_id' => '2', 'discount_amount' => 0.00,
+			'product_type' => 'simple',
+		));
+		$bundleItem = Mage::getModel('sales/order_item', array(
+			'sku' => $bundleSku, 'qty_ordered' => $bundleQty, 'row_total' => '500.00',
+			'parent_item_id' => null, 'discount_amount' => 0.00,
+			'product_type' => 'bundle',
 		));
 		$order = Mage::getModel('sales/order', array(
-			'increment_id' => $orderId, 'coupon_code' => $couponCode
+			'increment_id' => $orderId, 'coupon_code' => $couponCode,
 		));
 		$order->addItem($item);
 		$order->addItem($itemDupe);
 		$order->addItem($parentItem);
 		$order->addItem($altItem);
+		$order->addItem($bundleItem);
 
 		// mock out the config helper to setup expected system configurations
 		$this->replaceByMock(

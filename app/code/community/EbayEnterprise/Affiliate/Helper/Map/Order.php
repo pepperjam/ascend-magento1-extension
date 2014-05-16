@@ -33,6 +33,25 @@ class EbayEnterprise_Affiliate_Helper_Map_Order
 		return (int) ($item->getQtyOrdered() - $item->getQtyRefunded() - $item->getQtyCanceled());
 	}
 	/**
+	 * Calculate a row total including discounts.
+	 * @param  array $params
+	 * @return float
+	 */
+	private function _calculateDiscountedRowTotal($params)
+	{
+		$item = $params['item'];
+		// tread bundle items as 0.00 total as their total will be represented by
+		// the total of their children products
+		if ($item->getProductType() === Mage_Catalog_Model_Product_Type::TYPE_BUNDLE) {
+			return 0.00;
+		}
+		// don't allow negative amounts - could happen if a discounted item was cancelled
+		return max(
+			0,
+			$item->getBasePrice() * $this->getItemQuantity($params) - ($item->getBaseDiscountAmount() - $item->getbaseDiscountRefunded())
+		);
+	}
+	/**
 	 * Get the corrected total for the row - price * corrected qty. Expects the
 	 * "item" to be a Mage_Sales_Model_Order_Item, "format" to be a valid
 	 * format string and "store" to be a Mage_Core_Model_Store or otherwise viable
@@ -49,7 +68,7 @@ class EbayEnterprise_Affiliate_Helper_Map_Order
 		}
 		return sprintf(
 			$params['format'],
-			$params['item']->getBasePrice() * $this->getItemQuantity($params)
+			$this->_calculateDiscountedRowTotal($params)
 		);
 	}
 	/**
@@ -69,7 +88,13 @@ class EbayEnterprise_Affiliate_Helper_Map_Order
 		$order = $params['item'];
 		return sprintf(
 			$params['format'],
-			$order->getBaseSubtotal() - $order->getBaseSubtotalRefunded() - $order->getBaseSubtotalCanceled()
+			// prevent sub-zero amounts for canceled orders with discounts
+			max(
+				0,
+				($order->getBaseSubtotal() + $order->getBaseDiscountAmount()) -
+				($order->getBaseSubtotalRefunded() + $order->getBaseDiscountRefunded()) -
+				($order->getBaseSubtotalCanceled() + $order->getBaseDiscountCanceled())
+			)
 		);
 	}
 	/**
