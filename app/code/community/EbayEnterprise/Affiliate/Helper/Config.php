@@ -38,6 +38,8 @@ class EbayEnterprise_Affiliate_Helper_Config
     const JS_FILES = 'marketing_solutions/eems_affiliate/js_files';
     const CONDITIONAL_PIXEL_ENABLED = 'marketing_solutions/eems_affiliate/conditional_pixel_enabled';
     const SOURCE_KEY_NAME = 'marketing_solutions/eems_affiliate/source_key_name';
+    const PRODUCT_FEED_ENABLED = 'marketing_solutions/eems_affiliate/product_feed_enabled';
+    const ORDER_FEED_ENABLED = 'marketing_solutions/eems_affiliate/order_feed_enabled';
     const TRANSACTION_TYPE_SALE = '1';
     const TRANSACTION_TYPE_LEAD = '2';
 
@@ -213,5 +215,27 @@ class EbayEnterprise_Affiliate_Helper_Config
     public function getSourceKeyName($store = null)
     {
         return Mage::getStoreConfig(self::SOURCE_KEY_NAME, $store);
+    }
+
+    /**
+     * Enable/disable product feed
+     * 
+     * @param  null    $store
+     * @return boolean
+     */
+    public function isProductFeedEnabled($store = null)
+    {
+        return Mage::getStoreConfig(self::PRODUCT_FEED_ENABLED, $store);
+    }
+
+    /**
+     * Enable/disable order feed
+     * 
+     * @param  null    $store
+     * @return boolean
+     */
+    public function isOrderFeedEnabled($store = null)
+    {
+        return Mage::getStoreConfig(self::ORDER_FEED_ENABLED, $store);
     }
 }
