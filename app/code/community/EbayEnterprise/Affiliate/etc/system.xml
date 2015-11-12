@@ -58,22 +58,22 @@ http://www.ebayenterprise.com/files/pdf/Magento_Connect_Extensions_EULA_050714.p
                             <show_in_website>1</show_in_website>
                             <show_in_store>0</show_in_store>
                         </program_id>
-                        <itemized_orders translate="label">
-                            <label>Itemized Orders</label>
+                        <order_type>
+                            <label>Order Feed Type</label>
                             <frontend_type>select</frontend_type>
-                            <source_model>adminhtml/system_config_source_yesno</source_model>
+                            <source_model>eems_affiliate/system_config_source_ordertypes</source_model>
                             <sort_order>20</sort_order>
                             <show_in_default>1</show_in_default>
                             <show_in_website>0</show_in_website>
                             <show_in_store>0</show_in_store>
-                        </itemized_orders>
+                        </order_type>
                         <transaction_type translate="label comment">
                             <label>Transaction Type</label>
                             <comment>Sale transactions pay publishers a percentage of the sale, lead transactions pay publishes a flat amount for an action.</comment>
                             <frontend_type>select</frontend_type>
                             <source_model>eems_affiliate/system_config_source_transactiontype</source_model>
                             <depends>
-                                <itemized_orders>0</itemized_orders>
+                                <order_type>basic</order_type>
                             </depends>
                             <sort_order>30</sort_order>
                             <show_in_default>1</show_in_default>

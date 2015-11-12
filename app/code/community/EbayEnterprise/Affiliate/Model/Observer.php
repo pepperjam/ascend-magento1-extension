@@ -47,7 +47,7 @@ class EbayEnterprise_Affiliate_Model_Observer
     {
         $startTime = time();
 
-        $feedAlias = Mage::helper('eems_affiliate/config')->isItemizedOrders() ?
+        $feedAlias = Mage::helper('eems_affiliate/config')->isItemizedOrders() || Mage::helper('eems_affiliate/config')->isDynamicOrders() ?
             'feed_order_itemized' : 'feed_order_basic';
 
         Mage::log(sprintf('[%s] Generating %s feed', __CLASS__, $feedAlias), Zend_Log::INFO);

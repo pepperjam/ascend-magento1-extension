@@ -23,7 +23,7 @@ class EbayEnterprise_Affiliate_Helper_Config
     const BEACON_URL_PATH = 'marketing_solutions/eems_affiliate/beacon_url';
     const ENABLED_PATH = 'marketing_solutions/eems_affiliate/active';
     const INT_PATH = 'marketing_solutions/eems_affiliate/int';
-    const ITEMIZED_ORDERS_PATH = 'marketing_solutions/eems_affiliate/itemized_orders';
+    const ORDER_TYPE_PATH = 'marketing_solutions/eems_affiliate/order_type';
     const PROGRAM_ID_PATH = 'marketing_solutions/eems_affiliate/program_id';
     const TRANSACTION_TYPE_PATH = 'marketing_solutions/eems_affiliate/transaction_type';
     const EXPORT_FILE_PATH_CONFIG_PATH = 'marketing_solutions/eems_affiliate/export_path';
@@ -62,13 +62,31 @@ class EbayEnterprise_Affiliate_Helper_Config
         return Mage::getStoreConfig(static::TRANSACTION_TYPE_PATH, $store);
     }
     /**
-     * retrieve the itemized orders from store config
+     * retrieve the order type from store config
+     * @param mixed $store
+     * @return string
+     */
+    public function getOrderType($store = null)
+    {
+        return Mage::getStoreConfigFlag(static::ORDER_TYPE_PATH, $store);
+    }
+    /**
+     * determine if orders should be itemized
      * @param mixed $store
      * @return bool
      */
     public function isItemizedOrders($store = null)
     {
-        return Mage::getStoreConfigFlag(static::ITEMIZED_ORDERS_PATH, $store);
+        return $this->getOrderType() == 'itemized';
+    }
+    /**
+     * determine if orders should be dynamic
+     * @param mixed $store
+     * @return bool
+     */
+    public function isDynamicOrders($store = null)
+    {
+        return $this->getOrderType() == 'dynamic';
     }
     /**
      * check if beacon pixel is enable in the store config

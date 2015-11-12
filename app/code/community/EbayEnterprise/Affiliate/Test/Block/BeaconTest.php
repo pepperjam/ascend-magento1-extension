@@ -27,7 +27,7 @@ class EbayEnterprise_Affiliate_Test_Block_BeaconTest extends EcomDev_PHPUnit_Tes
     protected function _getConfigHelper($programId, $transactionType, $itemizeOrders)
     {
         $helper = $this->getHelperMock('eems_affiliate/config', array(
-            'getProgramId', 'getTransactionType', 'isItemizedOrders'
+            'getProgramId', 'getTransactionType', 'isItemizedOrders', 'isDynamicOrders',
         ));
         $helper->expects($this->any())
             ->method('getProgramId')
@@ -37,6 +37,9 @@ class EbayEnterprise_Affiliate_Test_Block_BeaconTest extends EcomDev_PHPUnit_Tes
             ->will($this->returnValue($transactionType));
         $helper->expects($this->any())
             ->method('isItemizedOrders')
+            ->will($this->returnValue($itemizeOrders));
+        $helper->expects($this->any())
+            ->method('isDynamicOrders')
             ->will($this->returnValue($itemizeOrders));
         return $helper;
     }
