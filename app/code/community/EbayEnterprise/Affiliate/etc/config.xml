@@ -50,7 +50,7 @@ http://www.ebayenterprise.com/files/pdf/Magento_Connect_Extensions_EULA_050714.p
                 <schedule>
                     <cron_expr>0 0 3 * *</cron_expr>
                 </schedule>
-                <run ifconfig="marketing_solutions/eems_affiliate/product_feed_enabled">
+                <run>
                     <model>eems_affiliate/observer::createProductFeed</model>
                 </run>
             </eems_affiliate_generate_product_feed>
@@ -58,7 +58,7 @@ http://www.ebayenterprise.com/files/pdf/Magento_Connect_Extensions_EULA_050714.p
                 <schedule>
                     <cron_expr>0 0 3 * *</cron_expr>
                 </schedule>
-                <run ifconfig="marketing_solutions/eems_affiliate/order_feed_enabled">
+                <run>
                     <model>eems_affiliate/observer::createCorrectedOrdersFeed</model>
                 </run>
             </eems_affiliate_generate_corrected_order_feed>

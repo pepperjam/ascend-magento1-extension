@@ -26,6 +26,11 @@ class EbayEnterprise_Affiliate_Model_Observer
      */
     public function createProductFeed()
     {
+        if (!Mage::getStoreConfig('marketing_solutions/eems_affiliate/product_feed_enabled')) {
+            echo Mage::helper('eems_affiliate')->__('Product feed disabled');
+            return;
+        }
+
         $helper = Mage::helper('eems_affiliate');
         foreach ($helper->getAllProgramIds() as $programId) {
             $store = $helper->getStoreForProgramId($programId);
@@ -45,6 +50,11 @@ class EbayEnterprise_Affiliate_Model_Observer
      */
     public function createCorrectedOrdersFeed()
     {
+        if (!Mage::getStoreConfig('marketing_solutions/eems_affiliate/order_feed_enabled')) {
+            echo Mage::helper('eems_affiliate')->__('Corrected order feed disabled');
+            return;
+        }
+
         $startTime = time();
 
         $feedAlias = Mage::helper('eems_affiliate/config')->isItemizedOrders() || Mage::helper('eems_affiliate/config')->isDynamicOrders() ?
