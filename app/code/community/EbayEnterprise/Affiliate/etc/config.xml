@@ -859,6 +859,10 @@ http://www.ebayenterprise.com/files/pdf/Magento_Connect_Extensions_EULA_050714.p
                             </params>
                         </zoom>
                     </callback_mappings>
+                    <order_dynamic>
+                        <fields>program_id,item_order_id,item_id,row_total,item_quantity,reason</fields>
+                        <file_name_format>%s_transactions_corrected_%s.csv</file_name_format>
+                    </order_dynamic>
                     <order_itemized>
                         <fields>program_id,item_order_id,item_id,row_total,item_quantity,reason</fields>
                         <file_name_format>%s_transactions_corrected_%s.csv</file_name_format>

@@ -30,8 +30,10 @@ class EbayEnterprise_Affiliate_Helper_Config
     const CALLBACK_MAPPINGS_PATH = 'marketing_solutions/eems_affiliate/feeds/callback_mappings';
     const PRODUCT_FEED_MAPPING_PATH = 'marketing_solutions/eems_affiliate_product_attribute_map';
     const PRODUCT_FEED_FILENAME_FORMAT_PATH = 'marketing_solutions/eems_affiliate/feeds/product/file_name_format';
+    const DYNAMIC_ORDER_FEED_MAPPING_PATH = 'marketing_solutions/eems_affiliate/feeds/order_dynamic/fields';
     const ITEMIZED_ORDER_FEED_MAPPING_PATH = 'marketing_solutions/eems_affiliate/feeds/order_itemized/fields';
     const BASIC_ORDER_FEED_MAPPING_PATH = 'marketing_solutions/eems_affiliate/feeds/order_basic/fields';
+    const DYNAMIC_ORDER_FEED_FILE_FORMAT_PATH = 'marketing_solutions/eems_affiliate/feeds/order_dynamic/file_name_format';
     const ITEMIZED_ORDER_FEED_FILE_FORMAT_PATH = 'marketing_solutions/eems_affiliate/feeds/order_itemized/file_name_format';
     const BASIC_ORDER_FEED_FILE_FORMAT_PATH = 'marketing_solutions/eems_affiliate/feeds/order_basic/file_name_format';
     const ORDER_LAST_RUN_PATH = 'marketing_solutions/eems_affiliate/feed/last_run_time';
@@ -152,6 +154,15 @@ class EbayEnterprise_Affiliate_Helper_Config
         return Mage::getStoreConfig(static::PRODUCT_FEED_FILENAME_FORMAT_PATH, $store);
     }
     /**
+     * Get the configured feed mapping for the dynamic orders feed.
+     * @param  mixed $store
+     * @return array
+     */
+    public function getDynamicOrderFeedFields($store = null)
+    {
+        return Mage::getStoreConfig(static::DYNAMIC_ORDER_FEED_MAPPING_PATH, $store);
+    }
+    /**
      * Get the configured feed mapping for the itemized orders feed.
      * @param  mixed $store
      * @return array
@@ -168,6 +179,15 @@ class EbayEnterprise_Affiliate_Helper_Config
     public function getBasicOrderFeedFields($store = null)
     {
         return Mage::getStoreConfig(static::BASIC_ORDER_FEED_MAPPING_PATH, $store);
+    }
+    /**
+     * Get the configured dynamic order feed file format
+     * @param  mixed $store
+     * @return string
+     */
+    public function getDynamicOrderFeedFileFormat($store = null)
+    {
+        return Mage::getStoreConfig(static::DYNAMIC_ORDER_FEED_FILE_FORMAT_PATH, $store);
     }
     /**
      * Get the configured itemized order feed file format

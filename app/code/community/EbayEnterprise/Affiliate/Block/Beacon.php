@@ -111,7 +111,8 @@ class EbayEnterprise_Affiliate_Block_Beacon extends Mage_Core_Block_Template
         return ($order instanceof Mage_Sales_Model_Order) ?
             Mage::helper('eems_affiliate')->buildBeaconUrl(
                 Mage::helper('eems_affiliate/config')->isItemizedOrders() ?
-                $this->_buildItemizedParams($order) : $this->_buildBasicParams($order)
+                $this->_buildItemizedParams($order) : Mage::helper('eems_affiliate/config')->isDynamicOrders() ?
+                $this->_buildDynamicParams : $this->_buildBasicParams($order)
             ) : null;
     }
     /**
@@ -180,6 +181,12 @@ class EbayEnterprise_Affiliate_Block_Beacon extends Mage_Core_Block_Template
             }
         }
         return array_merge($this->_buildCommonParams($order), $params);
+    }
+    protected function _buildDynamicParams(Mage_Sales_Model_Order $order)
+    {
+        $this->_buildItemizedParams($order);
+
+        // TODO: Add extra fields for dynamic.
     }
     /**
      * check if the current sku already exists in the params data if so return
