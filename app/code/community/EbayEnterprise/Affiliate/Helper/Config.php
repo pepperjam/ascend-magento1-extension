@@ -70,7 +70,7 @@ class EbayEnterprise_Affiliate_Helper_Config
      */
     public function getOrderType($store = null)
     {
-        return Mage::getStoreConfigFlag(static::ORDER_TYPE_PATH, $store);
+        return Mage::getStoreConfig(static::ORDER_TYPE_PATH, $store);
     }
     /**
      * determine if orders should be itemized

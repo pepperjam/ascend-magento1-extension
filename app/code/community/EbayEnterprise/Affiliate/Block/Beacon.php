@@ -114,6 +114,20 @@ class EbayEnterprise_Affiliate_Block_Beacon extends Mage_Core_Block_Template
                 $this->_buildItemizedParams($order) : Mage::helper('eems_affiliate/config')->isDynamicOrders() ?
                 $this->_buildDynamicParams : $this->_buildBasicParams($order)
             ) : null;
+        $url = null;
+
+        if ($order instanceof Mage_Sales_Model_Order) {
+            if (Mage::helper('eems_affiliate/config')->isItemizedOrders()) {
+                $params = $this->_buildItemizedParams($order);
+            } elseif (Mage::helper('eems_affiliate/config')->isDynamicOrders()) {
+                $params = $this->_buildDynamicParams($order);
+            } else {
+                $params = $this->_buildBasicParams($order);
+            }
+
+            $url = Mage::helper('eems_affiliate')->buildBeaconUrl($params);
+        }
+        return $url;
     }
     /**
      * build common params array
@@ -184,8 +198,9 @@ class EbayEnterprise_Affiliate_Block_Beacon extends Mage_Core_Block_Template
     }
     protected function _buildDynamicParams(Mage_Sales_Model_Order $order)
     {
-        $this->_buildItemizedParams($order);
+        $params = $this->_buildItemizedParams($order);
 
+        return $params;
         // TODO: Add extra fields for dynamic.
     }
     /**
