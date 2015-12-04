@@ -214,11 +214,10 @@ class EbayEnterprise_Affiliate_Block_Beacon extends Mage_Core_Block_Template
                 Mage::log(array('_buildDynamicParams', $position));
 
             // Get item's category
-            $category = 
+            $params["category$position"] = $this->_getCommissioningCategory($item);
         }
 
         return $params;
-        // TODO: Add extra fields for dynamic.
     }
     /**
      * Check to see if any orders have been made by the customer before
@@ -236,6 +235,23 @@ class EbayEnterprise_Affiliate_Block_Beacon extends Mage_Core_Block_Template
 
         // Current order should be only order if new
         return $orderCollection->count() > 1;
+    }
+    protected function _getCommissioningCategory(Mage_Sales_Model_Order_Item $item)
+    {
+        $categoryIds = array($item->getCommissioningCategory());
+        if ($categoryIds[0] == '' || $category[0] == null) {
+            $categoryIds = $item->getProduct()->getCategoryIds();
+        }
+
+        $categories = Mage::model('catalog/category')->getCollection();
+        $categories->addAttributeToFilter('entity_id', array('in', $categoryIds));
+
+        if (count($categories) > 0) {
+            // Return only first 64 chars to match affiliate restrictions
+            return substr($categories->getFirstItem()->getName(), 0, 64);
+        }
+
+        return '';
     }
     /**
      * check if the current sku already exists in the params data if so return
