@@ -156,4 +156,18 @@ class EbayEnterprise_Affiliate_Helper_Map_Order
             preg_replace('/[^a-zA-Z0-9\-_]/', '', Mage::helper('eems_affiliate/map')->getDataValue($params))
         );
     }
+
+    public function getNewToFile($params)
+    {
+        $order = $params['item'];
+
+        // Customers are being identified by emails
+        $customerEmail = $order->getCustomerEmail();
+
+        // Look up any orders that use the same email
+        $orderCollection = Mage::getModel('sales/order')->getCollection();
+        $orderCollection->addFieldToFilter('customer_email', $customerEmail);
+
+        return (int)$orderCollection->count() > 1;
+    }
 }

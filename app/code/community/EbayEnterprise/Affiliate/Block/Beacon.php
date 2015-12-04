@@ -199,9 +199,43 @@ class EbayEnterprise_Affiliate_Block_Beacon extends Mage_Core_Block_Template
     protected function _buildDynamicParams(Mage_Sales_Model_Order $order)
     {
         $params = $this->_buildItemizedParams($order);
+        Mage::log('dynamic params');
+
+        // See if email has any history
+        $params['new_to_file'] = (int)$this->_isNewToFile($order);
+
+        // No need for increment, all items are in param already
+        foreach($order->getAllItems() as $item) {
+            // Every item should be found here
+            $position = $this->_getDupePosition($params, $item);
+
+            // DEBUG
+            if (!$position)
+                Mage::log(array('_buildDynamicParams', $position));
+
+            // Get item's category
+            $category = 
+        }
 
         return $params;
         // TODO: Add extra fields for dynamic.
+    }
+    /**
+     * Check to see if any orders have been made by the customer before
+     * @param  Mage_Sales_Model_Order $order
+     * @return boolean This is the first order by this customer (email address)
+     */
+    protected function _isNewToFile(Mage_Sales_Model_Order $order)
+    {
+        // Customers are being identified by emails
+        $customerEmail = $order->getCustomerEmail();
+
+        // Look up any orders that use the same email
+        $orderCollection = Mage::getModel('sales/order')->getCollection();
+        $orderCollection->addFieldToFilter('customer_email', $customerEmail);
+
+        // Current order should be only order if new
+        return $orderCollection->count() > 1;
     }
     /**
      * check if the current sku already exists in the params data if so return
