@@ -9,7 +9,7 @@ class EbayEnterprise_Affiliate_Model_Product_Attribute_Source_CommissioningCateg
 
 		$categoryOptions = array(array('value' => '', 'label' => ''));
 
-		$this->_subcategories($categoryOptions, $rootCategories, 0);
+		$this->_subcategories($categoryOptions, $rootCategories->getFirstItem()->getChildrenCategories(), 0);
 
 		return $categoryOptions;
 	}
