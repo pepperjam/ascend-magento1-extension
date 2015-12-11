@@ -131,6 +131,18 @@ http://www.ebayenterprise.com/files/pdf/Magento_Connect_Extensions_EULA_050714.p
                             <type>helper</type>
                             <column_name>QUANTITY</column_name>
                         </item_quantity>
+                        <category>
+                            <class>eems_affiliate/map_order</class>
+                            <method>getCategory</method>
+                            <type>helper</type>
+
+                        </category>
+                        <new_to_file>
+                            <class>eems_affiliate/map_order</class>
+                            <method>getNewToFile</method>
+                            <type>helper</type>
+                            
+                        </new_to_file>
                         <order_amount>
                             <class>eems_affiliate/map_order</class>
                             <method>getOrderAmount</method>
