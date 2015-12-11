@@ -14,15 +14,14 @@ $attrIdTest = $objCatalogEavSetup->getAttributeId(Mage_Catalog_Model_Product::EN
 if ($attrIdTest === false) {
 	$objCatalogEavSetup->addAttribute(Mage_Catalog_Model_Product::ENTITY, $attrCode, array(
 		'group'                => 'General',
-		'sort_order'           => 20,
 		'type'                 => 'int',
 		'backend'              => '',
 		'frontend'             => '',
 		'label'                => 'Commissioning Category',
-		'note'                 => 'Category that will be used for affiliate sales. If not set, one of the available categories will be chosen.',
+		'note'                 => 'Category that will be used for affiliate sales. If not set, one of the categoriesas assigned to this product will be chosen.',
 		'input'                => 'select',
 		'class'                => '',
-		'source'               => 'ebayEnterprise_affiliate/product_attribute_source_commissioningCategory',
+		'source'               => 'eems_affiliate/product_attribute_source_commissioningCategory',
 		'global'               => Mage_Catalog_Model_Resource_Eav_Attribute::SCOPE_GLOBAL,
 		'visible'              => true,
 		'required'             => false,

@@ -54,6 +54,14 @@ class EbayEnterprise_Affiliate_Block_Beacon extends Mage_Core_Block_Template
      */
     const KEY_PROMOCODE = 'PROMOCODE';
     /**
+     * The 'CATEGORY' beacon URL querystring key
+     */
+    const KEY_CATEGORY = 'CATEGORY';
+    /**
+     * The 'NEW_TO_FILE' beacon URL querystring key
+     */
+    const KEY_NEW_TO_FILE = 'NEW_TO_FILE';
+    /**
      * @var Mage_Sales_Model_Order
      * @see self::_getOrder
      */
@@ -108,12 +116,7 @@ class EbayEnterprise_Affiliate_Block_Beacon extends Mage_Core_Block_Template
     public function getBeaconUrl()
     {
         $order = $this->_getOrder();
-        return ($order instanceof Mage_Sales_Model_Order) ?
-            Mage::helper('eems_affiliate')->buildBeaconUrl(
-                Mage::helper('eems_affiliate/config')->isItemizedOrders() ?
-                $this->_buildItemizedParams($order) : Mage::helper('eems_affiliate/config')->isDynamicOrders() ?
-                $this->_buildDynamicParams : $this->_buildBasicParams($order)
-            ) : null;
+
         $url = null;
 
         if ($order instanceof Mage_Sales_Model_Order) {
@@ -196,13 +199,18 @@ class EbayEnterprise_Affiliate_Block_Beacon extends Mage_Core_Block_Template
         }
         return array_merge($this->_buildCommonParams($order), $params);
     }
+    /**
+     * build dynamic order params array for dynamic beacon URL
+     * @param Mage_Sales_Model_Order $order
+     * @return array
+     */
     protected function _buildDynamicParams(Mage_Sales_Model_Order $order)
     {
         $params = $this->_buildItemizedParams($order);
         Mage::log('dynamic params');
 
         // See if email has any history
-        $params['new_to_file'] = (int)$this->_isNewToFile($order);
+        $params[self::KEY_NEW_TO_FILE] = (int)$this->_isNewToFile($order);
 
         // No need for increment, all items are in param already
         foreach($order->getAllItems() as $item) {
@@ -214,7 +222,7 @@ class EbayEnterprise_Affiliate_Block_Beacon extends Mage_Core_Block_Template
                 Mage::log(array('_buildDynamicParams', $position));
 
             // Get item's category
-            $params["category$position"] = $this->_getCommissioningCategory($item);
+            $params[self::KEY_CATEGORY . $position] = $this->_getCommissioningCategory($item);
         }
 
         return $params;
@@ -234,24 +242,26 @@ class EbayEnterprise_Affiliate_Block_Beacon extends Mage_Core_Block_Template
         $orderCollection->addFieldToFilter('customer_email', $customerEmail);
 
         // Current order should be only order if new
-        return $orderCollection->count() > 1;
+        return $orderCollection->count() <= 1;
     }
+    /**
+     * Get Commissioning Category assigned to the item or pick one of the assigned categories if one isn't set
+     * @param  Mage_Sales_Model_Order_Item $item Order Item
+     * @return int                               Category ID
+     */
     protected function _getCommissioningCategory(Mage_Sales_Model_Order_Item $item)
     {
-        $categoryIds = array($item->getCommissioningCategory());
-        if ($categoryIds[0] == '' || $category[0] == null) {
+        $category = $item->getCommissioningCategory();
+        if ($category == '' || $category == null) {
             $categoryIds = $item->getProduct()->getCategoryIds();
+            // if there are any categories, grab the first
+            if (count($categoryIds))
+                $category = $categoryIds[0];
+            else
+                $category = 0;
         }
 
-        $categories = Mage::model('catalog/category')->getCollection();
-        $categories->addAttributeToFilter('entity_id', array('in', $categoryIds));
-
-        if (count($categories) > 0) {
-            // Return only first 64 chars to match affiliate restrictions
-            return substr($categories->getFirstItem()->getName(), 0, 64);
-        }
-
-        return '';
+        return $category;
     }
     /**
      * check if the current sku already exists in the params data if so return

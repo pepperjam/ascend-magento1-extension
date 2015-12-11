@@ -4,26 +4,26 @@ class EbayEnterprise_Affiliate_Model_Product_Attribute_Source_CommissioningCateg
 {
 	public function getAllOptions()
 	{
-		$categories = Mage::helper('catalog/category')->getStoreCategories();
+		$rootCategoryId = Mage::app()->getStore()->getRootCategoryId();
+		$rootCategories = Mage::getModel('catalog/category')->getCollection()->addAttributeToSelect('name')->addFieldToFilter('parent_id', $rootCategoryId);
 
-		$categoryOptions = array('' => '');
-		$this->_subcategories($categoryOptions, $categories);
+		$categoryOptions = array(array('value' => '', 'label' => ''));
 
-		natcasesort($categoryOptions);
+		$this->_subcategories($categoryOptions, $rootCategories, 0);
 
 		return $categoryOptions;
 	}
 
-	protected function _subcategories(&$options, $categories)
+	protected function _subcategories(&$options, $categories, $level)
 	{
-		if (count($categories) == 0)
+		if (!$categories->count())
 			return;
 
 		foreach($categories as $category) {
-			$options[$category->getId()] = $category->getName();
+			$options[] = array('value' => $category->getId(), 'label' => str_repeat('-', $level) . $category->getName());
 
 			$subcategories = $category->getChildrenCategories();
-			$this->_subcategories($options, $subcategories);
+			$this->_subcategories($options, $subcategories, $level+1);
 		}
 	}
 }
