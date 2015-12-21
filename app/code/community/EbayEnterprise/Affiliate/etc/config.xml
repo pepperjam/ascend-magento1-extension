@@ -16,7 +16,7 @@ http://www.ebayenterprise.com/files/pdf/Magento_Connect_Extensions_EULA_050714.p
 <config>
     <modules>
         <EbayEnterprise_Affiliate>
-            <version>1.0.0.2</version>
+            <version>1.1.0.0</version>
         </EbayEnterprise_Affiliate>
     </modules>
     <global>
@@ -135,13 +135,11 @@ http://www.ebayenterprise.com/files/pdf/Magento_Connect_Extensions_EULA_050714.p
                             <class>eems_affiliate/map_order</class>
                             <method>getCategory</method>
                             <type>helper</type>
-
                         </category>
                         <new_to_file>
                             <class>eems_affiliate/map_order</class>
                             <method>getNewToFile</method>
                             <type>helper</type>
-                            
                         </new_to_file>
                         <order_amount>
                             <class>eems_affiliate/map_order</class>

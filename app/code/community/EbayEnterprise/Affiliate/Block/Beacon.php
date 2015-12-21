@@ -21,53 +21,66 @@ class EbayEnterprise_Affiliate_Block_Beacon extends Mage_Core_Block_Template
      * The 'PID' beacon URL querystring key
      */
     const KEY_PID = 'PID';
+
     /**
      * The 'OID' beacon URL querystring key
      */
     const KEY_OID = 'OID';
+
     /**
      * The 'AMOUNT' beacon URL querystring key
      */
     const KEY_AMOUNT = 'AMOUNT';
+
     /**
      * The 'TYPE' beacon URL querystring key
      */
     const KEY_TYPE = 'TYPE';
+
     /**
      * The 'QTY' beacon URL querystring key
      */
     const KEY_QTY = 'QTY';
+
     /**
      * The 'TOTALAMOUNT' beacon URL querystring key
      */
     const KEY_TOTALAMOUNT = 'TOTALAMOUNT';
+
     /**
      * The 'INT' beacon URL querystring key
      */
     const KEY_INT = 'INT';
+
     /**
      * The 'ITEM' beacon URL querystring key
      */
     const KEY_ITEM = 'ITEM';
+
     /**
      * The 'PROMOCODE' beacon URL querystring key
      */
     const KEY_PROMOCODE = 'PROMOCODE';
+
     /**
      * The 'CATEGORY' beacon URL querystring key
      */
     const KEY_CATEGORY = 'CATEGORY';
+
     /**
      * The 'NEW_TO_FILE' beacon URL querystring key
      */
     const KEY_NEW_TO_FILE = 'NEW_TO_FILE';
+
     /**
      * @var Mage_Sales_Model_Order
      * @see self::_getOrder
      */
     protected $_order;
+
     /** @var  EbayEnterprise_Affiliate_Helper_Data */
     protected $_helper = null;
+
     /** @var  EbayEnterprise_Affiliate_Helper_Config */
     protected $_configHelper = null;
 
@@ -109,6 +122,7 @@ class EbayEnterprise_Affiliate_Block_Beacon extends Mage_Core_Block_Template
         }
         return $this->_order;
     }
+
     /**
      * Get the beacon URL.
      * @return string | null
@@ -132,6 +146,7 @@ class EbayEnterprise_Affiliate_Block_Beacon extends Mage_Core_Block_Template
         }
         return $url;
     }
+
     /**
      * build common params array
      * @param Mage_Sales_Model_Order $order
@@ -147,6 +162,7 @@ class EbayEnterprise_Affiliate_Block_Beacon extends Mage_Core_Block_Template
         return ($couponCode !== '')?
             array_merge($params, array(static::KEY_PROMOCODE => $couponCode)) : $params;
     }
+
     /**
      * build basic params array for non itemized beacon URL
      * @param Mage_Sales_Model_Order $order
@@ -159,6 +175,7 @@ class EbayEnterprise_Affiliate_Block_Beacon extends Mage_Core_Block_Template
             static::KEY_TYPE => Mage::helper('eems_affiliate/config')->getTransactionType()
         ));
     }
+
     /**
      * build itemized order params array for itemized beacon URL
      * @param Mage_Sales_Model_Order $order
@@ -199,6 +216,7 @@ class EbayEnterprise_Affiliate_Block_Beacon extends Mage_Core_Block_Template
         }
         return array_merge($this->_buildCommonParams($order), $params);
     }
+
     /**
      * build dynamic order params array for dynamic beacon URL
      * @param Mage_Sales_Model_Order $order
@@ -207,7 +225,6 @@ class EbayEnterprise_Affiliate_Block_Beacon extends Mage_Core_Block_Template
     protected function _buildDynamicParams(Mage_Sales_Model_Order $order)
     {
         $params = $this->_buildItemizedParams($order);
-        Mage::log('dynamic params');
 
         // See if email has any history
         $params[self::KEY_NEW_TO_FILE] = (int)$this->_isNewToFile($order);
@@ -217,16 +234,13 @@ class EbayEnterprise_Affiliate_Block_Beacon extends Mage_Core_Block_Template
             // Every item should be found here
             $position = $this->_getDupePosition($params, $item);
 
-            // DEBUG
-            if (!$position)
-                Mage::log(array('_buildDynamicParams', $position));
-
             // Get item's category
             $params[self::KEY_CATEGORY . $position] = $this->_getCommissioningCategory($item);
         }
 
         return $params;
     }
+
     /**
      * Check to see if any orders have been made by the customer before
      * @param  Mage_Sales_Model_Order $order
@@ -244,10 +258,11 @@ class EbayEnterprise_Affiliate_Block_Beacon extends Mage_Core_Block_Template
         // Current order should be only order if new
         return $orderCollection->count() <= 1;
     }
+
     /**
      * Get Commissioning Category assigned to the item or pick one of the assigned categories if one isn't set
      * @param  Mage_Sales_Model_Order_Item $item Order Item
-     * @return int                               Category ID
+     * @return int Category ID
      */
     protected function _getCommissioningCategory(Mage_Sales_Model_Order_Item $item)
     {
@@ -263,6 +278,7 @@ class EbayEnterprise_Affiliate_Block_Beacon extends Mage_Core_Block_Template
 
         return $category;
     }
+
     /**
      * check if the current sku already exists in the params data if so return
      * the position it is found in
@@ -276,6 +292,7 @@ class EbayEnterprise_Affiliate_Block_Beacon extends Mage_Core_Block_Template
         return ($key !== false)?
             (int) str_replace(static::KEY_ITEM, '', $key) : 0;
     }
+
     /**
      * Whether or not to display the beacon.
      *
