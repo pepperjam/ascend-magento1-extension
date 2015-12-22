@@ -50,10 +50,10 @@ class EbayEnterprise_Affiliate_Model_Feed_Order_Dynamic extends EbayEnterprise_A
     /**
      * @see parent::_getFeedFields
      */
-	protected function _getFeedFields()
-	{
-		return explode(',', Mage::helper('eems_affiliate/config')->getDynamicOrderFeedFields());
-	}
+    protected function _getFeedFields()
+    {
+        return explode(',', Mage::helper('eems_affiliate/config')->getDynamicOrderFeedFields());
+    }
 
     /**
      * Get the file name format from config. Doesn't pass store context as the
@@ -61,8 +61,8 @@ class EbayEnterprise_Affiliate_Model_Feed_Order_Dynamic extends EbayEnterprise_A
      * @see  parent::_getFileNameFormat
      * @codeCoverageIgnore
      */
-	protected function _getFileNameFormat()
-	{
-		return Mage::helper('eems_affiliate/config')->getDynamicOrderFeedFileFormat();
-	}
+    protected function _getFileNameFormat()
+    {
+        return Mage::helper('eems_affiliate/config')->getDynamicOrderFeedFileFormat();
+    }
 }

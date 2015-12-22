@@ -170,10 +170,11 @@ class EbayEnterprise_Affiliate_Block_Beacon extends Mage_Core_Block_Template
      */
     protected function _buildBasicParams(Mage_Sales_Model_Order $order)
     {
-        return array_merge($this->_buildCommonParams($order), array(
-            static::KEY_AMOUNT => number_format($order->getSubtotal() + $order->getDiscountAmount() + $order->getShippingDiscountAmount(), 2, '.', ''),
-            static::KEY_TYPE => Mage::helper('eems_affiliate/config')->getTransactionType()
-        ));
+        $params = $this->_buildCommonParams($order);
+        $params[static::KEY_AMOUNT] = number_format($order->getSubtotal() + $order->getDiscountAmount() + $order->getShippingDiscountAmount(), 2, '.', '');
+        $params[static::KEY_TYPE] = Mage::helper('eems_affiliate/config')->getTransactionType();
+
+        return $params;
     }
 
     /**
@@ -183,7 +184,8 @@ class EbayEnterprise_Affiliate_Block_Beacon extends Mage_Core_Block_Template
      */
     protected function _buildItemizedParams(Mage_Sales_Model_Order $order)
     {
-        $params = array(static::KEY_INT => Mage::helper('eems_affiliate/config')->getInt());
+        $params = $this->_buildCommonParams($order);
+        $params[static::KEY_INT] = Mage::helper('eems_affiliate/config')->getInt();
         $increment = 1; // incrementer for the unique item keys
         foreach ($order->getAllItems() as $item) {
             // need to ignore the bundle parent as it will contain collected total
@@ -214,7 +216,7 @@ class EbayEnterprise_Affiliate_Block_Beacon extends Mage_Core_Block_Template
                 $increment++; // only get incremented when a unique key have been appended
             }
         }
-        return array_merge($this->_buildCommonParams($order), $params);
+        return $params;
     }
 
     /**
@@ -224,10 +226,12 @@ class EbayEnterprise_Affiliate_Block_Beacon extends Mage_Core_Block_Template
      */
     protected function _buildDynamicParams(Mage_Sales_Model_Order $order)
     {
+        $helper = Mage::helper('eems_affiliate');
+
         $params = $this->_buildItemizedParams($order);
 
         // See if email has any history
-        $params[self::KEY_NEW_TO_FILE] = (int)$this->_isNewToFile($order);
+        $params[self::KEY_NEW_TO_FILE] = (int)$helper->isNewToFile($order);
 
         // No need for increment, all items are in param already
         foreach($order->getAllItems() as $item) {
@@ -235,48 +239,10 @@ class EbayEnterprise_Affiliate_Block_Beacon extends Mage_Core_Block_Template
             $position = $this->_getDupePosition($params, $item);
 
             // Get item's category
-            $params[self::KEY_CATEGORY . $position] = $this->_getCommissioningCategory($item);
+            $params[self::KEY_CATEGORY . $position] = $helper->getCommissioningCategory($item);
         }
 
         return $params;
-    }
-
-    /**
-     * Check to see if any orders have been made by the customer before
-     * @param  Mage_Sales_Model_Order $order
-     * @return boolean This is the first order by this customer (email address)
-     */
-    protected function _isNewToFile(Mage_Sales_Model_Order $order)
-    {
-        // Customers are being identified by emails
-        $customerEmail = $order->getCustomerEmail();
-
-        // Look up any orders that use the same email
-        $orderCollection = Mage::getModel('sales/order')->getCollection();
-        $orderCollection->addFieldToFilter('customer_email', $customerEmail);
-
-        // Current order should be only order if new
-        return $orderCollection->count() <= 1;
-    }
-
-    /**
-     * Get Commissioning Category assigned to the item or pick one of the assigned categories if one isn't set
-     * @param  Mage_Sales_Model_Order_Item $item Order Item
-     * @return int Category ID
-     */
-    protected function _getCommissioningCategory(Mage_Sales_Model_Order_Item $item)
-    {
-        $category = $item->getCommissioningCategory();
-        if ($category == '' || $category == null) {
-            $categoryIds = $item->getProduct()->getCategoryIds();
-            // if there are any categories, grab the first
-            if (count($categoryIds))
-                $category = $categoryIds[0];
-            else
-                $category = 0;
-        }
-
-        return $category;
     }
 
     /**

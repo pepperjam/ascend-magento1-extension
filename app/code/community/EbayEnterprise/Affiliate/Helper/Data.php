@@ -33,6 +33,7 @@ class EbayEnterprise_Affiliate_Helper_Data extends Mage_Core_Helper_Abstract
         return Mage::helper('eems_affiliate/config')->getBeaconBaseUrl() . '?' .
             http_build_query($params);
     }
+
     /**
      * Get all unique configured program ids. Program ids may only be set at the
      * website level, so only get the program id for the default store for
@@ -49,6 +50,7 @@ class EbayEnterprise_Affiliate_Helper_Data extends Mage_Core_Helper_Abstract
             Mage::app()->getWebsites()
         )));
     }
+
     /**
      * Get a single store view for a program id. As program ids are configured
      * only at the global or website level, the store view selecetd will be
@@ -79,6 +81,7 @@ class EbayEnterprise_Affiliate_Helper_Data extends Mage_Core_Helper_Abstract
         }
         return null;
     }
+
     /**
      * Get all store views that have a program id that matches the given
      * program id
@@ -95,6 +98,7 @@ class EbayEnterprise_Affiliate_Helper_Data extends Mage_Core_Helper_Abstract
             }
         );
     }
+
     /**
      * take a boolean value and return the string 'yes' or 'no' when the boolean
      * value is true or false
@@ -131,5 +135,44 @@ class EbayEnterprise_Affiliate_Helper_Data extends Mage_Core_Helper_Abstract
         $cookie = $this->getSourceCookieName();
         $value = Mage::getModel('core/cookie')->get($cookie);
         return ($value === self::SOURCE_KEY_VALUE);
+    }
+
+    /**
+     * Check to see if any orders have been made by the customer before
+     * @param  Mage_Sales_Model_Order $order
+     * @return boolean This is the first order by this customer (email address)
+     */
+    public function isNewToFile(Mage_Sales_Model_Order $order)
+    {
+        // Customers are being identified by emails
+        $customerEmail = $order->getCustomerEmail();
+
+        // Look up any orders that use the same email
+        $orderCollection = Mage::getModel('sales/order')->getCollection();
+        $orderCollection->addFieldToFilter('customer_email', $customerEmail);
+
+        // Current order should be only order if new
+        return $orderCollection->count() <= 1;
+    }
+
+    /**
+     * Get Commissioning Category assigned to the item or pick one of the assigned categories if one isn't set
+     * @param  Mage_Sales_Model_Order_Item $item Order Item
+     * @return int Category ID
+     */
+    public function getCommissioningCategory(Mage_Sales_Model_Order_Item $item)
+    {
+        $category = $item->getCommissioningCategory();
+        if ($category == '' || $category == null) {
+
+            $categoryIds = $item->getProduct()->getCategoryIds();
+            // if there are any categories, grab the first
+            if (count($categoryIds))
+                $category = $categoryIds[0];
+            else
+                $category = 0;
+        }
+
+        return $category;
     }
 }

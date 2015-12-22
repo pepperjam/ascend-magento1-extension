@@ -160,31 +160,12 @@ class EbayEnterprise_Affiliate_Helper_Map_Order
     public function getCategory($params)
     {
         $item = $params['item'];
-        $category = $item->getCommissioningCategory();
-        if ($category == '' || $category == null) {
-            $categoryIds = $item->getProduct()->getCategoryIds();
-            // if there are any categories, grab the first
-            if (count($categoryIds))
-                $category = $categoryIds[0];
-            else
-                $category = 0;
-        }
-
-        return $category;
+        Mage::helper('eems_affiliate')->getCommissioningCategory($item);
     }
 
     public function getNewToFile($params)
     {
         $order = $params['item'];
-
-        // Customers are being identified by emails
-        $customerEmail = $order->getCustomerEmail();
-
-        // Look up any orders that use the same email
-        $orderCollection = Mage::getModel('sales/order')->getCollection();
-        $orderCollection->addFieldToFilter('customer_email', $customerEmail);
-
-        // Current order should be only order if new
-        return $orderCollection->count() <= 1;
+        Mage::helper('eems_affiliate')->isNewToFile($order);
     }
 }
