@@ -233,10 +233,23 @@ class EbayEnterprise_Affiliate_Block_Beacon extends Mage_Core_Block_Template
         // See if email has any history
         $params[self::KEY_NEW_TO_FILE] = (int)$helper->isNewToFile($order);
 
+        $productIds = array();
+        foreach($order->getAllItems() as $item) {
+            $productIds[] = $item->getProduct()->getId();
+        }
+
+        $productCollection = Mage::getModel('catalog/product')->getCollection()
+            ->addAttributeToFilter('entity_id', array('in', $productIds))
+            ->addCategoryIds();
+
         // No need for increment, all items are in param already
         foreach($order->getAllItems() as $item) {
             // Every item should be found here
             $position = $this->_getDupePosition($params, $item);
+
+            // Add category IDs
+            $product = $productCollection->getItemById($item->getProduct()->getId());
+            $item->getProduct()->setCategoryIds($product->getCategoryIds());
 
             // Get item's category
             $params[self::KEY_CATEGORY . $position] = $helper->getCommissioningCategory($item);
