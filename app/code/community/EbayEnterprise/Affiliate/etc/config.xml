@@ -72,7 +72,6 @@ http://www.ebayenterprise.com/files/pdf/Magento_Connect_Extensions_EULA_050714.p
                 <!-- use comma to add more js files-->
                 <beacon_url>https://t.pepperjamnetwork.com/track</beacon_url>
                 <export_path>var/export/eems_affiliate/</export_path>
-                <int>ITEMIZED</int>
                 <order_type>itemized</order_type>
                 <program_id/>
                 <transaction_type>1</transaction_type>

@@ -117,7 +117,7 @@ class EbayEnterprise_Affiliate_Helper_Config
      */
     public function getInt($store = null)
     {
-        return Mage::getStoreConfig(static::INT_PATH, $store);
+        return strtoupper(self::getOrderType());
     }
 
     /**
