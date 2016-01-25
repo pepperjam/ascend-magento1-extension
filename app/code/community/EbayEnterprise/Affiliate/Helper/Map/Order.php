@@ -160,12 +160,13 @@ class EbayEnterprise_Affiliate_Helper_Map_Order
     public function getCategory($params)
     {
         $item = $params['item'];
-        Mage::helper('eems_affiliate')->getCommissioningCategory($item);
+        return Mage::helper('eems_affiliate')->getCommissioningCategory($item);
     }
 
     public function getNewToFile($params)
     {
-        $order = $params['item'];
-        Mage::helper('eems_affiliate')->isNewToFile($order);
+        $order = $params['item']->getOrder();
+
+        return (int) Mage::helper('eems_affiliate')->isNewToFile($order);
     }
 }

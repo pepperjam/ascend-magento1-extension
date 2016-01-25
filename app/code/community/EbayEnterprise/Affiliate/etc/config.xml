@@ -134,11 +134,13 @@ http://www.ebayenterprise.com/files/pdf/Magento_Connect_Extensions_EULA_050714.p
                             <class>eems_affiliate/map_order</class>
                             <method>getCategory</method>
                             <type>helper</type>
+                            <column_name>CATEGORY</column_name>
                         </category>
                         <new_to_file>
                             <class>eems_affiliate/map_order</class>
                             <method>getNewToFile</method>
                             <type>helper</type>
+                            <column_name>NEW_TO_FILE</column_name>
                         </new_to_file>
                         <order_amount>
                             <class>eems_affiliate/map_order</class>
@@ -869,7 +871,7 @@ http://www.ebayenterprise.com/files/pdf/Magento_Connect_Extensions_EULA_050714.p
                         </zoom>
                     </callback_mappings>
                     <order_dynamic>
-                        <fields>program_id,item_order_id,item_id,row_total,item_quantity,reason</fields>
+                        <fields>program_id,item_order_id,item_id,row_total,item_quantity,category,new_to_file</fields>
                         <file_name_format>%s_transactions_corrected_%s.csv</file_name_format>
                     </order_dynamic>
                     <order_itemized>

@@ -22,7 +22,6 @@ class EbayEnterprise_Affiliate_Helper_Config
 {
     const BEACON_URL_PATH = 'marketing_solutions/eems_affiliate/beacon_url';
     const ENABLED_PATH = 'marketing_solutions/eems_affiliate/active';
-    const INT_PATH = 'marketing_solutions/eems_affiliate/int';
     const ORDER_TYPE_PATH = 'marketing_solutions/eems_affiliate/order_type';
     const PROGRAM_ID_PATH = 'marketing_solutions/eems_affiliate/program_id';
     const TRANSACTION_TYPE_PATH = 'marketing_solutions/eems_affiliate/transaction_type';
