@@ -63,14 +63,15 @@ class EbayEnterprise_Affiliate_Block_Beacon extends Mage_Core_Block_Template
     const KEY_PROMOCODE = 'PROMOCODE';
 
     /**
-     * The 'CATEGORY' beacon URL querystring key
+     * Dynamic query keys
      */
-    const KEY_CATEGORY = 'CATEGORY';
-
-    /**
-     * The 'NEW_TO_FILE' beacon URL querystring key
-     */
-    const KEY_NEW_TO_FILE = 'NEW_TO_FILE';
+    const KEY_DYNAMIC_PROGRAM_ID = 'PROGRAM_ID';
+    const KEY_DYNAMIC_ORDER_ID = 'ORDER_ID';
+    const KEY_DYNAMIC_ITEM_ID = 'ITEM_ID';
+    const KEY_DYNAMIC_ITEM_PRICE = 'ITEM_PRICE';
+    const KEY_DYNAMIC_QUANTITY = 'QUANTITY';
+    const KEY_DYNAMIC_CATEGORY = 'CATEGORY';
+    const KEY_DYNAMIC_NEW_TO_FILE = 'NEW_TO_FILE';
 
     /**
      * @var Mage_Sales_Model_Order
@@ -230,8 +231,14 @@ class EbayEnterprise_Affiliate_Block_Beacon extends Mage_Core_Block_Template
 
         $params = $this->_buildItemizedParams($order);
 
+        // Swap query key names for dynamic versions
+        $params[self::KEY_DYNAMIC_PROGRAM_ID] = $params[self::KEY_PID];
+        $params[self::KEY_DYNAMIC_ORDER_ID] = $params[self::KEY_OID];
+        unset($params[self::KEY_PID]);
+        unset($params[self::KEY_OID]);
+
         // See if email has any history
-        $params[self::KEY_NEW_TO_FILE] = (int)$helper->isNewToFile($order);
+        $params[self::KEY_DYNAMIC_NEW_TO_FILE] = (int)$helper->isNewToFile($order);
 
         $productIds = array();
         foreach($order->getAllItems() as $item) {
@@ -252,7 +259,15 @@ class EbayEnterprise_Affiliate_Block_Beacon extends Mage_Core_Block_Template
             $item->getProduct()->setCategoryIds($product->getCategoryIds());
 
             // Get item's category
-            $params[self::KEY_CATEGORY . $position] = $helper->getCommissioningCategory($item);
+            $params[self::KEY_DYNAMIC_CATEGORY . $position] = $helper->getCommissioningCategory($item);
+
+            // Replace query string keys
+            $params[self::KEY_DYNAMIC_ITEM_ID . $position] = $params[self::KEY_ITEM . $position];
+            $params[self::KEY_DYNAMIC_ITEM_PRICE . $position] = $params[self::KEY_TOTALAMOUNT . $position];
+            $params[self::KEY_DYNAMIC_QUANTITY . $position] = $params[self::KEY_QTY . $position];
+            unset($params[self::KEY_ITEM . $position]);
+            unset($params[self::KEY_TOTALAMOUNT . $position]);
+            unset($params[self::KEY_QTY . $position]);
         }
 
         return $params;
