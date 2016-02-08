@@ -200,7 +200,7 @@ class EbayEnterprise_Affiliate_Block_Beacon extends Mage_Core_Block_Template
             // is the sum of all child products which are also included in the beacon
             // so including both totals would effectively double the price of the bundle
             $total = $item->getProductType() === Mage_Catalog_Model_Product_Type::TYPE_BUNDLE ?
-                0.00 : $item->getRowTotal() - $item->getDiscountAmount();
+                0.00 : $item->getPrice() - $item->getDiscountAmount();
             if ($position) {
                 // we detected that the current item already exist in the params array
                 // and have the key increment position let's simply adjust
@@ -212,7 +212,7 @@ class EbayEnterprise_Affiliate_Block_Beacon extends Mage_Core_Block_Template
                 $params = array_merge($params, array(
                     static::KEY_ITEM . $increment => $item->getSku(),
                     static::KEY_QTY . $increment => $quantity,
-                    static::KEY_TOTALAMOUNT . $increment => number_format($total, 2, '.', ''),
+                    static::KEY_AMOUNT . $increment => number_format($total, 2, '.', ''),
                 ));
                 $increment++; // only get incremented when a unique key have been appended
             }
@@ -263,10 +263,10 @@ class EbayEnterprise_Affiliate_Block_Beacon extends Mage_Core_Block_Template
 
             // Replace query string keys
             $params[self::KEY_DYNAMIC_ITEM_ID . $position] = $params[self::KEY_ITEM . $position];
-            $params[self::KEY_DYNAMIC_ITEM_PRICE . $position] = $params[self::KEY_TOTALAMOUNT . $position];
+            $params[self::KEY_DYNAMIC_ITEM_PRICE . $position] = $params[self::KEY_AMOUNT . $position];
             $params[self::KEY_DYNAMIC_QUANTITY . $position] = $params[self::KEY_QTY . $position];
             unset($params[self::KEY_ITEM . $position]);
-            unset($params[self::KEY_TOTALAMOUNT . $position]);
+            unset($params[self::KEY_AMOUNT . $position]);
             unset($params[self::KEY_QTY . $position]);
         }
 
