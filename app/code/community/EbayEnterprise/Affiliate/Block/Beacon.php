@@ -72,6 +72,7 @@ class EbayEnterprise_Affiliate_Block_Beacon extends Mage_Core_Block_Template
     const KEY_DYNAMIC_QUANTITY = 'QUANTITY';
     const KEY_DYNAMIC_CATEGORY = 'CATEGORY';
     const KEY_DYNAMIC_NEW_TO_FILE = 'NEW_TO_FILE';
+    const KEY_DYNAMIC_COUPON = 'COUPON';
 
     /**
      * @var Mage_Sales_Model_Order
@@ -199,8 +200,10 @@ class EbayEnterprise_Affiliate_Block_Beacon extends Mage_Core_Block_Template
             // consider parent bundle products to be 0.00 total - total of the bundle
             // is the sum of all child products which are also included in the beacon
             // so including both totals would effectively double the price of the bundle
+            // 
+            // Divide discount amount by quantity to get per item discount
             $total = $item->getProductType() === Mage_Catalog_Model_Product_Type::TYPE_BUNDLE ?
-                0.00 : $item->getPrice() - $item->getDiscountAmount();
+                0.00 : $item->getPrice() - ($item->getDiscountAmount() / $item->getQtyOrdered());
             if ($position) {
                 // we detected that the current item already exist in the params array
                 // and have the key increment position let's simply adjust
@@ -236,6 +239,10 @@ class EbayEnterprise_Affiliate_Block_Beacon extends Mage_Core_Block_Template
         $params[self::KEY_DYNAMIC_ORDER_ID] = $params[self::KEY_OID];
         unset($params[self::KEY_PID]);
         unset($params[self::KEY_OID]);
+        if (isset($params[self::KEY_PROMOCODE])) {
+            $params[self::KEY_DYNAMIC_COUPON] = $params[self::KEY_PROMOCODE];
+            unset($params[self::KEY_PROMOCODE]);
+        }
 
         // See if email has any history
         $params[self::KEY_DYNAMIC_NEW_TO_FILE] = (int)$helper->isNewToFile($order);
