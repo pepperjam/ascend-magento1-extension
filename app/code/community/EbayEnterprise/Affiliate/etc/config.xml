@@ -115,21 +115,55 @@ http://www.ebayenterprise.com/files/pdf/Magento_Connect_Extensions_EULA_050714.p
                                 <key>sku</key>
                             </params>
                         </item_id>
-                        <row_total>
+                        <item_price>
                             <class>eems_affiliate/map_order</class>
-                            <method>getRowTotal</method>
+                            <method>getItemPrice</method>
                             <type>helper</type>
-                            <column_name>TOTALAMOUNT</column_name>
+                            <column_name>AMOUNT</column_name>
                             <params>
                                 <format>%.2f</format>
                             </params>
-                        </row_total>
+                        </item_price>
                         <item_quantity>
                             <class>eems_affiliate/map_order</class>
                             <method>getItemQuantity</method>
                             <type>helper</type>
                             <column_name>QUANTITY</column_name>
                         </item_quantity>
+                        <dynamic_program_id>
+                            <class>eems_affiliate/map</class>
+                            <method>getProgramId</method>
+                            <type>helper</type>
+                            <column_name>PROGRAM_ID</column_name>
+                        </dynamic_program_id>
+                        <dynamic_item_order_id>
+                            <class>eems_affiliate/map_order</class>
+                            <method>getItemOrderId</method>
+                            <type>helper</type>
+                            <column_name>ORDER_ID</column_name>
+                            <params>
+                                <format>%.50s</format>
+                            </params>
+                        </dynamic_item_order_id>
+                        <dynamic_item_id>
+                            <class>eems_affiliate/map_order</class>
+                            <method>getItemId</method>
+                            <type>helper</type>
+                            <column_name>ITEM_ID</column_name>
+                            <params>
+                                <format>%.50s</format>
+                                <key>sku</key>
+                            </params>
+                        </dynamic_item_id>
+                        <dynamic_item_price>
+                            <class>eems_affiliate/map_order</class>
+                            <method>getItemPrice</method>
+                            <type>helper</type>
+                            <column_name>ITEM_PRICE</column_name>
+                            <params>
+                                <format>%.2f</format>
+                            </params>
+                        </dynamic_item_price>
                         <category>
                             <class>eems_affiliate/map_order</class>
                             <method>getCategory</method>
@@ -871,11 +905,11 @@ http://www.ebayenterprise.com/files/pdf/Magento_Connect_Extensions_EULA_050714.p
                         </zoom>
                     </callback_mappings>
                     <order_dynamic>
-                        <fields>program_id,item_order_id,item_id,row_total,item_quantity,category,new_to_file</fields>
+                        <fields>dynamic_program_id,dynamic_item_order_id,dynamic_item_id,dynamic_item_price,item_quantity,category,new_to_file</fields>
                         <file_name_format>%s_transactions_corrected_%s.csv</file_name_format>
                     </order_dynamic>
                     <order_itemized>
-                        <fields>program_id,item_order_id,item_id,row_total,item_quantity,reason</fields>
+                        <fields>program_id,item_order_id,item_id,item_price,item_quantity,reason</fields>
                         <file_name_format>%s_transactions_corrected_%s.csv</file_name_format>
                     </order_itemized>
                     <order_basic>

@@ -54,7 +54,7 @@ class EbayEnterprise_Affiliate_Helper_Map_Order
      * @param  array $params
      * @return float
      */
-    private function _calculateDiscountedRowTotal($params)
+    private function _calculateDiscountedItemPrice($params)
     {
         $item = $params['item'];
         // tread bundle items as 0.00 total as their total will be represented by
@@ -65,7 +65,7 @@ class EbayEnterprise_Affiliate_Helper_Map_Order
         // don't allow negative amounts - could happen if a discounted item was cancelled
         return max(
             0,
-            $item->getBasePrice() * $this->getItemQuantity($params) - ($item->getBaseDiscountAmount() - $item->getBaseDiscountRefunded())
+            $item->getBasePrice() - (($item->getBaseDiscountAmount() - $item->getBaseDiscountRefunded()) / $this->getItemQuantity($params))
         );
     }
     /**
@@ -76,7 +76,7 @@ class EbayEnterprise_Affiliate_Helper_Map_Order
      * @param  array $params
      * @return string
      */
-    public function getRowTotal($params)
+    public function getItemPrice($params)
     {
         $config = Mage::helper('eems_affiliate/config');
         // transaction type of Lead should always just be "0"
@@ -85,7 +85,7 @@ class EbayEnterprise_Affiliate_Helper_Map_Order
         }
         return sprintf(
             $params['format'],
-            $this->_calculateDiscountedRowTotal($params)
+            $this->_calculateDiscountedItemPrice($params)
         );
     }
     /**

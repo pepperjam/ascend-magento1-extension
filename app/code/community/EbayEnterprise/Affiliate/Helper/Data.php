@@ -162,7 +162,7 @@ class EbayEnterprise_Affiliate_Helper_Data extends Mage_Core_Helper_Abstract
      */
     public function getCommissioningCategory(Mage_Sales_Model_Order_Item $item)
     {
-        $category = $item->getCommissioningCategory();
+        $category = $item->getProduct()->getCommissioningCategory();
         if ($category == '' || $category == null) {
 
             $categoryIds = $item->getProduct()->getCategoryIds();
