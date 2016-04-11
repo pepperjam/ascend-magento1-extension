@@ -16,7 +16,7 @@ http://www.ebayenterprise.com/files/pdf/Magento_Connect_Extensions_EULA_050714.p
 <config>
     <modules>
         <EbayEnterprise_Affiliate>
-            <version>1.2.0.0</version>
+            <version>1.2.0.1</version>
         </EbayEnterprise_Affiliate>
     </modules>
     <global>
