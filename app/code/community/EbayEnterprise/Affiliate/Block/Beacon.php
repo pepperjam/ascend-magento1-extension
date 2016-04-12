@@ -257,6 +257,7 @@ class EbayEnterprise_Affiliate_Block_Beacon extends Mage_Core_Block_Template
             ->addCategoryIds();
 
         // No need for increment, all items are in param already
+        $lastPosition = 0;
         foreach($order->getAllItems() as $item) {
             // Every item should be found here
             $position = $this->_getDupePosition($params, $item);
@@ -268,6 +269,12 @@ class EbayEnterprise_Affiliate_Block_Beacon extends Mage_Core_Block_Template
             // Get item's category
             $params[self::KEY_DYNAMIC_CATEGORY . $position] = $helper->getCommissioningCategory($item);
 
+            // Update last position
+            $lastPosition = max($lastPosition, $position);
+        }
+
+        // Swap key names for dynamic versions
+        for($position = 1; $position <= $lastPosition; $position += 1) {
             // Replace query string keys
             $params[self::KEY_DYNAMIC_ITEM_ID . $position] = $params[self::KEY_ITEM . $position];
             $params[self::KEY_DYNAMIC_ITEM_PRICE . $position] = $params[self::KEY_AMOUNT . $position];
