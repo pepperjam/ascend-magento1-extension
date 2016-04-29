@@ -197,13 +197,17 @@ class EbayEnterprise_Affiliate_Block_Beacon extends Mage_Core_Block_Template
             // will come from the simple used product with the same SKU
             $quantity = $item->getProductType() === Mage_Catalog_Model_Product_Type::TYPE_CONFIGURABLE ?
                 0 : (int) $item->getQtyOrdered();
-            // consider parent bundle products to be 0.00 total - total of the bundle
-            // is the sum of all child products which are also included in the beacon
-            // so including both totals would effectively double the price of the bundle
+            // consider parent bundle products to be 0.00 total (if the pricing is dynamic)
+            // total of the bundleis the sum of all child products which are also included
+            // in the beacon so including both totals would effectively double the price of
+            // the bundle
             //
             // Divide discount amount by quantity to get per item discount
-            $total = $item->getProductType() === Mage_Catalog_Model_Product_Type::TYPE_BUNDLE ?
-                0.00 : $item->getPrice() - ($item->getDiscountAmount() / $item->getQtyOrdered());
+            $total = $item->getPrice() - ($item->getDiscountAmount() / $item->getQtyOrdered());
+            if ($item->getProductType() === Mage_Catalog_Model_Product_Type::TYPE_BUNDLE && $item->getProduct()->getPriceType() == Mage_Bundle_Model_Product_Price::PRICE_TYPE_DYNAMIC) {
+            	$total = 0.00;
+            }
+
             if ($position) {
                 // we detected that the current item already exist in the params array
                 // and have the key increment position let's simply adjust
