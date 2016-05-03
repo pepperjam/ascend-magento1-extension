@@ -1,20 +1,18 @@
 <?php
 /**
- * Copyright (c) 2014 eBay Enterprise, Inc.
+ * Copyright (c) 2016 Pepperjam Network.
  *
  * NOTICE OF LICENSE
  *
- * This source file is subject to the eBay Enterprise
+ * This source file is subject to the Pepperjam Network
  * Magento Extensions End User License Agreement
  * that is bundled with this package in the file LICENSE.md.
  * It is also available through the world-wide-web at this URL:
- * http://www.ebayenterprise.com/files/pdf/Magento_Connect_Extensions_EULA_050714.pdf
+ * http://assets.pepperjam.com/legal/magento-connect-extension-eula.pdf
  *
- * @copyright   Copyright (c) 2014 eBay Enterprise, Inc. (http://www.ebayenterprise.com/)
- * @license     http://www.ebayenterprise.com/files/pdf/Magento_Connect_Extensions_EULA_050714.pdf  eBay Enterprise Magento Extensions End User License Agreement
- *
+ * @copyright   Copyright (c) 2016 Pepperjam Network. (http://www.pepperjam.com/)
+ * @license     http://assets.pepperjam.com/legal/magento-connect-extension-eula.pdf  Pepperjam Network Magento Extensions End User License Agreement
  */
-
 
 class Pepperjam_Network_Model_System_Config_Source_Transactiontype
 {
