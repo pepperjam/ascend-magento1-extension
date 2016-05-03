@@ -95,7 +95,7 @@ $keys = array(
 
 foreach($keys AS $key) {
 	if (!is_null(Mage::getStoreConfig('marketing_solutions/eems_affiliate' . $key))) {
-		$installer->setConfigData('affiliate_network/pepperjam_affiliate' . $key, Mage::getStoreConfig('marketing_solutions/eems_affiliate' . $key));
+		$installer->setConfigData('pepperjam_network/pepperjam_network' . $key, Mage::getStoreConfig('marketing_solutions/eems_affiliate' . $key));
 	}
 }
 
