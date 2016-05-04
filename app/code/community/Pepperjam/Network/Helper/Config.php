@@ -20,27 +20,27 @@
  */
 class Pepperjam_Network_Helper_Config
 {
-	const BEACON_URL_PATH = 'pepperjam_newtork/pepperjam_network/beacon_url';
-	const ENABLED_PATH = 'pepperjam_newtork/pepperjam_network/active';
-	const ORDER_TYPE_PATH = 'pepperjam_newtork/pepperjam_network/order_type';
-	const PROGRAM_ID_PATH = 'pepperjam_newtork/pepperjam_network/program_id';
-	const TRANSACTION_TYPE_PATH = 'pepperjam_newtork/pepperjam_network/transaction_type';
-	const EXPORT_FILE_PATH_CONFIG_PATH = 'pepperjam_newtork/pepperjam_network/export_path';
-	const CALLBACK_MAPPINGS_PATH = 'pepperjam_newtork/pepperjam_network/feeds/callback_mappings';
-	const PRODUCT_FEED_MAPPING_PATH = 'pepperjam_newtork/pepperjam_network_product_attribute_map';
-	const PRODUCT_FEED_FILENAME_FORMAT_PATH = 'pepperjam_newtork/pepperjam_network/feeds/product/file_name_format';
-	const DYNAMIC_ORDER_FEED_MAPPING_PATH = 'pepperjam_newtork/pepperjam_network/feeds/order_dynamic/fields';
-	const ITEMIZED_ORDER_FEED_MAPPING_PATH = 'pepperjam_newtork/pepperjam_network/feeds/order_itemized/fields';
-	const BASIC_ORDER_FEED_MAPPING_PATH = 'pepperjam_newtork/pepperjam_network/feeds/order_basic/fields';
-	const DYNAMIC_ORDER_FEED_FILE_FORMAT_PATH = 'pepperjam_newtork/pepperjam_network/feeds/order_dynamic/file_name_format';
-	const ITEMIZED_ORDER_FEED_FILE_FORMAT_PATH = 'pepperjam_newtork/pepperjam_network/feeds/order_itemized/file_name_format';
-	const BASIC_ORDER_FEED_FILE_FORMAT_PATH = 'pepperjam_newtork/pepperjam_network/feeds/order_basic/file_name_format';
-	const ORDER_LAST_RUN_PATH = 'pepperjam_newtork/pepperjam_network/feed/last_run_time';
-	const JS_FILES = 'pepperjam_newtork/pepperjam_network/js_files';
-	const CONDITIONAL_PIXEL_ENABLED = 'pepperjam_newtork/pepperjam_network/conditional_pixel_enabled';
-	const SOURCE_KEY_NAME = 'pepperjam_newtork/pepperjam_network/source_key_name';
-	const PRODUCT_FEED_ENABLED = 'pepperjam_newtork/pepperjam_network/product_feed_enabled';
-	const ORDER_FEED_ENABLED = 'pepperjam_newtork/pepperjam_network/order_feed_enabled';
+	const BEACON_URL_PATH = 'pepperjam_network/pepperjam_network/beacon_url';
+	const ENABLED_PATH = 'pepperjam_network/pepperjam_network/active';
+	const ORDER_TYPE_PATH = 'pepperjam_network/pepperjam_network/order_type';
+	const PROGRAM_ID_PATH = 'pepperjam_network/pepperjam_network/program_id';
+	const TRANSACTION_TYPE_PATH = 'pepperjam_network/pepperjam_network/transaction_type';
+	const EXPORT_FILE_PATH_CONFIG_PATH = 'pepperjam_network/pepperjam_network/export_path';
+	const CALLBACK_MAPPINGS_PATH = 'pepperjam_network/pepperjam_network/feeds/callback_mappings';
+	const PRODUCT_FEED_MAPPING_PATH = 'pepperjam_network/pepperjam_network_product_attribute_map';
+	const PRODUCT_FEED_FILENAME_FORMAT_PATH = 'pepperjam_network/pepperjam_network/feeds/product/file_name_format';
+	const DYNAMIC_ORDER_FEED_MAPPING_PATH = 'pepperjam_network/pepperjam_network/feeds/order_dynamic/fields';
+	const ITEMIZED_ORDER_FEED_MAPPING_PATH = 'pepperjam_network/pepperjam_network/feeds/order_itemized/fields';
+	const BASIC_ORDER_FEED_MAPPING_PATH = 'pepperjam_network/pepperjam_network/feeds/order_basic/fields';
+	const DYNAMIC_ORDER_FEED_FILE_FORMAT_PATH = 'pepperjam_network/pepperjam_network/feeds/order_dynamic/file_name_format';
+	const ITEMIZED_ORDER_FEED_FILE_FORMAT_PATH = 'pepperjam_network/pepperjam_network/feeds/order_itemized/file_name_format';
+	const BASIC_ORDER_FEED_FILE_FORMAT_PATH = 'pepperjam_network/pepperjam_network/feeds/order_basic/file_name_format';
+	const ORDER_LAST_RUN_PATH = 'pepperjam_network/pepperjam_network/feed/last_run_time';
+	const JS_FILES = 'pepperjam_network/pepperjam_network/js_files';
+	const CONDITIONAL_PIXEL_ENABLED = 'pepperjam_network/pepperjam_network/conditional_pixel_enabled';
+	const SOURCE_KEY_NAME = 'pepperjam_network/pepperjam_network/source_key_name';
+	const PRODUCT_FEED_ENABLED = 'pepperjam_network/pepperjam_network/product_feed_enabled';
+	const ORDER_FEED_ENABLED = 'pepperjam_network/pepperjam_network/order_feed_enabled';
 
 	const TRANSACTION_TYPE_SALE = '1';
 	const TRANSACTION_TYPE_LEAD = '2';

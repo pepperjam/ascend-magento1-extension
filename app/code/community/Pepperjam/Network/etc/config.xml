@@ -65,7 +65,7 @@ http://assets.pepperjam.com/legal/magento-connect-extension-eula.pdf
 		</jobs>
 	</crontab>
 	<default>
-		<pepperjam_newtork>
+		<pepperjam_network>
 			<pepperjam_network>
 				<active>0</active>
 				<js_files>pepperjam_network/cookie.js</js_files>
@@ -1009,7 +1009,7 @@ http://assets.pepperjam.com/legal/magento-connect-extension-eula.pdf
 				<year/>
 				<zoom/>
 			</pepperjam_network_product_attribute_map>
-		</pepperjam_newtork>
+		</pepperjam_network>
 	</default>
 	<frontend>
 		<layout>

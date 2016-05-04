@@ -21,7 +21,7 @@ http://assets.pepperjam.com/legal/magento-connect-extension-eula.pdf
 		</pepperjam>
 	</tabs>
 	<sections>
-		<pepperjam_newtork translate="label" module="pepperjam_network">
+		<pepperjam_network translate="label" module="pepperjam_network">
 			<class>separator-top</class>
 			<label>Pepperjam Network</label>
 			<tab>pepperjam</tab>
@@ -926,6 +926,6 @@ http://assets.pepperjam.com/legal/magento-connect-extension-eula.pdf
 					</fields>
 				</pepperjam_network_product_attribute_map>
 			</groups>
-		</pepperjam_newtork>
+		</pepperjam_network>
 	</sections>
 </config>
