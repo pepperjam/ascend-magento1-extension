@@ -1027,4 +1027,15 @@ http://assets.pepperjam.com/legal/magento-connect-extension-eula.pdf
 			</modules>
 		</suite>
 	</phpunit>
+	<admin>
+		<routers>
+			<adminhtml>
+				<args>
+					<modules>
+						<pepperjam_network before="Mage_Adminhtml">Pepperjam_Network_Adminhtml</pepperjam_network>
+					</modules>
+				</args>
+			</adminhtml>
+		</routers>
+	</admin>
 </config>

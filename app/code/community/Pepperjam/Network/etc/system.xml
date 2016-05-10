@@ -133,7 +133,7 @@ http://assets.pepperjam.com/legal/magento-connect-extension-eula.pdf
 				<pepperjam_network_product_attribute_map translate="label comment">
 					<label>Product Feed Map</label>
 					<frontend_type>text</frontend_type>
-					<sort_order>101</sort_order>
+					<sort_order>200</sort_order>
 					<show_in_default>1</show_in_default>
 					<show_in_website>1</show_in_website>
 					<show_in_store>0</show_in_store>
@@ -925,6 +925,24 @@ http://assets.pepperjam.com/legal/magento-connect-extension-eula.pdf
 						</zoom>
 					</fields>
 				</pepperjam_network_product_attribute_map>
+				<uninstall translate="label">
+					<label>Uninstall</label>
+					<sort_order>300</sort_order>
+					<show_in_default>1</show_in_default>
+					<show_in_website>0</show_in_website>
+					<show_in_store>0</show_in_store>
+					<fields>
+						<uninstall translate="label">
+							<label>Uninstall</label>
+							<frontend_type>button</frontend_type>
+							<frontend_model>pepperjam_network/adminhtml_system_config_form_button</frontend_model>
+							<sort_order>100</sort_order>
+							<show_in_default>1</show_in_default>
+							<show_in_website>0</show_in_website>
+							<show_in_store>0</show_in_store>
+						</uninstall>
+					</fields>
+				</uninstall>
 			</groups>
 		</pepperjam_network>
 	</sections>
