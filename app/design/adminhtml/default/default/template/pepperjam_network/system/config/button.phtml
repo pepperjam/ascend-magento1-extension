@@ -21,7 +21,9 @@ function uninstall() {
 	if (confirm('Remove Pepperjam Network extension?')) {
 		new Ajax.Request('<?php echo $this->getAjaxUninstallUrl(); ?>', {
 			method: 'get',
-			onSuccess: function(response) {}
+			onSuccess: function(response) {
+				document.location.reload(true);
+			}
 		});
 	}
 }
