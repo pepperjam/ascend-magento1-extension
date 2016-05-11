@@ -925,15 +925,17 @@ http://assets.pepperjam.com/legal/magento-connect-extension-eula.pdf
 						</zoom>
 					</fields>
 				</pepperjam_network_product_attribute_map>
-				<uninstall translate="label">
-					<label>Uninstall</label>
+				<uninstall translate="label comment">
+					<label>Uninstall Extension</label>
+					<comment>If you wish to uninstall this extension, please use this Uninstall button.</comment>
 					<sort_order>300</sort_order>
 					<show_in_default>1</show_in_default>
 					<show_in_website>0</show_in_website>
 					<show_in_store>0</show_in_store>
 					<fields>
-						<uninstall translate="label">
-							<label>Uninstall</label>
+						<uninstall translate="label comment">
+							<label>If you wish to uninstall this extension, please use this Uninstall button.</label>
+							<comment>If you wish to uninstall this extension, please use this Uninstall button.</comment>
 							<frontend_type>button</frontend_type>
 							<frontend_model>pepperjam_network/adminhtml_system_config_form_button</frontend_model>
 							<sort_order>100</sort_order>
