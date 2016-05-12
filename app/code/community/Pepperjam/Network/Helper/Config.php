@@ -23,6 +23,7 @@ class Pepperjam_Network_Helper_Config
 	const BEACON_URL_PATH = 'pepperjam/pepperjam_network/beacon_url';
 	const ENABLED_PATH = 'pepperjam/pepperjam_network/active';
 	const ORDER_TYPE_PATH = 'pepperjam/pepperjam_network/order_type';
+	const TRACKING_METHOD_PATH = 'pepperjam/pepperjam_network/tracking_method';
 	const PROGRAM_ID_PATH = 'pepperjam/pepperjam_network/program_id';
 	const TRANSACTION_TYPE_PATH = 'pepperjam/pepperjam_network/transaction_type';
 	const EXPORT_FILE_PATH_CONFIG_PATH = 'pepperjam/pepperjam_network/export_path';
@@ -32,15 +33,20 @@ class Pepperjam_Network_Helper_Config
 	const DYNAMIC_ORDER_FEED_MAPPING_PATH = 'pepperjam/pepperjam_network/feeds/order_dynamic/fields';
 	const ITEMIZED_ORDER_FEED_MAPPING_PATH = 'pepperjam/pepperjam_network/feeds/order_itemized/fields';
 	const BASIC_ORDER_FEED_MAPPING_PATH = 'pepperjam/pepperjam_network/feeds/order_basic/fields';
-	const DYNAMIC_ORDER_FEED_FILE_FORMAT_PATH = 'pepperjam/pepperjam_network/feeds/order_dynamic/file_name_format';
-	const ITEMIZED_ORDER_FEED_FILE_FORMAT_PATH = 'pepperjam/pepperjam_network/feeds/order_itemized/file_name_format';
-	const BASIC_ORDER_FEED_FILE_FORMAT_PATH = 'pepperjam/pepperjam_network/feeds/order_basic/file_name_format';
-	const ORDER_LAST_RUN_PATH = 'pepperjam/pepperjam_network/feed/last_run_time';
+	const DYNAMIC_ORDER_CORRECTION_FEED_MAPPING_PATH = 'pepperjam/pepperjam_network/feeds/order_correction_dynamic/fields';
+	const ITEMIZED_ORDER_CORRECTION_FEED_MAPPING_PATH = 'pepperjam/pepperjam_network/feeds/order_correction_itemized/fields';
+	const BASIC_ORDER_CORRECTION_FEED_MAPPING_PATH = 'pepperjam/pepperjam_network/feeds/order_correction_basic/fields';
+	const ORDER_FEED_FILE_FORMAT_PATH = 'pepperjam/pepperjam_network/feeds/order_feed/file_name_format';
+	const ORDER_CORRECTION_FEED_FILE_FORMAT_PATH = 'pepperjam/pepperjam_network/feeds/order_correction_feed/file_name_format';
+	const ORDER_LAST_RUN_PATH = 'pepperjam/pepperjam_network/order_feed/last_run_time';
+	const ORDER_CORRECTION_LAST_RUN_PATH = 'pepperjam/pepperjam_network/order_correction_feed/last_run_time';
 	const JS_FILES = 'pepperjam/pepperjam_network/js_files';
-	const CONDITIONAL_PIXEL_ENABLED = 'pepperjam/pepperjam_network/conditional_pixel_enabled';
+	const ATTRIBUTION_ENABLED = 'pepperjam/pepperjam_network/attribution_enabled';
 	const SOURCE_KEY_NAME = 'pepperjam/pepperjam_network/source_key_name';
+	const CLICK_KEY_NAME = 'pepperjam/pepperjam_network/click_id_key_name';
+	const PUBLISHER_KEY_NAME = 'pepperjam/pepperjam_network/publisher_id_key_name';
 	const PRODUCT_FEED_ENABLED = 'pepperjam/pepperjam_network/product_feed_enabled';
-	const ORDER_FEED_ENABLED = 'pepperjam/pepperjam_network/order_feed_enabled';
+	const ORDER_CORRECTION_FEED_ENABLED = 'pepperjam/pepperjam_network/order_correction_feed_enabled';
 
 	const TRANSACTION_TYPE_SALE = '1';
 	const TRANSACTION_TYPE_LEAD = '2';
@@ -48,6 +54,9 @@ class Pepperjam_Network_Helper_Config
 	const ORDER_TYPE_BASIC = 'basic';
 	const ORDER_TYPE_ITEMIZED = 'itemized';
 	const ORDER_TYPE_DYNAMIC = 'dynamic';
+
+	const TRACKING_METHOD_PIXEL = 'pixel';
+	const TRACKING_METHOD_FEED = 'feed';
 
 	/**
 	 * retrieve the program id from store config
@@ -96,7 +105,37 @@ class Pepperjam_Network_Helper_Config
 	 */
 	public function isDynamicOrders($store = null)
 	{
-		return $this->getOrderType() == static::ORDER_TYPE_DYNAMIC;
+		return $this->getOrderType($store) == static::ORDER_TYPE_DYNAMIC;
+	}
+
+	/**
+	 * retrieve tracking method
+	 * @param  mixed  $store
+	 * @return string
+	 */
+	public function getTrackingMethod($store = null)
+	{
+		return Mage::getStoreConfig(self::TRACKING_METHOD_PATH, $store);
+	}
+
+	/**
+	 * should tracking be done via pixel?
+	 * @param  mixed $store
+	 * @return bool
+	 */
+	public function trackByPixel($store = null)
+	{
+		return $this->getTrackingMethod($store) == self::TRACKING_METHOD_PIXEL;
+	}
+
+	/**
+	 * should tracking be done via feed?
+	 * @param  mixed $store
+	 * @return bool
+	 */
+	public function trackByFeed($store = null)
+	{
+		return $this->getTrackingMethod($store) == self::TRACKING_METHOD_FEED;
 	}
 
 	/**
@@ -199,33 +238,53 @@ class Pepperjam_Network_Helper_Config
 	}
 
 	/**
-	 * Get the configured dynamic order feed file format
+	 * Get the configured feed mapping for the dynamic order correction feed.
 	 * @param  mixed $store
-	 * @return string
+	 * @return array
 	 */
-	public function getDynamicOrderFeedFileFormat($store = null)
+	public function getDynamicOrderCorrectionFeedFields($store = null)
 	{
-		return Mage::getStoreConfig(static::DYNAMIC_ORDER_FEED_FILE_FORMAT_PATH, $store);
+		return Mage::getStoreConfig(static::DYNAMIC_ORDER_CORRECTION_FEED_MAPPING_PATH, $store);
 	}
 
 	/**
-	 * Get the configured itemized order feed file format
+	 * Get the configured feed mapping for the itemized order correction feed.
 	 * @param  mixed $store
-	 * @return string
+	 * @return array
 	 */
-	public function getItemizedOrderFeedFileFormat($store = null)
+	public function getItemizedOrderCorrectionFeedFields($store = null)
 	{
-		return Mage::getStoreConfig(static::ITEMIZED_ORDER_FEED_FILE_FORMAT_PATH, $store);
+		return Mage::getStoreConfig(static::ITEMIZED_ORDER_CORRECTION_FEED_MAPPING_PATH, $store);
 	}
 
 	/**
-	 * Get the configured basic order feed file format
+	 * Get the configured feed mapping for the basic order correction feed.
+	 * @param  mixed $store
+	 * @return array
+	 */
+	public function getBasicOrderCorrectionFeedFields($store = null)
+	{
+		return Mage::getStoreConfig(static::BASIC_ORDER_CORRECTION_FEED_MAPPING_PATH, $store);
+	}
+
+	/**
+	 * Get the configured order feed file format
 	 * @param  mixed $store
 	 * @return string
 	 */
-	public function getBasicOrderFeedFileFormat($store = null)
+	public function getOrderFeedFileFormat($store = null)
 	{
-		return Mage::getStoreConfig(static::BASIC_ORDER_FEED_FILE_FORMAT_PATH, $store);
+		return Mage::getStoreConfig(static::ORDER_FEED_FILE_FORMAT_PATH, $store);
+	}
+
+	/**
+	 * Get the configured order correction feed file format
+	 * @param  mixed $store
+	 * @return string
+	 */
+	public function getOrderCorrectionFeedFileFormat($store = null)
+	{
+		return Mage::getStoreConfig(static::ORDER_CORRECTION_FEED_FILE_FORMAT_PATH, $store);
 	}
 
 	/**
@@ -243,6 +302,20 @@ class Pepperjam_Network_Helper_Config
 	}
 
 	/**
+	 * Update the last run time of the order create feed to the specified time,
+	 * or the current time it no time is given. Always set globally so no need to
+	 * ever be given a store context.
+	 * @param  string $time
+	 * @return self
+	 */
+	public function updateOrderCorrectionLastRunTime($time = null)
+	{
+		Mage::getConfig()->saveConfig(self::ORDER_CORRECTION_LAST_RUN_PATH, $time ?: time());
+		Mage::app()->getStore()->resetConfig();
+		return $this;
+	}
+
+	/**
 	 * Get the last time the order corrections feed was run. Returns the string
 	 * value saved in config. Always set globally so no need for a store context.
 	 * @return string
@@ -250,6 +323,16 @@ class Pepperjam_Network_Helper_Config
 	public function getOrderLastRunTime()
 	{
 		return Mage::getStoreConfig(self::ORDER_LAST_RUN_PATH);
+	}
+
+	/**
+	 * Get the last time the order corrections feed was run. Returns the string
+	 * value saved in config. Always set globally so no need for a store context.
+	 * @return string
+	 */
+	public function getOrderCorrectionLastRunTime()
+	{
+		return Mage::getStoreConfig(self::ORDER_CORRECTION_LAST_RUN_PATH);
 	}
 
 	/**
@@ -278,6 +361,32 @@ class Pepperjam_Network_Helper_Config
 	}
 
 	/**
+	 * ID of the affiliate click
+	 *
+	 * If attribution logic is enabled, include the click id in the pixel
+	 *
+	 * @param null $store
+	 * @return string
+	 */
+	public function getClickKeyName($store = null)
+	{
+		return Mage::getStoreConfig(self::CLICK_KEY_NAME, $store);
+	}
+
+	/**
+	 * ID of the affiliate publisher
+	 *
+	 * If attribution logic is enabled, include the publisher id in the pixel
+	 *
+	 * @param null $store
+	 * @return string
+	 */
+	public function getPublisherKeyName($store = null)
+	{
+		return Mage::getStoreConfig(self::PUBLISHER_KEY_NAME, $store);
+	}
+
+	/**
 	 * Enable/disable product feed
 	 *
 	 * @param  null    $store
@@ -289,13 +398,13 @@ class Pepperjam_Network_Helper_Config
 	}
 
 	/**
-	 * Enable/disable order feed
+	 * Enable/disable order Correction feed
 	 *
 	 * @param  null    $store
 	 * @return boolean
 	 */
-	public function isOrderFeedEnabled($store = null)
+	public function isOrderCorrectionFeedEnabled($store = null)
 	{
-		return Mage::getStoreConfig(self::ORDER_FEED_ENABLED, $store);
+		return Mage::getStoreConfig(self::ORDER_CORRECTION_FEED_ENABLED, $store);
 	}
 }

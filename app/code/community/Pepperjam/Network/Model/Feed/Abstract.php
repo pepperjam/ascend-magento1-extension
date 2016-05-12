@@ -16,12 +16,17 @@
 
 abstract class Pepperjam_Network_Model_Feed_Abstract
 {
+	// Query types for items
+	const ITEMS_CORRECTIONS = 'corrections';
+	const ITEMS_NEW = 'new';
+
 	/**
 	 * The store context the feed is generated for. May be set to any viable store
 	 * identified.
 	 * @var Mage_Core_Model_Store
 	 */
 	protected $_store;
+	protected $_feedType;
 	/**
 	 * Get a collection of items to be included in the feed.
 	 * @return Varien_Data_Collection
@@ -93,6 +98,7 @@ abstract class Pepperjam_Network_Model_Feed_Abstract
 	 */
 	public function generateFeed()
 	{
+		$this->_feedType = $feedType;
 		$this->_generateFile($this->_buildFeedData());
 		return $this;
 	}
@@ -104,7 +110,6 @@ abstract class Pepperjam_Network_Model_Feed_Abstract
 	protected function _buildFeedData()
 	{
 		$items = $this->_getItems();
-		Mage::log(sprintf('building feed for %d items', $items->count()));
 		// array_map must be on an array - $items is a collection so need to get the
 		// underlying array to pass to array_map
 		return array_map(array($this, '_applyMapping'), $items->getItems());

@@ -43,12 +43,23 @@ http://assets.pepperjam.com/legal/magento-connect-extension-eula.pdf
 				</setup>
 			</pepperjam_network_setup>
 		</resources>
+		<events>
+			<sales_order_place_after>
+				<observers>
+					<pepperjam_network>
+						<type>singleton</type>
+						<class>Pepperjam_Network_Model_Observer</class>
+						<method>transferAttribution</method>
+					</pepperjam_network>
+				</observers>
+			</sales_order_place_after>
+		</events>
 	</global>
 	<crontab>
 		<jobs>
 			<pepperjam_network_generate_product_feed>
 				<schedule>
-					<cron_expr>0 3 * * *</cron_expr>
+					<cron_expr>* 3 * * *</cron_expr>
 				</schedule>
 				<run>
 					<model>pepperjam_network/observer::createProductFeed</model>
@@ -62,6 +73,14 @@ http://assets.pepperjam.com/legal/magento-connect-extension-eula.pdf
 					<model>pepperjam_network/observer::createCorrectedOrdersFeed</model>
 				</run>
 			</pepperjam_network_generate_corrected_order_feed>
+			<pepperjam_network_generate_order_feed>
+				<schedule>
+					<cron_expr>0 3 * * *</cron_expr>
+				</schedule>
+				<run>
+					<model>pepperjam_network/observer::createOrdersFeed</model>
+				</run>
+			</pepperjam_network_generate_order_feed>
 		</jobs>
 	</crontab>
 	<default>
@@ -73,12 +92,15 @@ http://assets.pepperjam.com/legal/magento-connect-extension-eula.pdf
 				<beacon_url>https://t.pepperjamnetwork.com/track</beacon_url>
 				<export_path>var/export/pepperjam_network/</export_path>
 				<order_type>itemized</order_type>
+				<tracking_method></tracking_method>
 				<program_id/>
 				<transaction_type>1</transaction_type>
-				<conditional_pixel_enabled>0</conditional_pixel_enabled>
+				<attribution_enabled>1</attribution_enabled>
 				<source_key_name>source</source_key_name>
+				<click_id_key_name>click</click_id_key_name>
+				<publisher_id_key_name>publisher</publisher_id_key_name>
 				<product_feed_enabled>1</product_feed_enabled>
-				<order_feed_enabled>1</order_feed_enabled>
+				<order_correction_feed_enabled>1</order_correction_feed_enabled>
 				<feeds>
 					<callback_mappings>
 						<program_id>
@@ -130,6 +152,24 @@ http://assets.pepperjam.com/legal/magento-connect-extension-eula.pdf
 							<type>helper</type>
 							<column_name>QUANTITY</column_name>
 						</item_quantity>
+						<click_id>
+							<class>pepperjam_network/map_order</class>
+							<method>getClickId</method>
+							<type>helper</type>
+							<column_name>CLICKID</column_name>
+						</click_id>
+						<publisher_id>
+							<class>pepperjam_network/map_order</class>
+							<method>getPublisherId</method>
+							<type>helper</type>
+							<column_name>AFFILIATEID</column_name>
+						</publisher_id>
+						<order_date>
+							<class>pepperjam_network/map_order</class>
+							<method>getOrderDate</method>
+							<type>helper</type>
+							<column_name>DATETIME</column_name>
+						</order_date>
 						<dynamic_program_id>
 							<class>pepperjam_network/map</class>
 							<method>getProgramId</method>
@@ -164,6 +204,24 @@ http://assets.pepperjam.com/legal/magento-connect-extension-eula.pdf
 								<format>%.2f</format>
 							</params>
 						</dynamic_item_price>
+						<dynamic_click_id>
+							<class>pepperjam_network/map_order</class>
+							<method>getClickId</method>
+							<type>helper</type>
+							<column_name>CLICK_ID</column_name>
+						</dynamic_click_id>
+						<dynamic_publisher_id>
+							<class>pepperjam_network/map_order</class>
+							<method>getPublisherId</method>
+							<type>helper</type>
+							<column_name>AFFILIATE_ID</column_name>
+						</dynamic_publisher_id>
+						<dynamic_order_date>
+							<class>pepperjam_network/map_order</class>
+							<method>getOrderDate</method>
+							<type>helper</type>
+							<column_name>ORDER_DATE</column_name>
+						</dynamic_order_date>
 						<category>
 							<class>pepperjam_network/map_order</class>
 							<method>getCategory</method>
@@ -905,17 +963,29 @@ http://assets.pepperjam.com/legal/magento-connect-extension-eula.pdf
 						</zoom>
 					</callback_mappings>
 					<order_dynamic>
-						<fields>dynamic_program_id,dynamic_item_order_id,dynamic_item_id,dynamic_item_price,item_quantity,category,new_to_file</fields>
-						<file_name_format>%s_transactions_corrected_%s.csv</file_name_format>
+						<fields>dynamic_program_id,dynamic_publisher_id,dynamic_click_id,dynamic_item_order_id,dynamic_item_id,dynamic_item_price,item_quantity,dynamic_order_date,category,new_to_file</fields>
 					</order_dynamic>
 					<order_itemized>
-						<fields>program_id,item_order_id,item_id,item_price,item_quantity,reason</fields>
-						<file_name_format>%s_transactions_corrected_%s.csv</file_name_format>
+						<fields>program_id,publisher_id,item_order_id,item_id,item_price,item_quantity,order_date,click_id</fields>
 					</order_itemized>
 					<order_basic>
-						<fields>program_id,order_amount,order_id,reason,transaction_type</fields>
-						<file_name_format>%s_transactions_corrected_%s.csv</file_name_format>
+						<fields>program_id,publisher_id,order_amount,order_id,order_date,transaction_type,click_id</fields>
 					</order_basic>
+					<order_correction_dynamic>
+						<fields>dynamic_program_id,dynamic_item_order_id,dynamic_item_id,dynamic_item_price,item_quantity,category,new_to_file</fields>
+					</order_correction_dynamic>
+					<order_correction_itemized>
+						<fields>program_id,item_order_id,item_id,item_price,item_quantity,reason</fields>
+					</order_correction_itemized>
+					<order_correction_basic>
+						<fields>program_id,publisher_id,order_amount,order_id,reason,transaction_type</fields>
+					</order_correction_basic>
+					<order_feed>
+						<file_name_format>%s_transactions_%s.csv</file_name_format>
+					</order_feed>
+					<order_correction_feed>
+						<file_name_format>%s_transactions_corrected_%s.csv</file_name_format>
+					</order_correction_feed>
 					<product>
 						<file_name_format>%s_product_feed.csv</file_name_format>
 					</product>

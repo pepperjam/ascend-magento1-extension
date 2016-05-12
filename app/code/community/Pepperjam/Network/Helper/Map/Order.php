@@ -22,6 +22,8 @@
  */
 class Pepperjam_Network_Helper_Map_Order
 {
+	const DATE_FORMAT_MASK = "Y-m-d H:i:s";
+
 	/**
 	 * Get the order increment id from the order the item was created for. Expects
 	 * the "item" to be a Mage_Sales_Model_Order_Item and the "format" to be a
@@ -168,5 +170,26 @@ class Pepperjam_Network_Helper_Map_Order
 		$order = $params['item']->getOrder();
 
 		return (int) Mage::helper('pepperjam_network')->isNewToFile($order);
+	}
+
+	public function getClickId($params)
+	{
+		$order = $params['item']->getOrder();
+
+		return $order->getNetworkClickId();
+	}
+
+	public function getPublisherId($params)
+	{
+		$order = $params['item']->getOrder();
+
+		return $order->getNetworkPublisherId();
+	}
+
+	public function getOrderDate($params)
+	{
+		$order = $params['item']->getOrder();
+
+		return date(self::DATE_FORMAT_MASK, strtotime($order->getCreatedAt()));
 	}
 }

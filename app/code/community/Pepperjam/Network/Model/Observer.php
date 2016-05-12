@@ -24,7 +24,9 @@ class Pepperjam_Network_Model_Observer
 	 */
 	public function createProductFeed()
 	{
-		if (!Mage::getStoreConfig('pepperjam/pepperjam_network/product_feed_enabled')) {
+		$config = Mage::helper('pepperjam_network/config');
+
+		if (!isProductFeedEnabled()) {
 			Mage::log(Mage::helper('pepperjam_network')->__('Product feed disabled'), Zend_Log::NOTICE);
 			return;
 		}
@@ -48,26 +50,73 @@ class Pepperjam_Network_Model_Observer
 	 */
 	public function createCorrectedOrdersFeed()
 	{
-		if (!Mage::getStoreConfig('pepperjam/pepperjam_network/order_feed_enabled')) {
+		$config = Mage::helper('pepperjam_network/config');
+
+		if (!$config->isAttributionEnabled() || !$config->isOrderCorrectionFeedEnabled()) {
 			Mage::log(Mage::helper('pepperjam_network')->__('Corrected order feed disabled'), Zend_Log::NOTICE);
 			return;
 		}
 
 		$startTime = time();
 
-		$feedAlias = 'feed_order_'.Mage::helper('pepperjam_network/config')->getOrderType();
+		$feedAlias = 'feed_order_'.$config->getOrderType();
 
-		Mage::log(sprintf('[%s] Generating %s feed', __CLASS__, $feedAlias), Zend_Log::INFO);
+		Mage::log(sprintf('[%s] Generating %s correction feed', __CLASS__, $feedAlias), Zend_Log::INFO);
 
 		$helper = Mage::helper('pepperjam_network');
 		foreach ($helper->getAllProgramIds() as $programId) {
 			Mage::getModel(
 				"pepperjam_network/{$feedAlias}",
 				array('store' => $helper->getStoreForProgramId($programId), 'start_time' => $startTime)
-			)->generateFeed();
+			)->generateFeed('corrections');
 		}
 
-		Mage::helper('pepperjam_network/config')->updateOrderLastRunTime($startTime);
+		Mage::helper('pepperjam_network/config')->updateOrderCorrectionLastRunTime($startTime);
+		return $this;
+	}
+
+	/**
+	 * Generate the order feed.
+	 * @return self
+	 */
+	public function createOrdersFeed()
+	{
+		$config = Mage::helper('pepperjam_network/config');
+
+		$startTime = time();
+
+		$feedAlias = 'feed_order_'.$config->getOrderType();
+
+		Mage::log("[".__CLASS__."] Generating $feedAlias feed", Zend_Log::INFO);
+
+		$helper = Mage::helper('pepperjam_network');
+		foreach($helper->getAllProgramIds() as $programId) {
+			$feedModel = Mage::getModel(
+				"pepperjam_network/$feedAlias",
+				array('store' => $helper->getStoreForProgramId($programId), 'start_time' => $startTime)
+			)->generateFeed('new');
+		}
+
+		$config->updateOrderLastRunTime($startTime);
+
+		return $this;
+	}
+
+	/**
+	 * Transfer attribution attributes to new order after edit
+	 * @param  Varien_Event_Observer $observer
+	 * @return self
+	 */
+	public function transferAttribution($observer)
+	{
+		$order = $observer->getEvent()->getData('order');
+		if (!is_null($order->getRelationParentId())) {
+			$parentOrder = Mage::getModel('sales/order')->load($order->getRelationParentId());
+
+			$order->setNetworkSource($parentOrder->getNetworkSource());
+			$order->setNetworkClickId($parentOrder->getNetworkClickId());
+			$order->setNetworkPublisherId($parentOrder->getNetworkPublisherId());
+		}
 
 		return $this;
 	}

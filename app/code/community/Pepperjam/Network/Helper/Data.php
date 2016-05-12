@@ -125,16 +125,61 @@ class Pepperjam_Network_Helper_Data extends Mage_Core_Helper_Abstract
 	}
 
 	/**
-	 * True if the cookie exists and has a value of SOURCE_KEY_VALUE
+	 * helper function to take the source key name set in the admin panel
+	 * and prepend a string to create a unique name for the cookie
+	 *
+	 * @return string
+	 */
+	public function getClickCookieName()
+	{
+		$key = Mage::helper('pepperjam_network/config')->getClickKeyName();
+
+		return self::SOURCE_COOKIE_PREFIX.$key;
+	}
+
+	/**
+	 * helper function to take the source key name set in the admin panel
+	 * and prepend a string to create a unique name for the cookie
+	 *
+	 * @return string
+	 */
+	public function getPublisherCookieName()
+	{
+		$key = Mage::helper('pepperjam_network/config')->getPublisherKeyName();
+
+		return self::SOURCE_COOKIE_PREFIX.$key;
+	}
+
+	/**
+	 * True if the cookie exists and has a value of SOURCE_KEY_VALUE_X
 	 * False otherwise
 	 *
 	 * @return bool
 	 */
 	public function isValidCookie()
 	{
+		$key = Mage::helper('pepperjam_network/config')->getSourceKeyName();
+
+		return self::SOURCE_COOKIE_PREFIX.$key;
+	}
+
+	/**
+	 * helper function to take the source key name set in the admin panel
+	 * and prepend a string to create a unique name for the cookie
+	 *
+	 * @return string
+	 */
+	public function getClickCookieName()
+	{
+		$key = Mage::helper('pepperjam_network/config')->getClickKeyName();
 		$cookie = $this->getSourceCookieName();
 		$value = Mage::getModel('core/cookie')->get($cookie);
-		return in_array($value, array(self::SOURCE_KEY_VALUE_PEPPERJAM, self::SOURCE_KEY_VALUE_EBAY));
+		return in_array($value, $this->validSourceValues());
+	}
+
+	public function validSourceValues()
+	{
+		return array(self::SOURCE_KEY_VALUE_EBAY, self::SOURCE_KEY_VALUE_PEPPERJAM;
 	}
 
 	/**
@@ -174,5 +219,14 @@ class Pepperjam_Network_Helper_Data extends Mage_Core_Helper_Abstract
 		}
 
 		return $category;
+	}
+
+	public function getCookieValue($cookieName)
+	{
+		if ($_COOKIE[$cookieName]) {
+			return $_COOKIE[$cookieName];
+		}
+
+		return false;
 	}
 }

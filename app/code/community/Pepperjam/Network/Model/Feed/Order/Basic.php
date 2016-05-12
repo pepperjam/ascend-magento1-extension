@@ -21,34 +21,7 @@ class Pepperjam_Network_Model_Feed_Order_Basic extends Pepperjam_Network_Model_F
 	 */
 	protected function _getItems()
 	{
-		$lastRunTime = date(static::SELECT_TIME_FORMAT, Mage::helper('pepperjam_network/config')->getOrderLastRunTime() ?: 0);
-		$startTime = date(static::SELECT_TIME_FORMAT, $this->_startTime);
-		$storeIds = $this->_getStoreIdsToInclude();
-
-		$collection = Mage::getResourceModel('sales/order_collection');
-		$select = $collection->getSelect();
-		$select
-			->joinLeft(
-				array('cmo' => $collection->getTable('sales/creditmemo')),
-				'main_table.entity_id = cmo.order_id',
-				array()
-			)
-			// this is far more pure SQL than should be here but I don't see a way to
-			// get the proper groupings of where clauses without doing this
-			->where(
-				'main_table.store_id IN (?)',
-				$storeIds
-			)
-			->where(
-				"(main_table.original_increment_id IS NOT NULL AND main_table.created_at >= :lastRunTime AND main_table.created_at < :startTime) OR" .
-				"(cmo.created_at IS NOT NULL AND cmo.created_at >= :lastRunTime AND cmo.created_at < :startTime) OR" .
-				"(main_table.state = 'canceled' AND main_table.updated_at >= :lastRunTime AND main_table.updated_at < :startTime AND main_table.relation_child_id IS NULL)"
-			);
-
-		$collection->addBindParam(':lastRunTime', $lastRunTime)
-			->addBindParam(':startTime', $startTime);
-
-		return $collection;
+		return $this->_getBasicItems();
 	}
 	/**
 	 * Get an array of callback mappings for the feed. Should result in an array
@@ -58,16 +31,12 @@ class Pepperjam_Network_Model_Feed_Order_Basic extends Pepperjam_Network_Model_F
 	 */
 	protected function _getFeedFields()
 	{
-		return explode(',', Mage::helper('pepperjam_network/config')->getBasicOrderFeedFields());
-	}
-	/**
-	 * Get the file name format from config. Doesn't pass store context as the
-	 * file name format should only ever exist at the global level.
-	 * @see  parent::_getFileNameFormat
-	 * @codeCoverageIgnore
-	 */
-	protected function _getFileNameFormat()
-	{
-		return Mage::helper('pepperjam_network/config')->getBasicOrderFeedFileFormat();
+		if ($this->_feedType == self::ITEMS_NEW) {
+			$fields = Mage::helper('pepperjam_network/config')->getBasicOrderFeedFields();
+		} else {
+			$fields = Mage::helper('pepperjam_network/config')->getBasicOrderCorrectionFeedFields();
+		}
+
+		return explode(',', $fields);
 	}
 }

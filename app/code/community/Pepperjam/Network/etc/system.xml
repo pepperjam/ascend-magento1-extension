@@ -67,6 +67,15 @@ http://assets.pepperjam.com/legal/magento-connect-extension-eula.pdf
 							<show_in_website>0</show_in_website>
 							<show_in_store>0</show_in_store>
 						</order_type>
+						<tracking_method translate="label">
+							<label>Program Tracking Method</label>
+							<frontend_type>select</frontend_type>
+							<source_model>pepperjam_network/system_config_source_trackingmethods</source_model>
+							<sort_order>25</sort_order>
+							<show_in_default>1</show_in_default>
+							<show_in_website>0</show_in_website>
+							<show_in_store>0</show_in_store>
+						</tracking_method>
 						<transaction_type translate="label comment">
 							<label>Transaction Type</label>
 							<comment>Sale transactions pay publishers a percentage of the sale, lead transactions pay publishes a flat amount for an action.</comment>
@@ -89,45 +98,71 @@ http://assets.pepperjam.com/legal/magento-connect-extension-eula.pdf
 							<show_in_website>0</show_in_website>
 							<show_in_store>0</show_in_store>
 						</export_path>
-						<conditional_pixel_enabled translate="label">
-							<label>Conditional Pixel</label>
+						<attribution_enabled translate="label">
+							<label>Attribution</label>
 							<frontend_type>select</frontend_type>
 							<source_model>adminhtml/system_config_source_yesno</source_model>
 							<sort_order>60</sort_order>
 							<show_in_default>1</show_in_default>
 							<show_in_website>0</show_in_website>
 							<show_in_store>0</show_in_store>
-						</conditional_pixel_enabled>
+						</attribution_enabled>
 						<source_key_name translate="label comment">
-							<label>Query String Key Name</label>
+							<label>Query String Source Key Name</label>
 							<comment>Only apply the pixel if the query string includes this key.</comment>
 							<frontend_type>text</frontend_type>
 							<depends>
-								<conditional_pixel_enabled>1</conditional_pixel_enabled>
+								<attribution_enabled>1</attribution_enabled>
 							</depends>
 							<sort_order>70</sort_order>
 							<show_in_default>1</show_in_default>
 							<show_in_website>0</show_in_website>
 							<show_in_store>0</show_in_store>
 						</source_key_name>
-						<product_feed_enabled translate="label">
-							<label>Product Feed Enabled</label>
-							<frontend_type>select</frontend_type>
-							<source_model>adminhtml/system_config_source_yesno</source_model>
-							<sort_order>80</sort_order>
+						<click_id_key_name translate="label">
+							<label>Query String Click ID Key Name</label>
+							<frontend_type>text</frontend_type>
+							<depends>
+								<attribution_enabled>1</attribution_enabled>
+							</depends>
+							<sort_order>73</sort_order>
 							<show_in_default>1</show_in_default>
 							<show_in_website>0</show_in_website>
 							<show_in_store>0</show_in_store>
-						</product_feed_enabled>
-						<order_feed_enabled translate="label">
+						</click_id_key_name>
+						<publisher_id_key_name translate="label comment">
+							<label>Query String Publisher ID Key Name</label>
+							<comment>Please ensure that these parameters are placed in all affiliate tracking links.</comment>
+							<frontend_type>text</frontend_type>
+							<depends>
+								<attribution_enabled>1</attribution_enabled>
+							</depends>
+							<sort_order>76</sort_order>
+							<show_in_default>1</show_in_default>
+							<show_in_website>0</show_in_website>
+							<show_in_store>0</show_in_store>
+						</publisher_id_key_name>
+						<order_correction_feed_enabled translate="label">
 							<label>Order Correction Feed Enabled</label>
+							<frontend_type>select</frontend_type>
+							<source_model>adminhtml/system_config_source_yesno</source_model>
+							<sort_order>79</sort_order>
+							<depends>
+								<attribution_enabled>1</attribution_enabled>
+							</depends>
+							<show_in_default>1</show_in_default>
+							<show_in_website>0</show_in_website>
+							<show_in_store>0</show_in_store>
+						</order_correction_feed_enabled>
+						<product_feed_enabled translate="label">
+							<label>Product Feed Enabled</label>
 							<frontend_type>select</frontend_type>
 							<source_model>adminhtml/system_config_source_yesno</source_model>
 							<sort_order>90</sort_order>
 							<show_in_default>1</show_in_default>
 							<show_in_website>0</show_in_website>
 							<show_in_store>0</show_in_store>
-						</order_feed_enabled>
+						</product_feed_enabled>
 					</fields>
 				</pepperjam_network>
 				<pepperjam_network_product_attribute_map translate="label comment">

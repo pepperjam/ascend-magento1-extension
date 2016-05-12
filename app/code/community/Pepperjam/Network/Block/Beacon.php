@@ -86,6 +86,22 @@ class Pepperjam_Network_Block_Beacon extends Mage_Core_Block_Template
 	/** @var  Pepperjam_Network_Helper_Config */
 	protected $_configHelper = null;
 
+	protected function _construct()
+	{
+		$helper = Mage::helper('pepperjam_network');
+
+		if ($helper->isValidCookie()) {
+			$helper = $this->_getHelper();
+			$order = $this->_getOrder();
+
+			$order->setNetworkSource($helper->getCookieValue($helper->getSourceCookieName()));
+			$order->setNetworkClickId($helper->getCookieValue($helper->getClickCookieName()));
+			$order->setNetworkPublisherId($helper->getCookieValue($helper->getPublisherCookieName()));
+
+			$order->save();
+		}
+	}
+
 	/**
 	 * @return Pepperjam_Network_Helper_Data
 	 */
@@ -319,6 +335,7 @@ class Pepperjam_Network_Block_Beacon extends Mage_Core_Block_Template
 		$config = $this->_getConfigHelper();
 
 		return (
+			$config->trackByPixel() &&
 			(
 				$config->isEnabled() &&
 				$this->_getOrder() instanceof Mage_Sales_Model_Order
