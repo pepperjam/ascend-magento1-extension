@@ -20,7 +20,7 @@ class Pepperjam_Network_Adminhtml_PepperjamNetworkController extends Mage_Adminh
 	const ATTRUBUTE_ID = 'commissioning_category';
 	const DEFAULT_SCONFIG_FILENAME = 'cache.cfg';
 	const PACKAGE_CHANNEL = 'community';
-	const PACKAGE_NAME = 'Pepperjam_Network_Magento_Extension';
+	const PACKAGE_NAME = 'Pepperjam_Network';
 
 	protected $_config;
 	protected $_sconfig;
