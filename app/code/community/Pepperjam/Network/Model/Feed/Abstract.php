@@ -172,7 +172,7 @@ abstract class Pepperjam_Network_Model_Feed_Abstract
 	 * );
 	 * </code>
 	 *
-	 * @see src/app/code/community/Pepperjam/Network/etc/config.xml pepperjam_network/pepperjam_network/feeds contains mappings used for the affiliate feeds
+	 * @see src/app/code/community/Pepperjam/Network/etc/config.xml pepperjam/pepperjam_network/feeds contains mappings used for the affiliate feeds
 	 * @param  array $callbackConfig
 	 * @param  mixed $item
 	 * @return mixed

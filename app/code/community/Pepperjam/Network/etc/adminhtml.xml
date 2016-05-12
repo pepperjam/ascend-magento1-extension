@@ -14,24 +14,24 @@ http://assets.pepperjam.com/legal/magento-connect-extension-eula.pdf
 @license     http://assets.pepperjam.com/legal/magento-connect-extension-eula.pdf  Pepperjam Network Magento Extensions End User License Agreement
 -->
 <config>
-	<acl>
-		<resources>
-			<admin>
-				<children>
-					<system>
-						<children>
-							<config>
-								<children>
-									<pepperjam_network translate="title">
-										<title>Marketing Solutions</title>
-										<sort_order>20</sort_order>
-									</pepperjam_network>
-								</children>
-							</config>
-						</children>
-					</system>
-				</children>
-			</admin>
-		</resources>
-	</acl>
+    <acl>
+        <resources>
+            <admin>
+                <children>
+                    <system>
+                        <children>
+                            <config>
+                                <children>
+                                    <pepperjam translate="title">
+                                        <title>Pepperjam</title>
+                                        <sort_order>20</sort_order>
+                                    </pepperjam>
+                                </children>
+                            </config>
+                        </children>
+                    </system>
+                </children>
+            </admin>
+        </resources>
+    </acl>
 </config>

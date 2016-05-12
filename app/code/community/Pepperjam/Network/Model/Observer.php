@@ -24,7 +24,7 @@ class Pepperjam_Network_Model_Observer
 	 */
 	public function createProductFeed()
 	{
-		if (!Mage::getStoreConfig('pepperjam_network/pepperjam_network/product_feed_enabled')) {
+		if (!Mage::getStoreConfig('pepperjam/pepperjam_network/product_feed_enabled')) {
 			Mage::log(Mage::helper('pepperjam_network')->__('Product feed disabled'), Zend_Log::NOTICE);
 			return;
 		}
@@ -48,7 +48,7 @@ class Pepperjam_Network_Model_Observer
 	 */
 	public function createCorrectedOrdersFeed()
 	{
-		if (!Mage::getStoreConfig('pepperjam_network/pepperjam_network/order_feed_enabled')) {
+		if (!Mage::getStoreConfig('pepperjam/pepperjam_network/order_feed_enabled')) {
 			Mage::log(Mage::helper('pepperjam_network')->__('Corrected order feed disabled'), Zend_Log::NOTICE);
 			return;
 		}
