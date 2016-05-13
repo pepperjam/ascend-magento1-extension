@@ -341,9 +341,9 @@ class Pepperjam_Network_Helper_Config
 	 * @param null $store
 	 * @return bool
 	 */
-	public function isConditionalPixelEnabled($store = null)
+	public function isAttributionEnabled($store = null)
 	{
-		return Mage::getStoreConfig(self::CONDITIONAL_PIXEL_ENABLED, $store);
+		return Mage::getStoreConfig(self::ATTRIBUTION_ENABLED, $store);
 	}
 
 	/**

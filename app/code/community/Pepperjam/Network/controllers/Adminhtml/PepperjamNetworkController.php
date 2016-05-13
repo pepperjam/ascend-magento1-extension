@@ -33,7 +33,6 @@ class Pepperjam_Network_Adminhtml_PepperjamNetworkController extends Mage_Adminh
 
 		$objCatalogEavSetup = Mage::getResourceModel('catalog/eav_mysql4_setup', 'core_setup');
 
-		Mage::log(array('uninstallAction', get_class($objCatalogEavSetup)));
 		$attributeExists = (bool) $objCatalogEavSetup->getAttributeId(Mage_Catalog_Model_Product::ENTITY, self::ATTRUBUTE_ID);
 		if ($attributeExists) {
 			$setup->removeAttribute(Mage_Catalog_Model_Product::ENTITY, self::ATTRUBUTE_ID);

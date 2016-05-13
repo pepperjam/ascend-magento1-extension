@@ -163,23 +163,9 @@ class Pepperjam_Network_Helper_Data extends Mage_Core_Helper_Abstract
 		return self::SOURCE_COOKIE_PREFIX.$key;
 	}
 
-	/**
-	 * helper function to take the source key name set in the admin panel
-	 * and prepend a string to create a unique name for the cookie
-	 *
-	 * @return string
-	 */
-	public function getClickCookieName()
-	{
-		$key = Mage::helper('pepperjam_network/config')->getClickKeyName();
-		$cookie = $this->getSourceCookieName();
-		$value = Mage::getModel('core/cookie')->get($cookie);
-		return in_array($value, $this->validSourceValues());
-	}
-
 	public function validSourceValues()
 	{
-		return array(self::SOURCE_KEY_VALUE_EBAY, self::SOURCE_KEY_VALUE_PEPPERJAM;
+		return array(self::SOURCE_KEY_VALUE_EBAY, self::SOURCE_KEY_VALUE_PEPPERJAM);
 	}
 
 	/**

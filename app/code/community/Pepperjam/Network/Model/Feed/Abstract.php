@@ -96,7 +96,7 @@ abstract class Pepperjam_Network_Model_Feed_Abstract
 	 * Create the feed file and drop it in the configured export directory.
 	 * @return self
 	 */
-	public function generateFeed()
+	public function generateFeed($feedType)
 	{
 		$this->_feedType = $feedType;
 		$this->_generateFile($this->_buildFeedData());
