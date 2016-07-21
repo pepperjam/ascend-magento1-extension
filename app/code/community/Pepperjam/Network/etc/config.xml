@@ -16,7 +16,7 @@ http://assets.pepperjam.com/legal/magento-connect-extension-eula.pdf
 <config>
 	<modules>
 		<Pepperjam_Network>
-			<version>1.2.2.0</version>
+			<version>1.2.2.1</version>
 		</Pepperjam_Network>
 	</modules>
 	<global>
