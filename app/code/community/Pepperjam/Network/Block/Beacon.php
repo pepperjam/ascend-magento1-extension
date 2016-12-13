@@ -212,18 +212,29 @@ class Pepperjam_Network_Block_Beacon extends Mage_Core_Block_Template
 				// we detected that the current item already exist in the params array
 				// and have the key increment position let's simply adjust
 				// the qty and total amount
+
 				$params[static::KEY_QTY . $position] += $quantity;
-				$amtKey = static::KEY_AMOUNT . $position;
-				$params[$amtKey] = number_format($params[$amtKey] + $total, 2, '.', '');
+				$params[static::KEY_AMOUNT . $position] += $total;
 			} else {
 				$params = array_merge($params, array(
 					static::KEY_ITEM . $increment => $item->getSku(),
 					static::KEY_QTY . $increment => $quantity,
-					static::KEY_AMOUNT . $increment => number_format($total, 2, '.', ''),
+					static::KEY_AMOUNT . $increment => $total,
 				));
 				$increment++; // only get incremented when a unique key have been appended
 			}
 		}
+
+		// Calculate average cost
+		for ($i = 1; $i < $increment; $i++) {
+			$itemTotal = $params[static::KEY_AMOUNT . $i];
+			$itemQuantity = $params[static::KEY_QTY . $i];
+			$averageAmount = $itemTotal/$itemQuantity;
+
+			$params[static::KEY_AMOUNT . $i] = number_format($averageAmount, 2, '.', '');
+		}
+
+
 		return $params;
 	}
 
