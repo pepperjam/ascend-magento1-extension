@@ -203,7 +203,7 @@ class Pepperjam_Network_Block_Beacon extends Mage_Core_Block_Template
 			// the bundle
 			//
 			// Divide discount amount by quantity to get per item discount
-			$total = $item->getPrice() - ($item->getDiscountAmount() / $item->getQtyOrdered());
+			$total = $item->getRowTotal() - $item->getDiscountAmount();
 			if ($item->getProductType() === Mage_Catalog_Model_Product_Type::TYPE_BUNDLE && $item->getProduct()->getPriceType() == Mage_Bundle_Model_Product_Price::PRICE_TYPE_DYNAMIC) {
 				$total = 0.00;
 			}
