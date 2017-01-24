@@ -17,16 +17,28 @@
 class Pepperjam_Network_Model_Feed_Product extends Pepperjam_Network_Model_Feed_Abstract
 {
 	const DELIMITER = "\t";
+	const FIELD_PRODUCT_URL = 'product_url';
 	/**
 	 * @see parent::_getItems
 	 */
 	protected function _getItems()
 	{
-		return Mage::getResourceModel('catalog/product_collection')
+		$store = $this->getStore();
+		$requiredMap = Mage::helper('pepperjam_network/config')->getRequiredProductFeedFields($store);
+
+		$productCollection = Mage::getResourceModel('catalog/product_collection')
 			->setStore($this->getStore())
 			->addAttributeToSelect(array('*'))
 			->addStoreFilter($this->getStore())
 			->addFieldToFilter('status', Mage_Catalog_Model_Product_Status::STATUS_ENABLED);
+
+		foreach ($requiredMap as $field) {
+			if ($field != self::FIELD_PRODUCT_URL) {
+				$productCollection->addFieldToFilter($field, array('notnull' => true));
+			}
+		}
+
+		return $productCollection;
 	}
 	/**
 	 * Get an array of callback mappings for the feed. Should result in an array
