@@ -64,11 +64,14 @@ class Pepperjam_Network_Helper_Map_Order
 		if ($item->getProductType() === Mage_Catalog_Model_Product_Type::TYPE_BUNDLE) {
 			return 0.00;
 		}
+
+		if ($this->getItemQuantity($params)) {
+			$amount = $item->getBasePrice() - (($item->getBaseDiscountAmount() - $item->getBaseDiscountRefunded()) / $this->getItemQuantity($params));
+		} else {
+			$amount = 0;
+		}
 		// don't allow negative amounts - could happen if a discounted item was cancelled
-		return max(
-			0,
-			$item->getBasePrice() - (($item->getBaseDiscountAmount() - $item->getBaseDiscountRefunded()) / $this->getItemQuantity($params))
-		);
+		return max(0, $amount);
 	}
 	/**
 	 * Get the corrected total for the row - price * corrected qty. Expects the
