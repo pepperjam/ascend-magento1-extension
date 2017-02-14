@@ -245,7 +245,8 @@ class Pepperjam_Network_Block_Beacon extends Mage_Core_Block_Template
 		for ($i = 1; $i < $increment; $i++) {
 			$itemTotal = $params[static::KEY_AMOUNT . $i];
 			$itemQuantity = $params[static::KEY_QTY . $i];
-			$averageAmount = $itemTotal/$itemQuantity;
+			$averageAmount = 0;
+			if ($itemQuantity > 0 ) $averageAmount = $itemTotal/$itemQuantity;
 
 			$params[static::KEY_AMOUNT . $i] = number_format($averageAmount, 2, '.', '');
 		}
