@@ -25,6 +25,11 @@ class Pepperjam_Network_Adminhtml_PepperjamNetworkController extends Mage_Adminh
 	protected $_config;
 	protected $_sconfig;
 
+	protected function _isAllowed()
+	{
+		return Mage::getSingleton('admin/session')->isAllowed('admin');
+	}
+
 	public function uninstallAction()
 	{
 		// Remove commissioning category
