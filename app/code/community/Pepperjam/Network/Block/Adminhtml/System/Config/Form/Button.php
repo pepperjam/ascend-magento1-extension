@@ -38,7 +38,7 @@ class Pepperjam_Network_Block_Adminhtml_System_Config_Form_Button extends Mage_A
 		$button = $this->getLayout()->createBlock('adminhtml/widget_button')->setData(
 			array(
 				'id' => 'pepperjam_network_uninstall',
-				'label' => $this->helper('adminhtml')->__('Uninstall'),
+				'label' => $this->helper('adminhtml')->__('Prepare for Uninstall'),
 				'onclick' => 'javascript:uninstall(); return false;',
 			));
 

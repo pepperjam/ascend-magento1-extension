@@ -18,7 +18,7 @@
 
 <script type="text/javascript">
 function uninstall() {
-	if (confirm('Remove Pepperjam Network extension?')) {
+	if (confirm('Prepare Pepperjam Network for uninstallation?')) {
 		new Ajax.Request('<?php echo $this->getAjaxUninstallUrl(); ?>', {
 			method: 'get',
 			onSuccess: function(response) {
