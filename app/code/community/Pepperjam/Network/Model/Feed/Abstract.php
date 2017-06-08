@@ -1,4 +1,5 @@
 <?php
+
 /**
  * Copyright (c) 2016 Pepperjam Network.
  *
@@ -13,9 +14,7 @@
  * @copyright   Copyright (c) 2016 Pepperjam Network. (http://www.pepperjam.com/)
  * @license     http://assets.pepperjam.com/legal/magento-connect-extension-eula.pdf  Pepperjam Network Magento Extensions End User License Agreement
  */
-
-abstract class Pepperjam_Network_Model_Feed_Abstract
-{
+abstract class Pepperjam_Network_Model_Feed_Abstract {
 	// Query types for items
 	const ITEMS_CORRECTIONS = 'corrections';
 	const ITEMS_NEW = 'new';
@@ -27,11 +26,13 @@ abstract class Pepperjam_Network_Model_Feed_Abstract
 	 */
 	protected $_store;
 	protected $_feedType;
+
 	/**
 	 * Get a collection of items to be included in the feed.
 	 * @return Varien_Data_Collection
 	 */
 	abstract protected function _getItems();
+
 	/**
 	 * Get fields to include in the feed. Fields are expected to map to existing
 	 * callbacks defined in the config.xml.
@@ -39,38 +40,40 @@ abstract class Pepperjam_Network_Model_Feed_Abstract
 	 * @return array
 	 */
 	abstract protected function _getFeedFields();
+
 	/**
 	 * Gets the filename format for the feed from config for this feed.
 	 * @return  string
 	 */
 	abstract protected function _getFileName();
+
 	/**
 	 * Get the delimiter to use in the csv file
 	 * @return string
 	 * @codeCoverageIgnore
 	 */
-	protected function _getDelimiter()
-	{
+	protected function _getDelimiter() {
 		return ',';
 	}
+
 	/**
 	 * Get the encolsure to use in the csv file
 	 * @return string
 	 * @codeCoverageIgnore
 	 */
-	protected function _getEnclosure()
-	{
+	protected function _getEnclosure() {
 		return '"';
 	}
+
 	/**
 	 * Set up the store property.
 	 */
-	public function __construct($args = array())
-	{
+	public function __construct($args = array()) {
 		// Set the store context to the given store or null which whill
 		// result in the "current" store.
 		$this->setStore(isset($args['store']) ? $args['store'] : null);
 	}
+
 	/**
 	 * Set the store context for the feed, converting whatever viable store
 	 * ID is passed in to an actual store instance.
@@ -78,50 +81,49 @@ abstract class Pepperjam_Network_Model_Feed_Abstract
 	 * @param null|string|bool|int|Mage_Core_Model_Store
 	 * @codeCoverageIgnore
 	 */
-	public function setStore($storeId)
-	{
+	public function setStore($storeId) {
 		$this->_store = Mage::app()->getStore($storeId);
 		return $this;
 	}
+
 	/**
 	 * Get the store instance the feed is being executed within.
 	 * @return Mage_Core_Model_Store
 	 * @codeCoverageIgnore
 	 */
-	public function getStore()
-	{
+	public function getStore() {
 		return $this->_store;
 	}
+
 	/**
 	 * Create the feed file and drop it in the configured export directory.
 	 * @return self
 	 */
-	public function generateFeed($feedType)
-	{
+	public function generateFeed($feedType = null) {
 		$this->_feedType = $feedType;
 		$this->_generateFile($this->_buildFeedData());
 		return $this;
 	}
+
 	/**
 	 * Create arrays of data that should be included in the feed file. Each array
 	 * should included a value for every field that is expected to be in the feed.
 	 * @return array
 	 */
-	protected function _buildFeedData()
-	{
+	protected function _buildFeedData() {
 		$items = $this->_getItems();
 		// array_map must be on an array - $items is a collection so need to get the
 		// underlying array to pass to array_map
 		return array_map(array($this, '_applyMapping'), $items->getItems());
 	}
+
 	/**
 	 * Use the callback mapping to create the data that represents the given item
 	 * in the feed.
 	 * @param  mixed $item Likely a Varien_Object but could really be anything.
 	 * @return array
 	 */
-	protected function _applyMapping($item)
-	{
+	protected function _applyMapping($item) {
 		$fields = array();
 		$mappings = Mage::helper('pepperjam_network/config')->getCallbackMappings();
 		foreach ($this->_getFeedFields() as $feedField) {
@@ -136,6 +138,7 @@ abstract class Pepperjam_Network_Model_Feed_Abstract
 		}
 		return $fields;
 	}
+
 	/**
 	 * Given a set of callback configuration and an item, invoke the configured
 	 * callback and return the value. The callback configuration must meet the
@@ -182,8 +185,7 @@ abstract class Pepperjam_Network_Model_Feed_Abstract
 	 * @param  mixed $item
 	 * @return mixed
 	 */
-	protected function _invokeCallback($callbackConfig, $item)
-	{
+	protected function _invokeCallback($callbackConfig, $item) {
 		$obj = $this->_getCallbackInstance($callbackConfig);
 		$params = isset($callbackConfig['params']) ? $callbackConfig['params'] : array();
 		$item->setStoreId($this->getStore()->getId());
@@ -202,13 +204,13 @@ abstract class Pepperjam_Network_Model_Feed_Abstract
 			);
 		}
 	}
+
 	/**
 	 * Get an instance of the configured callback.
 	 * @param  array $callbackConfig
 	 * @return mixed
 	 */
-	protected function _getCallbackInstance($callbackConfig)
-	{
+	protected function _getCallbackInstance($callbackConfig) {
 		$this->_validateCallbackConfig($callbackConfig);
 		switch ($callbackConfig['type']) {
 			// 'disabled' type callback mappings shouldn't pass through here under
@@ -225,6 +227,7 @@ abstract class Pepperjam_Network_Model_Feed_Abstract
 				return Mage::getSingleton($callbackConfig['class']);
 		}
 	}
+
 	/**
 	 * Make sure the callback configuration is valid. If it isn't throw an
 	 * exception.
@@ -232,8 +235,7 @@ abstract class Pepperjam_Network_Model_Feed_Abstract
 	 * @return self
 	 * @throws Pepperjam_Network_Exception_Configuration If callback configuration is not valid
 	 */
-	protected function _validateCallbackConfig($callbackConfig)
-	{
+	protected function _validateCallbackConfig($callbackConfig) {
 		if (empty($callbackConfig)) {
 			throw new Pepperjam_Network_Exception_Configuration('Callback configuration is empty or missing.');
 		}
@@ -251,13 +253,13 @@ abstract class Pepperjam_Network_Model_Feed_Abstract
 		}
 		return $this;
 	}
+
 	/**
 	 * Create the file and drop it in the configured export directory.
 	 * @param  array $feedData
 	 * @return self
 	 */
-	protected function _generateFile($feedData)
-	{
+	protected function _generateFile($feedData) {
 		if (empty($feedData)) {
 			return $this;
 		}
@@ -281,24 +283,24 @@ abstract class Pepperjam_Network_Model_Feed_Abstract
 		);
 		return $this;
 	}
+
 	/**
 	 * Generate the full path to the location where the file should be created.
 	 * @return string
 	 */
-	protected function _generateFilePath()
-	{
+	protected function _generateFilePath() {
 		return self::normalPaths(
 			Mage::getBaseDir(),
 			Mage::helper('pepperjam_network/config', $this->getStore())->getExportFilePath(),
 			$this->_getFileName()
 		);
 	}
+
 	/**
 	 * The CSV file headers should be the keys used in the configured mappings.
 	 * @return array
 	 */
-	protected function _getHeaders()
-	{
+	protected function _getHeaders() {
 		$mappings = Mage::helper('pepperjam_network/config')->getCallbackMappings();
 		$headers = array();
 		foreach ($this->_getFeedFields() as $field) {
@@ -310,27 +312,27 @@ abstract class Pepperjam_Network_Model_Feed_Abstract
 		}
 		return $headers;
 	}
+
 	/**
 	 * Make sure that all necessary directories in the given path exist. Create
 	 * any that do not.
 	 * @param  string $dirPath
 	 * @return self
 	 */
-	protected function _checkAndCreateFolder($dirPath)
-	{
+	protected function _checkAndCreateFolder($dirPath) {
 		// Use the model factory to allow for DI via the factory
 		$fileIo = Mage::getModel('Varien_Io_File');
 		$fileIo->open(array('path' => Mage::getBaseDir()));
 		$fileIo->checkAndCreateFolder($dirPath);
 		return $this;
 	}
+
 	/**
 	 * Given an arbitrary array of arguments, join them to make a valid path.
 	 * @param  string $_,... Parts of the path to be joined
 	 * @return string
 	 */
-	public static function normalPaths()
-	{
+	public static function normalPaths() {
 		$paths = implode(DS, func_get_args());
 		// Retain a single leading slash; otherwise remove all leading, trailing
 		// and duplicate slashes.

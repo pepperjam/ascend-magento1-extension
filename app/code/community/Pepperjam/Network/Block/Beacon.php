@@ -354,7 +354,7 @@ class Pepperjam_Network_Block_Beacon extends Mage_Core_Block_Template
 			) &&
 			(
 				$this->_getHelper()->isValidCookie() ||
-				!$config->isConditionalPixelEnabled()
+				!$config->isAttributionEnabled()
 			)
 		);
 	}
