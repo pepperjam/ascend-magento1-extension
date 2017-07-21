@@ -17,7 +17,7 @@
 
 <?php if ($this->showBeacon()) :
 ?>
-    <?php $beaconUrl = $this->getBeaconUrl(); ?>
+    <?php foreach($this->getBeaconUrls() as $beaconUrl) : ?>
     <script>
         (function (d,i) {
             i=d.createElement('iframe');
@@ -30,5 +30,6 @@
     <noscript>
         <iframe width="1" height="1" frameBorder="0" src="<?php echo $beaconUrl; ?>"></iframe>
     </noscript>
+<?php endforeach; ?>
 <?php
 endif;

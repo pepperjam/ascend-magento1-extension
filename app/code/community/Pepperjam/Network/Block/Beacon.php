@@ -78,7 +78,7 @@ class Pepperjam_Network_Block_Beacon extends Mage_Core_Block_Template
 	 * @var Mage_Sales_Model_Order
 	 * @see self::_getOrder
 	 */
-	protected $_order;
+	protected $_orders;
 
 	/** @var  Pepperjam_Network_Helper_Data */
 	protected $_helper = null;
@@ -92,7 +92,7 @@ class Pepperjam_Network_Block_Beacon extends Mage_Core_Block_Template
 
 		if ($helper->isValidCookie()) {
 			$helper = $this->_getHelper();
-			$order = $this->_getOrder();
+			$order = $this->_getOrders();
 
 			$order->setNetworkSource($helper->getCookieValue($helper->getSourceCookieName()));
 			$order->setNetworkClickId($helper->getCookieValue($helper->getClickCookieName()));
@@ -130,39 +130,41 @@ class Pepperjam_Network_Block_Beacon extends Mage_Core_Block_Template
 	 * Get the last order.
 	 * @return Mage_Sales_Model_Order | null
 	 */
-	protected function _getOrder()
+	protected function _getOrders()
 	{
-		if (!($this->_order instanceof Mage_Sales_Model_Order)) {
-			$orderId = Mage::getSingleton('checkout/session')->getLastOrderId();
-			if ($orderId) {
-				$this->_order = Mage::getModel('sales/order')->load($orderId);
+		if (!($this->_orders instanceof Mage_Sales_Model_Order)) {
+			$quoteId = Mage::getSingleton('checkout/session')->getlastQuoteId();
+			if ($quoteId) {
+				$this->_orders = Mage::getModel('sales/order')->getCollection()->addFilter('quote_id', $quoteId);
 			}
 		}
-		return $this->_order;
+		return $this->_orders;
 	}
 
 	/**
 	 * Get the beacon URL.
 	 * @return string | null
 	 */
-	public function getBeaconUrl()
+	public function getBeaconUrls()
 	{
-		$order = $this->_getOrder();
+		$orders = $this->_getOrders();
 
-		$url = null;
+		$urls = array();
 
-		if ($order instanceof Mage_Sales_Model_Order) {
-			if (Mage::helper('pepperjam_network/config')->isItemizedOrders()) {
-				$params = $this->_buildItemizedParams($order);
-			} elseif (Mage::helper('pepperjam_network/config')->isDynamicOrders()) {
-				$params = $this->_buildDynamicParams($order);
-			} else {
-				$params = $this->_buildBasicParams($order);
+		foreach($orders as $order) {
+			if ($order instanceof Mage_Sales_Model_Order) {
+				if (Mage::helper('pepperjam_network/config')->isItemizedOrders()) {
+					$params = $this->_buildItemizedParams($order);
+				} elseif (Mage::helper('pepperjam_network/config')->isDynamicOrders()) {
+					$params = $this->_buildDynamicParams($order);
+				} else {
+					$params = $this->_buildBasicParams($order);
+				}
+
+				$urls[] = Mage::helper('pepperjam_network')->buildBeaconUrl($params);
 			}
-
-			$url = Mage::helper('pepperjam_network')->buildBeaconUrl($params);
 		}
-		return $url;
+		return $urls;
 	}
 
 	/**
@@ -350,7 +352,7 @@ class Pepperjam_Network_Block_Beacon extends Mage_Core_Block_Template
 			$config->trackByPixel() &&
 			(
 				$config->isEnabled() &&
-				$this->_getOrder() instanceof Mage_Sales_Model_Order
+				$this->_getOrders() instanceof Mage_Sales_Model_Resource_Order_Collection
 			) &&
 			(
 				$this->_getHelper()->isValidCookie() ||
