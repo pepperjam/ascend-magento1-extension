@@ -92,13 +92,15 @@ class Pepperjam_Network_Block_Beacon extends Mage_Core_Block_Template
 
 		if ($helper->isValidCookie()) {
 			$helper = $this->_getHelper();
-			$order = $this->_getOrders();
+			$orders = $this->_getOrders();
 
-			$order->setNetworkSource($helper->getCookieValue($helper->getSourceCookieName()));
-			$order->setNetworkClickId($helper->getCookieValue($helper->getClickCookieName()));
-			$order->setNetworkPublisherId($helper->getCookieValue($helper->getPublisherCookieName()));
+			foreach($orders as $order) {
+				$order->setNetworkSource($helper->getCookieValue($helper->getSourceCookieName()));
+				$order->setNetworkClickId($helper->getCookieValue($helper->getClickCookieName()));
+				$order->setNetworkPublisherId($helper->getCookieValue($helper->getPublisherCookieName()));
 
-			$order->save();
+				$order->save();
+			}
 		}
 	}
 
