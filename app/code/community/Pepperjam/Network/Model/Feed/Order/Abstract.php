@@ -177,7 +177,7 @@ abstract class Pepperjam_Network_Model_Feed_Order_Abstract extends Pepperjam_Net
 		} else {
 			$select->where(
                 "(cmo.created_at IS NOT NULL AND cmo.created_at >= :lastRunTime AND cmo.created_at < :startTime) OR " .
-                "(o.state = 'canceled' AND o.updated_at >= :lastRunTime AND o.updated_at < :startTime)"
+                "((o.state = 'canceled' OR o.state = 'closed') AND o.updated_at >= :lastRunTime AND o.updated_at < :startTime)"
 			);
 		}
 
