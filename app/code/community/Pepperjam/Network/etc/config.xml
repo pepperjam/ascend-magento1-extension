@@ -963,23 +963,17 @@ http://assets.pepperjam.com/legal/magento-connect-extension-eula.pdf
                         </zoom>
                     </callback_mappings>
                     <order_dynamic>
-                        <fields>
-                            dynamic_program_id,dynamic_publisher_id,dynamic_click_id,dynamic_item_order_id,dynamic_item_id,dynamic_item_price,item_quantity,dynamic_order_date,category,new_to_file
-                        </fields>
+                        <fields>dynamic_program_id,dynamic_publisher_id,dynamic_click_id,dynamic_item_order_id,dynamic_item_id,dynamic_item_price,item_quantity,dynamic_order_date,category,new_to_file</fields>
                     </order_dynamic>
                     <order_itemized>
-                        <fields>
-                            program_id,publisher_id,item_order_id,item_id,item_price,item_quantity,order_date,click_id
-                        </fields>
+                        <fields>program_id,publisher_id,item_order_id,item_id,item_price,item_quantity,order_date,click_id</fields>
                     </order_itemized>
                     <order_basic>
                         <fields>program_id,publisher_id,order_amount,order_id,order_date,transaction_type,click_id
                         </fields>
                     </order_basic>
                     <order_correction_dynamic>
-                        <fields>
-                            dynamic_program_id,dynamic_item_order_id,dynamic_item_id,dynamic_item_price,item_quantity,category,new_to_file
-                        </fields>
+                        <fields>dynamic_program_id,dynamic_item_order_id,dynamic_item_id,dynamic_item_price,item_quantity,category,new_to_file</fields>
                     </order_correction_dynamic>
                     <order_correction_itemized>
                         <fields>program_id,item_order_id,item_id,item_price,item_quantity,reason</fields>
