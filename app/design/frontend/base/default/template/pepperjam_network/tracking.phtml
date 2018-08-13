@@ -95,9 +95,25 @@
 			}
 		}
 
+		AN.manageCookieArray = function (window, document, duration_in_days, key_name, cookie_name) {
+			var query = location.search.substring(1);
+			var source = AN.findAffiliateField(query, key_name);
+			var cookie = AN.getCookie(cookie_name);
+			var cookieContents = JSON.parse(cookie.field);
+			if (!cookieContents) {
+				cookieContents = {};
+			}
+			if (source) {
+				cookieContents[source] = Math.round((new Date()).getTime() / 1000);;
+				AN.setCookie(cookie_name, JSON.stringify(cookieContents), duration_in_days);
+			}
+
+		}
+
 		AN.manageCookie(window, document, 365, "<?php echo $this->getSourceKeyName(); ?>", "<?php echo $this->getSourceCookieName(); ?>");
-		AN.manageCookie(window, document, 365, "<?php echo $this->getClickKeyName(); ?>", "<?php echo $this->getClickCookieName(); ?>");
+		AN.manageCookieArray(window, document, 365, "<?php echo $this->getClickKeyName(); ?>", "<?php echo $this->getClickCookieName(); ?>");
 		AN.manageCookie(window, document, 365, "<?php echo $this->getPublisherKeyName(); ?>", "<?php echo $this->getPublisherCookieName(); ?>");
+		AN.manageCookie(window, document, 365, "<?php echo $this->getCampaignName(); ?>", "<?php echo $this->getCampaignCookieName(); ?>");
 		//]]>
 	</script>
 <?php

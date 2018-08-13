@@ -163,6 +163,15 @@ http://assets.pepperjam.com/legal/magento-connect-extension-eula.pdf
 							<show_in_website>0</show_in_website>
 							<show_in_store>0</show_in_store>
 						</product_feed_enabled>
+						<lookback_duration translate="label comment">
+							<label>Lookback Period</label>
+							<comment>Your Lookback Period will be provided to you by Pepperjam</comment>
+							<frontend_type>text</frontend_type>
+							<sort_order>100</sort_order>
+							<show_in_default>1</show_in_default>
+							<show_in_website>1</show_in_website>
+							<show_in_store>0</show_in_store>
+						</lookback_duration>
 					</fields>
 				</pepperjam_network>
 				<pepperjam_network_product_attribute_map translate="label comment">

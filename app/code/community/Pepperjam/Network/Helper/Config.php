@@ -47,6 +47,7 @@ class Pepperjam_Network_Helper_Config
 	const PUBLISHER_KEY_NAME = 'pepperjam/pepperjam_network/publisher_id_key_name';
 	const PRODUCT_FEED_ENABLED = 'pepperjam/pepperjam_network/product_feed_enabled';
 	const ORDER_CORRECTION_FEED_ENABLED = 'pepperjam/pepperjam_network/order_correction_feed_enabled';
+	const LOOKBACK = 'pepperjam/pepperjam_network/lookback_duration';
 
 	const TRANSACTION_TYPE_SALE = '1';
 	const TRANSACTION_TYPE_LEAD = '2';
@@ -429,5 +430,10 @@ class Pepperjam_Network_Helper_Config
 	public function isOrderCorrectionFeedEnabled($store = null)
 	{
 		return Mage::getStoreConfig(self::ORDER_CORRECTION_FEED_ENABLED, $store);
+	}
+
+	public function getLookback($store = null)
+	{
+		return Mage::getStoreConfig(self::LOOKBACK, $store);
 	}
 }

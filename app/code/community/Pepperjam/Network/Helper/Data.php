@@ -21,6 +21,10 @@ class Pepperjam_Network_Helper_Data extends Mage_Core_Helper_Abstract {
 	const SOURCE_KEY_VALUE_PEPPERJAM = 'pepperjam';
 	/** prefix added to the source key name set in the admin panel to create a unique cookie name */
 	const SOURCE_COOKIE_PREFIX = 'pepperjam_network_';
+	const COOKIE_LIFETIME = 60 * 60 * 24 * 365; // one year
+
+
+	protected $utm_campaign;
 
 	/**
 	 * Build the beacon url given an array keys
@@ -194,11 +198,49 @@ class Pepperjam_Network_Helper_Data extends Mage_Core_Helper_Abstract {
 		return $category;
 	}
 
+	/**
+	 * Retrieve the value of a cookie
+	 *
+	 * @param $cookieName
+	 *
+	 * @return bool|mixed
+	 */
 	public function getCookieValue($cookieName) {
 		if ($_COOKIE[$cookieName]) {
+			if ($final_value = json_decode($_COOKIE[$cookieName])) {
+				return $final_value;
+			}
 			return $_COOKIE[$cookieName];
 		}
 
 		return false;
 	}
+
+	/**
+	 * Get the Cookie lifetime
+	 *
+	 * @return float|int
+	 */
+	public function getCookieLifetime() {
+		return static::COOKIE_LIFETIME;
+	}
+
+	/**
+	 * Get a string of ClickIds for Beacon URL
+	 *
+	 * @return string
+	 */
+	public function getClickIds() {
+		$clickValues = $this->getCookieValue($this->getClickCookieName());
+		$now = time();
+		$click_string = '';
+		foreach($clickValues as $click => $timestamp) {
+			if ($timestamp + Mage::helper('pepperjam_network/config')->getLookBack() <= $now) {
+				$click_string .= $click . ',';
+			}
+		}
+		return trim($click_string, ",");
+	}
+
 }
+

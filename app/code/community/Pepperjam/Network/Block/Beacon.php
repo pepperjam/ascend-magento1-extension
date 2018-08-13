@@ -63,6 +63,11 @@ class Pepperjam_Network_Block_Beacon extends Mage_Core_Block_Template
 	const KEY_PROMOCODE = 'PROMOCODE';
 
 	/**
+	 * The 'CLICK_ID' beacon URL querystring key
+	 */
+	const KEY_CLICKID = 'CLICK_ID';
+
+	/**
 	 * Dynamic query keys
 	 */
 	const KEY_DYNAMIC_PROGRAM_ID = 'PROGRAM_ID';
@@ -96,7 +101,7 @@ class Pepperjam_Network_Block_Beacon extends Mage_Core_Block_Template
 
 			foreach($orders as $order) {
 				$order->setNetworkSource($helper->getCookieValue($helper->getSourceCookieName()));
-				$order->setNetworkClickId($helper->getCookieValue($helper->getClickCookieName()));
+				$order->setNetworkClickId($helper->getClickIds());
 				$order->setNetworkPublisherId($helper->getCookieValue($helper->getPublisherCookieName()));
 
 				$order->save();
@@ -180,6 +185,9 @@ class Pepperjam_Network_Block_Beacon extends Mage_Core_Block_Template
 			static::KEY_PID => Mage::helper('pepperjam_network/config')->getProgramId(),
 			static::KEY_OID => $order->getIncrementId(),
 		);
+		if (($clickIdString = $this->_getHelper()->getClickIds()) != '') {
+			$params = array_merge($params, array(static::KEY_CLICKID => $clickIdString));
+		}
 		$couponCode = trim($order->getCouponCode());
 		return ($couponCode !== '')?
 			array_merge($params, array(static::KEY_PROMOCODE => $couponCode)) : $params;
