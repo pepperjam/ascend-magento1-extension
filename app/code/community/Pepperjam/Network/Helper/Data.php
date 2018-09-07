@@ -21,7 +21,7 @@ class Pepperjam_Network_Helper_Data extends Mage_Core_Helper_Abstract {
 	const SOURCE_KEY_VALUE_PEPPERJAM = 'pepperjam';
 	/** prefix added to the source key name set in the admin panel to create a unique cookie name */
 	const SOURCE_COOKIE_PREFIX = 'pepperjam_network_';
-	const COOKIE_LIFETIME = 60 * 60 * 24 * 365; // one year
+	const COOKIE_LIFETIME = 31536000; // one year (seconds)
 
 
 	protected $utm_campaign;

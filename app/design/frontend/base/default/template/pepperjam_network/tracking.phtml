@@ -96,19 +96,18 @@
 		}
 
 		AN.manageCookieArray = function (window, document, duration_in_days, key_name, cookie_name) {
-			var query = location.search.substring(1);
-			var source = AN.findAffiliateField(query, key_name);
-			var cookie = AN.getCookie(cookie_name);
-			var cookieContents = JSON.parse(cookie.field);
-			if (!cookieContents) {
+			var query = location.search.substring(1),
+				source = AN.findAffiliateField(query, key_name),
+				cookie = AN.getCookie(cookie_name),
 				cookieContents = {};
+			if(cookie && cookie.hasOwnProperty('field')) {
+				cookieContents = JSON.parse(cookie.field);
 			}
 			if (source) {
-				cookieContents[source] = Math.round((new Date()).getTime() / 1000);;
+				cookieContents[source] = Math.round((new Date()).getTime() / 1000);
 				AN.setCookie(cookie_name, JSON.stringify(cookieContents), duration_in_days);
 			}
-
-		}
+		};
 
 		AN.manageCookie(window, document, 365, "<?php echo $this->getSourceKeyName(); ?>", "<?php echo $this->getSourceCookieName(); ?>");
 		AN.manageCookieArray(window, document, 365, "<?php echo $this->getClickKeyName(); ?>", "<?php echo $this->getClickCookieName(); ?>");
