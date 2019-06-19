@@ -367,7 +367,7 @@ class Pepperjam_Network_Helper_Config
 	 */
 	public function isAttributionEnabled($store = null)
 	{
-		return Mage::getStoreConfig(self::ATTRIBUTION_ENABLED, $store);
+		return Mage::getStoreConfig(self::ATTRIBUTION_ENABLED, $store) == '1' ? true : false;
 	}
 
 	/**
