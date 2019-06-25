@@ -102,6 +102,8 @@ http://assets.pepperjam.com/legal/magento-connect-extension-eula.pdf
                 <product_feed_enabled>1</product_feed_enabled>
                 <order_correction_feed_enabled>1</order_correction_feed_enabled>
                 <lookback_period>60</lookback_period>
+                <tag_enabled>0</tag_enabled>
+                <tag_identifier/>
                 <feeds>
                     <callback_mappings>
                         <program_id>

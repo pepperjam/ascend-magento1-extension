@@ -48,6 +48,8 @@ class Pepperjam_Network_Helper_Config
 	const PRODUCT_FEED_ENABLED = 'pepperjam/pepperjam_network/product_feed_enabled';
 	const ORDER_CORRECTION_FEED_ENABLED = 'pepperjam/pepperjam_network/order_correction_feed_enabled';
 	const LOOKBACK = 'pepperjam/pepperjam_network/lookback_duration';
+	const TAG_ENABLED = 'pepperjam/pepperjam_network/tag_enabled';
+	const TAG_IDENTIFIER = 'pepperjam/pepperjam_network/tag_identifier';
 
 	const TRANSACTION_TYPE_SALE = '1';
 	const TRANSACTION_TYPE_LEAD = '2';
@@ -432,8 +434,34 @@ class Pepperjam_Network_Helper_Config
 		return Mage::getStoreConfig(self::ORDER_CORRECTION_FEED_ENABLED, $store);
 	}
 
+    /**
+     * @param null $store
+     * @return mixed
+     */
 	public function getLookback($store = null)
 	{
 		return Mage::getStoreConfig(self::LOOKBACK, $store);
 	}
+
+    /**
+     * Enable/Disable container tag
+     *
+     * @param null $store
+     * @return bool
+     */
+    public function isTagEnabled($store = null)
+    {
+        return (bool)Mage::getStoreConfig(self::TAG_ENABLED, $store);
+    }
+
+    /**
+     * Container Tag Identifier
+     *
+     * @param null $store
+     * @return mixed
+     */
+    public function getTagIdentifier($store = null)
+    {
+        return Mage::getStoreConfig(self::TAG_IDENTIFIER, $store);
+    }
 }

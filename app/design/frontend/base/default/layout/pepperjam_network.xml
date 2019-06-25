@@ -18,16 +18,22 @@ http://assets.pepperjam.com/legal/magento-connect-extension-eula.pdf
         <reference name="head">
             <block type="pepperjam_network/tracking" name="pepperjam_network.tracking" template="pepperjam_network/tracking.phtml"/>
         </reference>
+        <reference name="before_body_end">
+            <block type="pepperjam_network/tag" name="pepperjam_network.tag" template="pepperjam_network/tag.phtml"/>
+        </reference>
     </default>
+
     <checkout_affiliate_success translate="label">
         <reference name="before_body_end">
             <block type="pepperjam_network/beacon" name="pepperjam_network.beacon" template="pepperjam_network/beacon.phtml"/>
         </reference>
     </checkout_affiliate_success>
+
     <checkout_multishipping_success translate="label">
         <label>Multishipping Checkout Success</label>
         <update handle="checkout_affiliate_success"/>
     </checkout_multishipping_success>
+
     <checkout_onepage_success translate="label">
         <label>Onepage Checkout Success</label>
         <update handle="checkout_affiliate_success"/>
