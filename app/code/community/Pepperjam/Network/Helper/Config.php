@@ -50,6 +50,8 @@ class Pepperjam_Network_Helper_Config
 	const LOOKBACK = 'pepperjam/pepperjam_network/lookback_duration';
 	const TAG_ENABLED = 'pepperjam/pepperjam_network/tag_enabled';
 	const TAG_IDENTIFIER = 'pepperjam/pepperjam_network/tag_identifier';
+    const TAG_NOJS_ENDPOINT = 'pepperjam/pepperjam_network/tag_endpoint_nojs';
+    const TAG_JS_ENDPOINT = 'pepperjam/pepperjam_network/tag_endpoint_js';
 
 	const TRANSACTION_TYPE_SALE = '1';
 	const TRANSACTION_TYPE_LEAD = '2';
@@ -463,5 +465,27 @@ class Pepperjam_Network_Helper_Config
     public function getTagIdentifier($store = null)
     {
         return Mage::getStoreConfig(self::TAG_IDENTIFIER, $store);
+    }
+
+    /**
+     * No JS Endpoint
+     *
+     * @param null $store
+     * @return mixed
+     */
+    public function getNoJsEndpoint($store = null)
+    {
+        return Mage::getStoreConfig(self::TAG_NOJS_ENDPOINT, $store);
+    }
+
+    /**
+     * JS Endpoint
+     *
+     * @param null $store
+     * @return mixed
+     */
+    public function getJsEndpoint($store = null)
+    {
+        return Mage::getStoreConfig(self::TAG_JS_ENDPOINT, $store);
     }
 }

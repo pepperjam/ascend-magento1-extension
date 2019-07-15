@@ -104,6 +104,8 @@ http://assets.pepperjam.com/legal/magento-connect-extension-eula.pdf
                 <lookback_period>60</lookback_period>
                 <tag_enabled>0</tag_enabled>
                 <tag_identifier/>
+                <tag_endpoint_nojs>//nojscontainer.pepperjam.com</tag_endpoint_nojs>
+                <tag_endpoint_js>//container.pepperjam.com</tag_endpoint_js>
                 <feeds>
                     <callback_mappings>
                         <program_id>

@@ -33,4 +33,14 @@ class Pepperjam_Network_Block_Tag extends Mage_Core_Block_Template
         $isEnabled = Mage::helper('pepperjam_network/config')->isTagEnabled();
         return $isEnabled && !empty($this->getIdentifier());
     }
+
+    public function getNoJsEndpoint()
+    {
+        return Mage::helper('pepperjam_network/config')->getNoJsEndpoint();
+    }
+
+    public function getJsEndpoint()
+    {
+        return Mage::helper('pepperjam_network/config')->getJsEndpoint();
+    }
 }
