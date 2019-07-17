@@ -41,7 +41,7 @@
             <max/>
          </max>
          <files>
-            <files>         </files>
+            <files>           </files>
          </files>
       </package>
       <extension>
@@ -68,7 +68,7 @@
       <path>
          <path/>
          <path>Pepperjam/Network</path>
-         <path>etc/modules/Pepperjam_Network.xml</path>
+         <path>modules/Pepperjam_Network.xml</path>
          <path>adminhtml/default/default/template/pepperjam_network</path>
          <path>frontend/base/default/layout/pepperjam_network.xml</path>
          <path>frontend/base/default/template/pepperjam_network</path>
