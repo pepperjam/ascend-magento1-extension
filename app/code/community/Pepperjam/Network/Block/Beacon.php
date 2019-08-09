@@ -217,52 +217,46 @@ class Pepperjam_Network_Block_Beacon extends Mage_Core_Block_Template
 		$params = $this->_buildCommonParams($order);
 		$params[static::KEY_INT] = Mage::helper('pepperjam_network/config')->getInt();
 		$increment = 1; // incrementer for the unique item keys
+        $childPrice = array();
 		foreach ($order->getAllItems() as $item) {
-			// need to ignore the bundle parent as it will contain collected total
-			// for children but not discounts
-			$position = $this->_getDupePosition($params, $item);
-			// ignore the parent configurable quantity - quantity of config products
-			// will come from the simple used product with the same SKU
-			$quantity = $item->getProductType() === Mage_Catalog_Model_Product_Type::TYPE_CONFIGURABLE ?
-				0 : (int) $item->getQtyOrdered();
-			// consider parent bundle products to be 0.00 total (if the pricing is dynamic)
-			// total of the bundleis the sum of all child products which are also included
-			// in the beacon so including both totals would effectively double the price of
-			// the bundle
-			//
-			// Divide discount amount by quantity to get per item discount
-			$total = $item->getRowTotal() - $item->getDiscountAmount();
-			if ($item->getProductType() === Mage_Catalog_Model_Product_Type::TYPE_BUNDLE && $item->getProduct()->getPriceType() == Mage_Bundle_Model_Product_Price::PRICE_TYPE_DYNAMIC) {
-				$total = 0.00;
-			}
 
-			if ($position) {
-				// we detected that the current item already exist in the params array
-				// and have the key increment position let's simply adjust
-				// the qty and total amount
+            $total = $item->getRowTotal() - $item->getDiscountAmount();
+            $quantity = $item->getQtyOrdered();
 
-				$params[static::KEY_QTY . $position] += $quantity;
-				$params[static::KEY_AMOUNT . $position] += $total;
-			} else {
-				$params = array_merge($params, array(
-					static::KEY_ITEM . $increment => $item->getSku(),
-					static::KEY_QTY . $increment => $quantity,
-					static::KEY_AMOUNT . $increment => $total,
-				));
-				$increment++; // only get incremented when a unique key have been appended
-			}
-		}
+            // Bundle lines are ignored, only sub-items included.
+            // Fixed price will calculate average per item,
+            if ($item->getProductType() === Mage_Catalog_Model_Product_Type::TYPE_BUNDLE) {
+                if ($item->getProduct()->getPriceType() == Mage_Bundle_Model_Product_Price::PRICE_TYPE_FIXED) {
+                    $qty = 0;
+                    foreach ($item->getChildrenItems() as $childrenItem) {
+                        $qty += $childrenItem->getQtyOrdered();
+                    }
+                    $childPrice[$item->getId()] = $total/$qty;
+                }
+                continue;
+            }
 
-		// Calculate average cost
-		for ($i = 1; $i < $increment; $i++) {
-			$itemTotal = $params[static::KEY_AMOUNT . $i];
-			$itemQuantity = $params[static::KEY_QTY . $i];
-			$averageAmount = 0;
-			if ($itemQuantity > 0 ) $averageAmount = $itemTotal/$itemQuantity;
+            // Configurable lines are ignored, only sub-items included
+            if ($item->getProductType() === Mage_Catalog_Model_Product_Type::TYPE_CONFIGURABLE) {
+                    $childPrice[$item->getId()] = $total / $quantity;
+                continue;
+            }
 
-			$params[static::KEY_AMOUNT . $i] = number_format($averageAmount, 2, '.', '');
-		}
+            // Construct item
+            if ($item->getParentItem()) {
+                $parentId = $item->getParentItem()->getItemId();
+                $total = array_key_exists($parentId, $childPrice) ? $childPrice[$parentId] : $total;
+            } else {
+                $total = $total / $quantity;
+            }
+            $params = array_merge($params, array(
+                static::KEY_ITEM . $increment => $item->getSku(),
+                static::KEY_QTY . $increment => $quantity,
+                static::KEY_AMOUNT . $increment => number_format($total, 2, '.', '')
+            ));
 
+            $increment++;
+        }
 
 		return $params;
 	}
