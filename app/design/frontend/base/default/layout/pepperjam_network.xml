@@ -18,7 +18,7 @@ http://assets.pepperjam.com/legal/magento-connect-extension-eula.pdf
         <reference name="head">
             <block type="pepperjam_network/tracking" name="pepperjam_network.tracking" template="pepperjam_network/tracking.phtml"/>
         </reference>
-        <reference name="before_body_end">
+        <reference name="after_body_start">
             <block type="pepperjam_network/tag" name="pepperjam_network.tag" template="pepperjam_network/tag.phtml"/>
         </reference>
     </default>
