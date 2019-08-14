@@ -16,7 +16,11 @@ http://assets.pepperjam.com/legal/magento-connect-extension-eula.pdf
 <config>
     <modules>
         <Pepperjam_Network>
+<<<<<<< HEAD:app/code/community/Pepperjam/Network/etc/config.xml
             <version>1.3.4</version>
+=======
+            <version>1.3.7</version>
+>>>>>>> b7b7189... Update version number. AME-16:src/app/code/community/Pepperjam/Network/etc/config.xml
         </Pepperjam_Network>
     </modules>
     <global>
