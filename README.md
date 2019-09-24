@@ -39,7 +39,8 @@ Create composer.json file
             }
         ],
         "extra": {
-            "magento-root-dir": "."
+            "magento-root-dir": ".",
+            "with-bootstrap-patch": false
         }
     }
 

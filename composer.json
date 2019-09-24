@@ -6,7 +6,8 @@
   "homepage": "https://github.com/pepperjam/ascend-magento1-extension",
   "description": "Pepperjam Network Magento 1 integration module.",
   "require": {
-    "magento-hackathon/magento-composer-installer": "*"
+    "magento-hackathon/magento-composer-installer": "*",
+    "romantomchak/magento-composer-autoload": "*"
   },
   "extra": {
     "map": [
