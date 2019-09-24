@@ -1,0 +1,5 @@
+app/code/community/Pepperjam/Network app/code/community/Pepperjam/Network
+app/design/adminhtml/default/default/template/pepperjam_network app/design/adminhtml/default/default/template/pepperjam_network
+app/design/frontend/base/default/layout/pepperjam_network.xml app/design/frontend/base/default/layout/pepperjam_network.xml
+app/design/frontend/base/default/template/pepperjam_network app/design/frontend/base/default/template/pepperjam_network
+app/etc/modules/Pepperjam_Network.xml app/etc/modules/Pepperjam_Network.xml
