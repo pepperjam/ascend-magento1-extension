@@ -12,20 +12,42 @@ Launching an affiliate marketing program has never been easier. With Pepperjam N
 
 **via modman**
 
-`modman clone https://github.com/pepperjam/ascend-magento1-extension.git`
+Install modman 
+
+    bash < <(wget -q --no-check-certificate -O - https://raw.github.com/colinmollenhour/modman/master/modman-installer)
+    cd magento_root
+    ~/bin/modman init
+
+Install the module
+
+    ~/bin/modman clone https://github.com/pepperjam/ascend-magento1-extension.git
+
+Magento should be configured with dev/template/allow_symlink = 1 in core_config_data DB table.
 
 **via composer**
 
-Add the repository to your composer.json file
+Create composer.json file
 
-    "repositories":[
-      {
-        "type":"vcs",
-        "url":"https://github.com/pepperjam/ascend-magento1-extension.git"
-      }
-    ],
+    {
+        "require":{
+               "pepperjam/network-magento1-module": "master@dev"
+        },
+        "repositories":[         
+    	{
+                "type":"git",
+                "url":"git@github.com:pepperjam/ascend-magento1-extension.git"
+            }
+        ],
+        "extra": {
+            "magento-root-dir": "."
+        }
+    }
 
-`composer require pepperjam/network-magento1-module`
+Run installation
+    
+    composer install --no-dev
+
+Magento 1 composer installs requires app/Mage.php to be patches, and this is done by included module magento-hackathon/magento-composer-installer 
     
 **via file transfer**
 
