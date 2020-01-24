@@ -10,7 +10,7 @@ Launching an affiliate marketing program has never been easier. With Pepperjam N
 
 ## Installation
 
-**via modman**
+**A) via modman**
 
 Install modman 
 
@@ -18,13 +18,19 @@ Install modman
     cd magento_root
     ~/bin/modman init
 
-Install the module
+install the module
 
     ~/bin/modman clone https://github.com/pepperjam/ascend-magento1-extension.git
 
+Clear cahe. 
+
 Magento should be configured with dev/template/allow_symlink = 1 in core_config_data DB table.
 
-**via composer**
+Upgrades are done via modman and clear cache:
+    
+    ~/bin/modman update ascend-magento1-extension
+
+**B) via composer**
 
 Create composer.json file
 
@@ -44,15 +50,25 @@ Create composer.json file
         }
     }
 
-Run installation
+run installation
     
     composer install --no-dev
 
-Magento 1 composer installs requires app/Mage.php to be patches, and this is done by included module magento-hackathon/magento-composer-installer 
-    
-**via file transfer**
+Clear cahe. 
 
-Download the package from releases tab https://github.com/pepperjam/ascend-magento1-extension/releases   
+Magento 1 composer installs requires app/Mage.php to be patches, and this is done by included module magento-hackathon/magento-composer-installer, as done in composer.json file.
+
+Upgrades are done by specifying the version and clear cache, for example:
+
+    composer require pepperjam/network-magento1-module:1.3.4
+    
+    
+**C) via file transfer**
+
+Download the package from releases tab https://github.com/pepperjam/ascend-magento1-extension/releases
+Transfer the files and clear cache.
+
+Upgrades are done by replacing the files and clearing cache.    
 
 ## How to get started
 
