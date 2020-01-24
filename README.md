@@ -60,7 +60,7 @@ Magento 1 composer installs requires app/Mage.php to be patches, and this is don
 
 Upgrades are done by specifying the version and clear cache, for example:
 
-    composer require pepperjam/network-magento1-module:1.3.4
+    composer require pepperjam/network-magento1-module:1.3.4 --update-no-dev
     
     
 **C) via file transfer**
